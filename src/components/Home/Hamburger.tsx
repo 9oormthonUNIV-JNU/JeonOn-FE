@@ -16,7 +16,7 @@ export default function Hamburger() {
   //   const [showPanel, setShowPanel] = useState<Checked>(false);
   const navigate = useNavigate();
   return (
-    <div className="">
+    <div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <div className="text-white">
@@ -28,7 +28,9 @@ export default function Hamburger() {
           <DropdownMenuCheckboxItem>안내</DropdownMenuCheckboxItem>
           <DropdownMenuCheckboxItem>타임테이블</DropdownMenuCheckboxItem>
           <DropdownMenuCheckboxItem>부스</DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem>타임캡슐</DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem onClick={() => navigate('/time-capsule')}>
+            타임캡슐
+          </DropdownMenuCheckboxItem>
           <DropdownMenuCheckboxItem onClick={() => navigate('/feedback')}>
             피드백
           </DropdownMenuCheckboxItem>

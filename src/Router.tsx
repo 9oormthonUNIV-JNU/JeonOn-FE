@@ -4,6 +4,10 @@ import NotFound from './pages/NotFound';
 import Layout from './components/Layout';
 import Feedback from './pages/Feedback';
 import TimeCapsule from './pages/TimeCapsule';
+import Guide from './pages/Guide';
+import TimeTable from './pages/TimeTable';
+import Booth from './pages/Booth';
+import MyPage from './pages/MyPage';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +27,22 @@ const router = createBrowserRouter([
       {
         path: '/feedback',
         element: <Feedback />,
+      },
+      {
+        path: '/guide',
+        element: <Guide />,
+      },
+      {
+        path: '/booth',
+        element: <Booth />,
+      },
+      {
+        path: '/time-table',
+        element: <TimeTable />,
+      },
+      {
+        path: '/my-page',
+        element: <MyPage />,
       },
     ],
   },

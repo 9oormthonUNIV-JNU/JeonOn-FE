@@ -24,10 +24,18 @@ export default function Hamburger() {
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-36 mr-2 mt-2">
-          <DropdownMenuCheckboxItem>MY</DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem>안내</DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem>타임테이블</DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem>부스</DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem onClick={() => navigate('/my-page')}>
+            MY
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem onClick={() => navigate('/guide')}>
+            안내
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem onClick={() => navigate('/time-table')}>
+            타임테이블
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem onClick={() => navigate('/booth')}>
+            부스
+          </DropdownMenuCheckboxItem>
           <DropdownMenuCheckboxItem onClick={() => navigate('/time-capsule')}>
             타임캡슐
           </DropdownMenuCheckboxItem>

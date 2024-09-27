@@ -10,5 +10,5 @@ import { api } from '@/utils/customAxios';
 
 export default async function postFeedback(formData: FormData) {
   const result = await api.post('feedbacks', formData);
-  return result.data;
+  return result;
 }

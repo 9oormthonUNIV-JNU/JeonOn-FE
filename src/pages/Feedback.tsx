@@ -48,6 +48,9 @@ export default function Feedback() {
       const result = await postFeedback(formData);
       console.log(result);
       // formData.append('image', );
+      // if(result.status===200){
+
+      // }
     } catch (error) {
       console.error(error);
     }

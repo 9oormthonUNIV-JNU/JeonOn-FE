@@ -17,16 +17,26 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import postFeedback from '@/api/feedback';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 
 export default function Feedback() {
   const [title, setTitle] = useState('');
   const [feedbackType, setFeedbackType] = useState('');
   const [detail, setDetail] = useState('');
 
+  const [openModal, setOpenModal] = useState(false);
+
   const imgRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const img = imgRef.current?.files?.[0];
     console.log(img);
     const formData = new FormData();
@@ -51,6 +61,7 @@ export default function Feedback() {
       // if(result.status===200){
 
       // }
+      setOpenModal((v) => !v);
     } catch (error) {
       console.error(error);
     }
@@ -181,6 +192,24 @@ export default function Feedback() {
           </button>
         </div>
       </form>
+      <Dialog open={openModal}>
+        <DialogContent className="w-5/6 h-40 rounded-xl">
+          <DialogHeader>
+            <DialogTitle className="pt-4">접수 되었습니다.</DialogTitle>
+            <DialogClose asChild>
+              <div className="pt-5">
+                <button
+                  className="text-main bg-black px-8 py-2 rounded-full border border-main hover:bg-main hover:border-main hover:text-black"
+                  type="submit"
+                  onClick={() => setOpenModal((v) => !v)}
+                >
+                  돌아가기
+                </button>
+              </div>
+            </DialogClose>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

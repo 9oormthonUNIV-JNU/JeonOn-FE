@@ -28,7 +28,10 @@ export default function Favorites() {
           </div>
         </div>
 
-        <div className="flex justify-between items-center px-2">
+        <div
+          className="flex justify-between items-center px-2"
+          onClick={() => navigate('/my-page/favorites/affiliate')}
+        >
           <h2 className="text-white text-xl">제휴업체</h2>
           <div>
             <img src={rightArrow} alt="right-arrow" />

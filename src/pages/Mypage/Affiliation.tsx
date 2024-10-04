@@ -1,21 +1,21 @@
 import favorites from '@/../public/assets/svgs/favorites.svg';
-// import { favoritesNoti } from '@/api/mypage';
+// import { favoritesPartners } from '@/api/mypage';
 // import { useQuery } from '@tanstack/react-query';
 
-export default function Announcement() {
-  // const {data} = useQuery({
-  //   queryKey:["my-announcement"],
-  //   queryFn: favoritesNoti
-  // })
+export default function Affiliation() {
+  //   const { data } = useQuery({
+  //     queryKey: ['my-affiliation'],
+  //     queryFn: favoritesPartners,
+  //   });
   return (
     <div className="h-screen">
-      <div className="mb-8">
+      <div className="mb-9">
         <h1 className="text-[#0F0] text-[35px] text-center font-bold">마이</h1>
         <h3 className="text-xl text-white text-center">즐겨찾기</h3>
       </div>
       <div className="px-5">
         <div className="mb-4">
-          <h2 className="text-xl text-white">공지사항 및 프로그램</h2>
+          <h2 className="text-xl text-white">제휴업체</h2>
         </div>
         <div className="w-full flex flex-col gap-2">
           <div className="w-full h-24 bg-white rounded-2xl px-5 py-3">

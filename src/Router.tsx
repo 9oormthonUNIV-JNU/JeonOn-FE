@@ -10,6 +10,7 @@ import Booth from './pages/Booth';
 import MyPage from './pages/Mypage/MyPage';
 import Favorites from './pages/Mypage/Favorites';
 import Announcement from './pages/Mypage/Announcement';
+import Affiliation from './pages/Mypage/Affiliation';
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: '/my-page/favorites/announcement',
         element: <Announcement />,
+      },
+      {
+        path: '/my-page/favorites/affiliate',
+        element: <Affiliation />,
       },
     ],
   },

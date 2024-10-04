@@ -7,7 +7,9 @@ import TimeCapsule from './pages/TimeCapsule';
 import Guide from './pages/Guide';
 import TimeTable from './pages/TimeTable';
 import Booth from './pages/Booth';
-import MyPage from './pages/MyPage';
+import MyPage from './pages/Mypage/MyPage';
+import Favorites from './pages/Mypage/Favorites';
+import Announcement from './pages/Mypage/Announcement';
 
 const router = createBrowserRouter([
   {
@@ -43,6 +45,14 @@ const router = createBrowserRouter([
       {
         path: '/my-page',
         element: <MyPage />,
+      },
+      {
+        path: '/my-page/favorites',
+        element: <Favorites />,
+      },
+      {
+        path: '/my-page/favorites/announcement',
+        element: <Announcement />,
       },
     ],
   },

@@ -4,7 +4,7 @@ import NotFound from './pages/NotFound';
 import Layout from './components/Layout';
 import Feedback from './pages/Feedback';
 import TimeCapsule from './pages/TimeCapsule';
-import Guide from './pages/Guide';
+import Guide from './pages/Guide/Guide';
 import TimeTable from './pages/TimeTable';
 import Booth from './pages/Booth';
 import MyPage from './pages/Mypage/MyPage';

@@ -11,6 +11,7 @@ import MyPage from './pages/Mypage/MyPage';
 import Favorites from './pages/Mypage/Favorites';
 import Announcement from './pages/Mypage/Announcement';
 import Affiliation from './pages/Mypage/Affiliation';
+import GuideDetail from './pages/Guide/GuideDetail';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: '/guide',
         element: <Guide />,
+      },
+      {
+        path: '/guide/:id',
+        element: <GuideDetail />,
       },
       {
         path: '/booth',

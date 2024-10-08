@@ -26,16 +26,16 @@ export default function Guide() {
       <h1 className="text-[#0F0] text-[35px] text-center font-bold mb-3">
         안내
       </h1>
-      <div className="w-full h-12 border-b border-[#5B5B5B] flex justify-around items-center mb-8">
+      <div className="w-full h-12 border-b border-[#5B5B5B] flex justify-center gap-24 items-center mb-8">
         <div
           className={clicked ? clickedStyle : defaultStyle}
-          onClick={() => setClicked((v) => !v)}
+          onClick={() => setClicked(true)}
         >
-          공지사항
+          지도
         </div>
         <div
           className={clicked ? defaultStyle : clickedStyle}
-          onClick={() => setClicked((v) => !v)}
+          onClick={() => setClicked(false)}
         >
           제휴업체
         </div>

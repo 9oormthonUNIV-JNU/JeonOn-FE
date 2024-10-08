@@ -2,9 +2,15 @@ import bookmark from '@/../public/assets/svgs/guide/bookmark.svg';
 // import favorites from '@/../public/assets/svgs/guide/favorites.svg';
 import divideLine from '@/../public/images/divideLine.png';
 
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Pagination } from 'swiper/modules';
+import './styles.css';
+
 export default function GuideDetail() {
   return (
-    <div className="h-screen">
+    <div className="h-screen overflow-hidden">
       <h1 className="text-[#0F0] text-[35px] text-center font-bold mb-10">
         안내
       </h1>
@@ -24,7 +30,31 @@ export default function GuideDetail() {
           <span className="text-white text-xs">2024-01-01</span>
         </div>
 
-        <div className="w-full h-80 bg-white rounded-3xl mb-5"></div>
+        <Swiper
+          slidesPerView={1}
+          pagination={true}
+          modules={[Pagination]}
+          className="mySwiper mb-10"
+          centeredSlides={true}
+          spaceBetween={10}
+        >
+          <SwiperSlide>
+            <div>
+              <div className="w-full h-80 rounded-3xl mb-5"></div>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div>
+              <div className="w-full h-80 rounded-3xl mb-5"></div>
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div>
+              <div className="w-full h-80 rounded-3xl mb-5"></div>
+            </div>
+          </SwiperSlide>
+        </Swiper>
+
         <div>
           <img src={divideLine} alt="divide-line" />
         </div>

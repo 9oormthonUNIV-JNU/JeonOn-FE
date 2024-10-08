@@ -28,11 +28,18 @@
   position: absolute;
   bottom: -30px;
 }
-.swiper .swiper-pagination-bullet {
-  position: absolute;
-  bottom: 0px;
-}
 
-.swiper .swiper-pagination-bullet-active {
-  background-color: #0f0;
+.swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background: white;
+  border: 1px solid white;
+  opacity: 1;
+}
+.swiper-pagination-bullet-active {
+  width: 30px;
+  transition: width 0.5s;
+  border-radius: 5px;
+  background: #0f0;
+  border: 1px solid transparent;
 }

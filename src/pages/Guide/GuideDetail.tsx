@@ -4,8 +4,40 @@ import divideLine from '@/../public/images/divideLine.png';
 import calendar from '@/../public/assets/svgs/guide/calendar.svg';
 import location from '@/../public/assets/svgs/guide/location.svg';
 import GuideCarousel from '@/components/guide/GuideCarousel';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'react-router-dom';
+import { getPartnerDetail } from '@/api/guide';
+import axios from 'axios';
+
+// type TPartnersDetail = {
+//   name: string;
+//   description: string;
+//   image: [string];
+//   location: string;
+//   start_date: string;
+//   end_date: string;
+//   bookmark: boolean;
+//   created_at: string;
+// };
 
 export default function GuideDetail() {
+  const { id } = useParams();
+  // const { data } = useQuery({
+  //   queryKey: ['partners-detail', id],
+  //   queryFn: () => getPartnerDetail(id),
+  // });
+
+  const test = async () => {
+    try {
+      const res = await axios.post('http://3.37.52.107:8080/api/v1/login', {
+        nickname: '망공',
+        password: 'sqg8ac42@',
+      });
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div className="h-screen overflow-hidden">
       <h1 className="text-[#0F0] text-[35px] text-center font-bold mb-10">
@@ -43,7 +75,11 @@ export default function GuideDetail() {
         <div>
           <img src={divideLine} alt="divide-line" />
         </div>
-        <div>{/* 여기에 설명이 들어갈 예정입니다 */}</div>
+        <div>
+          <button className="text-white" onClick={test}>
+            로그인 테스트
+          </button>
+        </div>
       </div>
     </div>
   );

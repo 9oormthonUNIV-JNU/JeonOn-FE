@@ -3,6 +3,7 @@ import bookmark from '@/../public/assets/svgs/guide/bookmark.svg';
 import divideLine from '@/../public/images/divideLine.png';
 import calendar from '@/../public/assets/svgs/guide/calendar.svg';
 import location from '@/../public/assets/svgs/guide/location.svg';
+
 import GuideCarousel from '@/components/guide/GuideCarousel';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';

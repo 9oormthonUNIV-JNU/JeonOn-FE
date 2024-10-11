@@ -4,6 +4,9 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      backgroundColor: {
+        map: 'rgba(0, 255, 0, 0.23)',
+      },
       backgroundImage: {
         'custom-gradient':
           'linear-gradient(180deg, #000 0%, #000 60.1%, #FFF 100%)',

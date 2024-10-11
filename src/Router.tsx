@@ -12,6 +12,8 @@ import Favorites from './pages/Mypage/Favorites';
 import Announcement from './pages/Mypage/Announcement';
 import Affiliation from './pages/Mypage/Affiliation';
 import GuideDetail from './pages/Guide/GuideDetail';
+import Contents from './pages/Contents/Contents';
+import ContentsDetail from './pages/Contents/ContentsDetail';
 
 const router = createBrowserRouter([
   {
@@ -39,6 +41,14 @@ const router = createBrowserRouter([
       {
         path: '/guide/:id',
         element: <GuideDetail />,
+      },
+      {
+        path: '/contents',
+        element: <Contents />,
+      },
+      {
+        path: '/contents/:id',
+        element: <ContentsDetail />,
       },
       {
         path: '/booth',

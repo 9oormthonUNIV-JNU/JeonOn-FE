@@ -5,6 +5,7 @@ export default {
   theme: {
     extend: {
       backgroundColor: {
+        'main-guide': 'rgba(81, 251, 86, 0.1)',
         map: 'rgba(0, 255, 0, 0.23)',
       },
       backgroundImage: {

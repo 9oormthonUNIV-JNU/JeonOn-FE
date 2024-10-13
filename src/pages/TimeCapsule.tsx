@@ -1,10 +1,7 @@
-import jar_empty from "@/../public/assets/images/jar_empty.png";
+import jar_empty from "@/../public/images/jar_empty.png";
 import cancel from "@/../public/assets/svgs/cancel.svg";
 import { useState, useEffect } from "react";
-import {
-  getPublicTimeCapsules,
-  deleteTimeCapsule,
-} from "@/api/timecapsule";
+import { getPublicTimeCapsules, deleteTimeCapsule } from "@/api/timecapsule";
 import { isLoggedIn } from "@/api/login";
 
 import CapsuleComment from "@/components/TimeCapsule/CapsuleComment";
@@ -108,7 +105,6 @@ export default function TimeCapsule() {
         />
         <p>비방, 욕설 등 부적절한 글은 작성이 제한되며, 삭제될 수 있습니다.</p>
       </div>
-
 
       {/* 공개된 타임캡슐 목록 */}
       {capsules.length > 0 ? (

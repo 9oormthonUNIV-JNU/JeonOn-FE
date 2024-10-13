@@ -17,21 +17,21 @@ import ContentsDetail from './pages/Contents/ContentsDetail';
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    id: 'root',
+    path: "/",
+    id: "root",
     errorElement: <NotFound />,
     element: <Layout />,
     children: [
       {
-        path: '',
+        path: "",
         element: <Home />,
       },
       {
-        path: '/time-capsule',
+        path: "/time-capsule",
         element: <TimeCapsule />,
       },
       {
-        path: '/feedback',
+        path: "/feedback",
         element: <Feedback />,
       },
       {

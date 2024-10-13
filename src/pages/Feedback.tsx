@@ -40,6 +40,7 @@ export default function Feedback() {
     const img = imgRef.current?.files?.[0];
     console.log(img);
     const formData = new FormData();
+    
     formData.append('title', title);
     formData.append('category', feedbackType);
     formData.append('detail', detail);

@@ -63,7 +63,7 @@ type ArcodionProps = {
   events: EventType[];
 };
 
-export const Arcodion: React.FC<ArcodionProps> = ({ events }) => {
+const Arcodion: React.FC<ArcodionProps> = ({ events }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [currentTime, setCurrentTime] = useState<Date>();
   const arcodionRef = useRef<HTMLDivElement | null>(null);
@@ -154,3 +154,5 @@ export const Arcodion: React.FC<ArcodionProps> = ({ events }) => {
     </div>
   );
 };
+
+export default Arcodion;

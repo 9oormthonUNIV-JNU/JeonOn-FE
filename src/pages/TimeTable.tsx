@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "@/../public/assets/fonts/font.css";
 import { Arcodion } from "@/components/ui/arcodion";
+import { events } from "@/constants/events";
 
 const dates = [
   { date: 5, day: "TUE" },
@@ -9,20 +10,25 @@ const dates = [
 ];
 
 export default function TimeTable() {
-  const [selectedDateIndex, setSelectedDateIndex] = useState<number>(0);
+  const [selectedDate, setSelectedDate] = useState<number>(5);
 
-  const handleDateClick = (index: number) => {
-    setSelectedDateIndex(index);
+  const handleDateClick = (date: number) => {
+    setSelectedDate(date);
   };
+
+  const filteredEvents = events.filter((event) => {
+    const eventDate = new Date(event.start).getDate();
+    return eventDate === selectedDate;
+  });
 
   return (
     <div className="h-screen w-screen px-7 flex flex-col font-pretendard">
       <div className="flex justify-center items-center">
-        <h1 className="text-main text-3xl font-bold">타임테이블</h1>
+        <h1 className="text-main text-4xl font-cafe24">타임테이블</h1>
       </div>
       <div className="flex flex-row gap-3 justify-center items-center mt-20 mb-10">
-        {dates.map((item, index) => {
-          const isSelected = selectedDateIndex === index;
+        {dates.map((item) => {
+          const isSelected = selectedDate === item.date;
           const circleClasses = `flex flex-col justify-center rounded-full ${
             isSelected ? "w-16 h-16 bg-main" : "w-12 h-12 bg-white"
           }`;
@@ -37,9 +43,9 @@ export default function TimeTable() {
 
           return (
             <div
-              key={index}
+              key={item.date}
               className={circleClasses}
-              onClick={() => handleDateClick(index)}
+              onClick={() => handleDateClick(item.date)}
             >
               <div className="text-center">
                 <span className={dateClasses}>{item.date}</span>
@@ -50,13 +56,13 @@ export default function TimeTable() {
         })}
       </div>
       <div className="mb-10">
-        <div className="font-neurimbo text-white font-xl flex justify-center mb-3">
+        <div className="font-pretendard text-white font-xl flex justify-center mb-3">
           TIME TABLE
         </div>
-        <Arcodion />
+        <Arcodion events={filteredEvents} />
       </div>
       <div className="">
-        <div className="font-neurimbo text-white font-xl flex justify-center mb-3">
+        <div className="font-pretendard text-white font-xl flex justify-center mb-3">
           SPECIAL GUEST
         </div>
       </div>

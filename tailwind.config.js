@@ -59,6 +59,7 @@ export default {
       fontFamily: {
         neurimbo: ["neurimboGothicRegular"],
         pretendard: ["Pretendard-Regular"],
+        cafe24: ["Cafe24ClassicType-Regular"],
       },
     },
   },

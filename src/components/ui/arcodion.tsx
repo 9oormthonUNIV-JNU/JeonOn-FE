@@ -2,66 +2,7 @@ import "@/../public/assets/fonts/font.css";
 import location_black from "@/../public/assets/svgs/location_black.svg";
 import location_white from "@/../public/assets/svgs/location_white.svg";
 import { useState, useRef, useEffect } from "react";
-
-type EventType = {
-  order: number;
-  start: string;
-  end: string;
-  content: string;
-  location: string;
-};
-
-const events: EventType[] = [
-  {
-    order: 1,
-    start: "2024-11-05T12:00:00",
-    end: "2024-11-05T13:00:00",
-    content: "에스파",
-    location: "대운동장",
-  },
-  {
-    order: 2,
-    start: "2024-11-05T13:00:00",
-    end: "2024-11-05T14:00:00",
-    content: "뉴진스",
-    location: "대운동장",
-  },
-  {
-    order: 3,
-    start: "2024-11-05T14:00:00",
-    end: "2024-11-05T15:00:00",
-    content: "아이브",
-    location: "대운동장",
-  },
-  {
-    order: 4,
-    start: "2024-11-05T15:00:00",
-    end: "2024-11-05T16:00:00",
-    content: "데이식스",
-    location: "대운동장",
-  },
-  {
-    order: 5,
-    start: "2024-11-05T16:00:00",
-    end: "2024-11-05T17:00:00",
-    content: "세븐틴",
-    location: "대운동장",
-  },
-  {
-    order: 6,
-    start: "2024-11-05T17:00:00",
-    end: "2024-11-05T18:00:00",
-    content: "라이즈",
-    location: "대운동장",
-  },
-  {
-    order: 7,
-    start: "2024-11-05T18:00:00",
-    end: "2024-11-05T19:00:00",
-    content: "키스오브라이프",
-    location: "대운동장",
-  },
-];
+import { EventType } from "@/constants/events";
 
 const Now = ({ nowActive }: { nowActive: boolean }) => {
   return (
@@ -77,39 +18,75 @@ const Now = ({ nowActive }: { nowActive: boolean }) => {
 const EventDetils = ({
   event,
   nowActive,
+  isTopSection,
 }: {
   event: EventType;
   nowActive: boolean;
+  isTopSection: boolean;
 }) => {
   return (
     <>
-      <Now nowActive={nowActive} />
-      <span className="truncate">
-        {new Date(event.start).toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        })}
-        ~
-        {new Date(event.end).toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        })}
-      </span>
-      <span className="truncate">{event.content}</span>
-      <div className="flex items-center gap-2 ml-auto mr-2">
-        <img src={nowActive ? location_white : location_black} />
+      <div className="flex items-center gap-1.5 backdrop:w-full">
+        <Now nowActive={nowActive} />
+        <span className="truncate">
+          {new Date(event.start).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+          })}
+          ~
+          {new Date(event.end).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false,
+          })}
+        </span>
+        <span className="truncate">{event.content}</span>
+      </div>
+      <div className="flex gap-1.5 ml-auto mr-2">
+        <img
+          src={
+            isTopSection
+              ? location_black
+              : nowActive
+              ? location_white
+              : location_black
+          }
+        />
         <span className="truncate">{event.location}</span>
       </div>
     </>
   );
 };
 
-export const Arcodion = () => {
+type ArcodionProps = {
+  events: EventType[];
+};
+
+export const Arcodion: React.FC<ArcodionProps> = ({ events }) => {
   const [open, setOpen] = useState<boolean>(false);
-  const [currentTime, setCurrentTime] = useState<Date | null>(null);
+  const [currentTime, setCurrentTime] = useState<Date>();
   const arcodionRef = useRef<HTMLDivElement | null>(null);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      arcodionRef.current &&
+      !arcodionRef.current.contains(event.target as Node)
+    ) {
+      setOpen(false);
+    }
+  };
+
+  const handleInteraction = () => {
+    setOpen(!open);
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     const updateCurrentTime = () => {
@@ -134,39 +111,27 @@ export const Arcodion = () => {
     isCurrentEvent(event.start, event.end)
   );
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      arcodionRef.current &&
-      !arcodionRef.current.contains(event.target as Node)
-    ) {
-      setOpen(false);
-    }
-  };
-
-  const handleInteraction = () => {
-    setOpen(!open);
-  };
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
   return (
     <div ref={arcodionRef} className="font-pretendard text-xs">
       {!open ? (
         <div
           onClick={handleInteraction}
-          className="flex flex-row items-center w-full h-12 bg-white rounded-3xl py-2.5 px-3 gap-1"
+          className="flex items-center w-full h-12 bg-white rounded-3xl py-2.5 px-3 gap-1"
         >
-          {currentEvent && (
-            <EventDetils event={currentEvent} nowActive={true} />
+          {currentEvent ? (
+            <EventDetils
+              event={currentEvent}
+              nowActive={true}
+              isTopSection={true}
+            />
+          ) : (
+            <div className="ml-2 font-pretendard text-gray-400 text-xs">
+              진행 중인 이벤트가 없습니다.
+            </div>
           )}
         </div>
       ) : (
-        <div className="flex flex-col gap-5 items-start w-full h-72 bg-white rounded-3xl overflow-y-auto">
+        <div className="flex flex-col gap-5 items-start w-full h-72 bg-white rounded-3xl overflow-y-auto overflow-hidden">
           <div className="flex flex-col w-full h-full py-2 px-2">
             {events.map((event) => {
               const nowActive = isCurrentEvent(event.start, event.end);
@@ -175,7 +140,11 @@ export const Arcodion = () => {
               } `;
               return (
                 <div className={nowClasses} key={event.order}>
-                  <EventDetils event={event} nowActive={nowActive} />
+                  <EventDetils
+                    event={event}
+                    nowActive={nowActive}
+                    isTopSection={false}
+                  />
                 </div>
               );
             })}

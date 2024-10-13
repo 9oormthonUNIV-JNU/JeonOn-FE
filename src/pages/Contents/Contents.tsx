@@ -1,9 +1,18 @@
 // import favorites from '@/../public/assets/svgs/favorites.svg';
 import bookmark from '@/../public/assets/svgs/bookmark.svg';
+import { getContents } from '@/api/contents';
+import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 export default function Contents() {
   const navigate = useNavigate();
+
+  const { data } = useQuery({
+    queryKey: ['contents'],
+    queryFn: getContents,
+  });
+
+  console.log(data);
 
   const items = [{ id: '1' }, { id: '2' }, { id: '3' }];
   return (
@@ -14,9 +23,13 @@ export default function Contents() {
       <div className="flex flex-col justify-center items-center gap-5 px-5">
         {items.map((item) => (
           <div
+            key={item.id}
             id={item.id}
             className="w-full h-24 bg-white rounded-2xl px-5 py-3"
-            onClick={(e) => navigate(`/contents/${e.currentTarget.id}`)}
+            onClick={(e) => {
+              console.log(e.currentTarget);
+              navigate(`/contents/${e.currentTarget.id}`);
+            }}
           >
             <div className="flex justify-between items-start">
               <h3 className="text-xl">제목</h3>

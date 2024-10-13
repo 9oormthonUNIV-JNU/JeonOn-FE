@@ -9,6 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { getPartnerDetail } from '@/api/guide';
 import axios from 'axios';
+import { getToken } from '@/utils/tokenHandler';
 
 // type TPartnersDetail = {
 //   name: string;
@@ -34,7 +35,7 @@ export default function GuideDetail() {
         nickname: '망공',
         password: 'sqg8ac42@',
       });
-      console.log(res);
+      getToken(res.headers['access-token']);
     } catch (error) {
       console.error(error);
     }

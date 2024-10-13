@@ -1,6 +1,6 @@
-import home from "@/../public/images/home.png";
-import Footer from "@/components/Home/Footer";
-import { useNavigate } from "react-router-dom";
+import home from '@/../public/images/home.png';
+import Footer from '@/components/Home/Footer';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -12,19 +12,19 @@ export default function Home() {
       <div className="px-12 flex flex-col justify-evenly items-center gap-3 pb-5 mb-16">
         <div
           className="w-full h-14 bg-black rounded-3xl flex justify-center items-center text-[#0F0] text-xl shadow-2xl"
-          onClick={() => navigate("/guide")}
+          onClick={() => navigate('/guide')}
         >
           안내
         </div>
         <div
           className="w-full h-14 bg-black rounded-full flex justify-center items-center text-[#0F0] text-xl shadow-2xl"
-          onClick={() => navigate("/time-table")}
+          onClick={() => navigate('/time-table')}
         >
           타임테이블
         </div>
         <div
           className="w-full h-14 bg-black rounded-full flex justify-center items-center text-[#0F0] text-xl shadow-2xl"
-          onClick={() => navigate("/booth")}
+          onClick={() => navigate('/booth')}
         >
           부스
         </div>

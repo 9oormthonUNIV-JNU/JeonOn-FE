@@ -1,11 +1,9 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 
-
 const api: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_CLIENT_URL,
   headers: {
     'Content-Type': 'application/json',
-
   },
   params: {},
   //   withCredentials: true,

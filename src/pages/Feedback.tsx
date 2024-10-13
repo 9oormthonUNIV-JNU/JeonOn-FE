@@ -11,14 +11,12 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { useRef, useState } from 'react';
-
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import postFeedback from '@/api/feedback';
-
 import {
   Dialog,
   DialogClose,
@@ -42,7 +40,7 @@ export default function Feedback() {
     const img = imgRef.current?.files?.[0];
     console.log(img);
     const formData = new FormData();
-
+    
     formData.append('title', title);
     formData.append('category', feedbackType);
     formData.append('detail', detail);

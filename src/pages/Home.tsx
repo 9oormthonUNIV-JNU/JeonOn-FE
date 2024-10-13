@@ -30,13 +30,13 @@ export default function Home() {
         </div>
         <div
           className="w-full h-14 bg-black rounded-full flex justify-center items-center text-[#0F0] text-xl shadow-2xl"
-          onClick={() => navigate('/time-capsule')}
+          onClick={() => navigate("/time-capsule")}
         >
           타임캡슐
         </div>
         <div
           className="w-full h-14 bg-black rounded-full flex justify-center items-center text-[#0F0] text-xl shadow-2xl"
-          onClick={() => navigate('/feedback')}
+          onClick={() => navigate("/feedback")}
         >
           피드백
         </div>

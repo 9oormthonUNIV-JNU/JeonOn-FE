@@ -1,4 +1,4 @@
-import home from "@/../public/assets/images/home.png";
+import home from "@/../public/images/home.png";
 import Footer from "@/components/Home/Footer";
 import { useNavigate } from "react-router-dom";
 

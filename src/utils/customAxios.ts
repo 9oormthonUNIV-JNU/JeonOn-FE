@@ -1,9 +1,11 @@
-import axios, { AxiosInstance, InternalAxiosRequestConfig } from "axios";
+import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
+
 
 const api: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_CLIENT_URL,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
+
   },
   params: {},
   //   withCredentials: true,
@@ -11,7 +13,7 @@ const api: AxiosInstance = axios.create({
 
 api.interceptors.request.use(
   async (
-    config: InternalAxiosRequestConfig
+    config: InternalAxiosRequestConfig,
   ): Promise<InternalAxiosRequestConfig> => {
     return config;
   },
@@ -19,7 +21,7 @@ api.interceptors.request.use(
     console.log(error);
     alert(error.response?.data.message);
     throw error;
-  }
+  },
 );
 
 export { api };

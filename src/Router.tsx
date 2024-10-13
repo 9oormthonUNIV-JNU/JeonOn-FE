@@ -1,13 +1,16 @@
-import { createBrowserRouter } from "react-router-dom";
-import Home from "./pages/Home";
-import NotFound from "./pages/NotFound";
-import Layout from "./components/Layout";
-import Feedback from "./pages/Feedback";
-import TimeCapsule from "./pages/TimeCapsule";
-import Guide from "./pages/Guide";
-import TimeTable from "./pages/TimeTable";
-import Booth from "./pages/Booth";
-import MyPage from "./pages/MyPage";
+import { createBrowserRouter } from 'react-router-dom';
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
+import Layout from './components/Layout';
+import Feedback from './pages/Feedback';
+import TimeCapsule from './pages/TimeCapsule';
+import Guide from './pages/Guide';
+import TimeTable from './pages/TimeTable';
+import Booth from './pages/Booth';
+import MyPage from './pages/Mypage/MyPage';
+import Favorites from './pages/Mypage/Favorites';
+import Announcement from './pages/Mypage/Announcement';
+import Affiliation from './pages/Mypage/Affiliation';
 
 const router = createBrowserRouter([
   {
@@ -29,20 +32,32 @@ const router = createBrowserRouter([
         element: <Feedback />,
       },
       {
-        path: "/guide",
+        path: '/guide',
         element: <Guide />,
       },
       {
-        path: "/booth",
+        path: '/booth',
         element: <Booth />,
       },
       {
-        path: "/time-table",
+        path: '/time-table',
         element: <TimeTable />,
       },
       {
-        path: "/my-page",
+        path: '/my-page',
         element: <MyPage />,
+      },
+      {
+        path: '/my-page/favorites',
+        element: <Favorites />,
+      },
+      {
+        path: '/my-page/favorites/announcement',
+        element: <Announcement />,
+      },
+      {
+        path: '/my-page/favorites/affiliate',
+        element: <Affiliation />,
       },
     ],
   },

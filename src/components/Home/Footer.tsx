@@ -1,5 +1,6 @@
-import instagram from "@/../public/assets/svgs/instagram.svg";
-import github from "@/../public/assets/svgs/github.svg";
+import instagram from '@/../public/assets/svgs/instagram.svg';
+import github from '@/../public/assets/svgs/github.svg';
+
 
 export default function Footer() {
   return (

@@ -1,4 +1,4 @@
-import { api } from "@/utils/customAxios";
+import { api } from '@/utils/customAxios';
 
 // type Feedback = {
 //   title: string;
@@ -9,6 +9,6 @@ import { api } from "@/utils/customAxios";
 // };
 
 export default async function postFeedback(formData: FormData) {
-  const result = await api.post("feedbacks", formData);
+  const result = await api.post('feedbacks', formData);
   return result;
 }

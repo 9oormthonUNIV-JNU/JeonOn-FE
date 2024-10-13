@@ -1,34 +1,36 @@
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import feedbackInfo from "@/../public/assets/svgs/feedbackInfo.svg";
-import photo from "@/../public/assets/svgs/photo.svg";
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import feedbackInfo from '@/../public/assets/svgs/feedbackInfo.svg';
+import photo from '@/../public/assets/svgs/photo.svg';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { useRef, useState } from "react";
+} from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { useRef, useState } from 'react';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import postFeedback from "@/api/feedback";
+} from '@/components/ui/dropdown-menu';
+import postFeedback from '@/api/feedback';
+
 import {
   Dialog,
   DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 
 export default function Feedback() {
-  const [title, setTitle] = useState("");
-  const [feedbackType, setFeedbackType] = useState("");
-  const [detail, setDetail] = useState("");
+  const [title, setTitle] = useState('');
+  const [feedbackType, setFeedbackType] = useState('');
+  const [detail, setDetail] = useState('');
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -40,12 +42,13 @@ export default function Feedback() {
     const img = imgRef.current?.files?.[0];
     console.log(img);
     const formData = new FormData();
-    formData.append("title", title);
-    formData.append("category", feedbackType);
-    formData.append("detail", detail);
+
+    formData.append('title', title);
+    formData.append('category', feedbackType);
+    formData.append('detail', detail);
     // 이미지가 있는 경우에만 추가
     if (img) {
-      formData.append("image", img);
+      formData.append('image', img);
     }
 
     // const config = {

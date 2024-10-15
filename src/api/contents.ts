@@ -11,3 +11,13 @@ export async function getContentsDetail(contentId: any) {
 
   return result.data.data;
 }
+
+export async function contentsBookmark(contentId: any) {
+  const result = await api.post(`bookmarks/contents/${contentId}`);
+  return result;
+}
+
+export async function contentsBookmarkCancel(contentId: any) {
+  const result = await api.delete(`bookmarks/contents/${contentId}`);
+  return result;
+}

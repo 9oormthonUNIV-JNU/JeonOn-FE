@@ -1,15 +1,20 @@
 import bookmark from '@/../public/assets/svgs/guide/bookmark.svg';
-// import favorites from '@/../public/assets/svgs/guide/favorites.svg';
+import favorites from '@/../public/assets/svgs/guide/favorites.svg';
 import divideLine from '@/../public/images/divideLine.png';
 import calendar from '@/../public/assets/svgs/guide/calendar.svg';
 import location from '@/../public/assets/svgs/guide/location.svg';
 
 import GuideCarousel from '@/components/guide/GuideCarousel';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import { getPartnerDetail } from '@/api/guide';
+import {
+  getPartnerDetail,
+  partnersBookmark,
+  partnersBookmarkCancel,
+} from '@/api/guide';
 
 import { formatDateToYYYYMMDD } from '@/utils/dateStr';
+import { useEffect, useState } from 'react';
 
 // type TPartnersDetail = {
 //   name: string;
@@ -24,12 +29,35 @@ import { formatDateToYYYYMMDD } from '@/utils/dateStr';
 
 export default function GuideDetail() {
   const { id } = useParams();
+  const [like, setLike] = useState(false);
   const { data } = useQuery({
     queryKey: ['partners-detail', id],
     queryFn: () => getPartnerDetail(id),
   });
 
-  console.log(data?.data.data);
+  const queryClient = useQueryClient();
+
+  const favoriteMutation = useMutation({
+    mutationFn: async () => {
+      if (like) {
+        const res = await partnersBookmarkCancel(id);
+        console.log(res);
+        return res;
+      } else {
+        const res = await partnersBookmark(id);
+        console.log(res);
+        return res;
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['partners-detail', id] });
+    },
+  });
+  useEffect(() => {
+    if (data) {
+      setLike(data?.bookmark); // data.bookmark 값으로 상태 업데이트
+    }
+  }, [data]);
 
   return (
     <div className="h-screen overflow-hidden">
@@ -43,40 +71,43 @@ export default function GuideDetail() {
           </span>
         </div>
         <div className="mb-1 flex justify-between items-center">
-          <h1 className="text-[#0F0] text-3xl font-cafe24">
-            {data?.data?.data?.name}
-          </h1>
-          <div>
-            <img src={bookmark} alt="favorites" />
+          <h1 className="text-[#0F0] text-3xl font-cafe24">{data?.name}</h1>
+          <div
+            onClick={(e) => {
+              console.log(e.currentTarget);
+              favoriteMutation.mutate();
+            }}
+          >
+            {data?.bookmark ? (
+              <img src={favorites} alt="favorites" />
+            ) : (
+              <img src={bookmark} alt="favorites" />
+            )}
           </div>
         </div>
         <div className="mb-3">
           <span className="text-white text-xs">
-            {formatDateToYYYYMMDD(data?.data?.data?.created_at)}
+            {formatDateToYYYYMMDD(data?.created_at)}
           </span>
         </div>
 
-        <GuideCarousel images={data?.data?.data?.images} />
+        <GuideCarousel images={data?.images} />
 
         <div className="flex justify-start items-center mb-3">
           <img src={location} alt="location" />
-          <span className="text-white text-[10px]">
-            {data?.data?.data?.location}
-          </span>
+          <span className="text-white text-[10px]">{data?.location}</span>
         </div>
         <div className="flex justify-start items-center mb-3">
           <img src={calendar} alt="calendar" className="ml-1 mr-1" />
           <span className="text-white text-[10px]">
-            {`${data?.data?.data?.start_date} ~ ${data?.data?.data?.end_date}`}
+            {`${data?.start_date} ~ ${data?.end_date}`}
           </span>
         </div>
 
         <div className="mb-3">
           <img src={divideLine} alt="divide-line" />
         </div>
-        <div className="text-white text-base">
-          {data?.data?.data?.description}
-        </div>
+        <div className="text-white text-base">{data?.description}</div>
       </div>
     </div>
   );

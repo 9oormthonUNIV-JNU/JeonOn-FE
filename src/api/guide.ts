@@ -1,7 +1,11 @@
 import { api } from '@/utils/customAxios';
 
-export async function getZones() {
-  const result = await api.get('zones');
+export async function getZones(index: string) {
+  let location = '';
+  if (index === '1') location = 'backgate-street';
+  if (index === '2') location = '518-square';
+  if (index === '3') location = 'stadium';
+  const result = await api.get(`zones?location=${location}`);
 
   return result.data;
 }

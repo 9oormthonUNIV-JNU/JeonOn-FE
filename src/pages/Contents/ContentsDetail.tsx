@@ -15,11 +15,11 @@ export default function ContentsDetail() {
     queryKey: ['contents', id],
     queryFn: () => getContentsDetail(id),
   });
-  console.log(data);
+  console.log(data?.images);
 
   return (
     <div className="h-screen overflow-hidden">
-      <h1 className="text-[#0F0] text-[35px] text-center font-bold mb-10">
+      <h1 className="text-[#0F0] text-[35px] text-center font-bold mb-10 font-cafe24">
         콘텐츠
       </h1>
       <div className="px-6">

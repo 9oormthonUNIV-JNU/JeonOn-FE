@@ -23,7 +23,7 @@ export default function Contents() {
 
   return (
     <div className="h-screen overflow-hidden">
-      <h1 className="text-[#0F0] text-[35px] text-center font-bold mb-10">
+      <h1 className="text-[#0F0] text-[35px] text-center font-bold mb-10 font-cafe24">
         콘텐츠
       </h1>
       <div className="flex flex-col justify-center items-center gap-5 px-5">

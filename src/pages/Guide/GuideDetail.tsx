@@ -8,8 +8,8 @@ import GuideCarousel from '@/components/guide/GuideCarousel';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { getPartnerDetail } from '@/api/guide';
-import axios from 'axios';
-import { getToken } from '@/utils/tokenHandler';
+
+import { formatDateToYYYYMMDD } from '@/utils/dateStr';
 
 // type TPartnersDetail = {
 //   name: string;
@@ -29,60 +29,53 @@ export default function GuideDetail() {
     queryFn: () => getPartnerDetail(id),
   });
 
-  console.log(data);
+  console.log(data?.data.data);
 
-  const test = async () => {
-    try {
-      const res = await axios.post('http://3.37.52.107:8080/api/v1/login', {
-        nickname: '망공',
-        password: 'sqg8ac42@',
-      });
-      getToken(res.headers['access-token']);
-    } catch (error) {
-      console.error(error);
-    }
-  };
   return (
     <div className="h-screen overflow-hidden">
-      <h1 className="text-[#0F0] text-[35px] text-center font-bold mb-10">
+      <h1 className="text-[#0F0] text-[35px] text-center font-bold mb-10 font-cafe24">
         안내
       </h1>
       <div className="px-6">
         <div className="mb-3">
-          <span className="bg-[#7CFA7C] text-xs px-5 py-1 rounded-full">
+          <span className="bg-[#0F0] text-black text-xs px-5 py-1 rounded-full">
             제휴업체
           </span>
         </div>
         <div className="mb-1 flex justify-between items-center">
-          <h1 className="text-white text-3xl">제목</h1>
+          <h1 className="text-[#0F0] text-3xl font-cafe24">
+            {data?.data?.data?.name}
+          </h1>
           <div>
             <img src={bookmark} alt="favorites" />
           </div>
         </div>
         <div className="mb-3">
-          <span className="text-white text-xs">2024-01-01</span>
+          <span className="text-white text-xs">
+            {formatDateToYYYYMMDD(data?.data?.data?.created_at)}
+          </span>
         </div>
 
-        <GuideCarousel />
+        <GuideCarousel images={data?.data?.data?.images} />
 
         <div className="flex justify-start items-center mb-3">
           <img src={location} alt="location" />
-          <span className="text-white text-[10px]">매장 위치</span>
+          <span className="text-white text-[10px]">
+            {data?.data?.data?.location}
+          </span>
         </div>
         <div className="flex justify-start items-center mb-3">
           <img src={calendar} alt="calendar" className="ml-1 mr-1" />
           <span className="text-white text-[10px]">
-            11월 6일(수) ~ 11월 30일(토)
+            {`${data?.data?.data?.start_date} ~ ${data?.data?.data?.end_date}`}
           </span>
         </div>
 
-        <div>
+        <div className="mb-3">
           <img src={divideLine} alt="divide-line" />
         </div>
-        <div>
-          <button className="text-white" onClick={test}>
-            로그인 테스트
-          </button>
+        <div className="text-white text-base">
+          {data?.data?.data?.description}
         </div>
       </div>
     </div>

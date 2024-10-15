@@ -79,9 +79,7 @@ export default function TimeCapsule() {
   return (
     <div className="bg-black flex flex-col items-center min-h-screen p-4 md:p-10 lg:p-20">
       <div className="flex flex-col items-center mb-5 w-full max-w-xl">
-        <div className="mx-auto mb-5 text-[#0F0] font-pretendard text-[7vw] md:text-[5vw] lg:text-[30px] font-bold leading-normal text-center">
-          타임캡슐
-        </div>
+        <h1 className="text-main text-4xl font-cafe24">타임캡슐</h1>
         <div className="mb-4 text-white text-center font-gmarket-sans text-[3.5vw] md:text-[2.5vw] lg:text-[15px] font-thin leading-[20px] mb-20">
           우리가 전하는 전대의 찬란함
         </div>
@@ -89,7 +87,7 @@ export default function TimeCapsule() {
         <img
           src={jar_empty}
           alt="empty jar"
-          className="w-[70%] max-w-[600px]"
+          className="w-[90%] max-w-[600px]"
         />
 
         <FilledBtn onClick={handleRegisterClick} className="text-s px-10 mt-5">

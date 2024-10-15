@@ -6,6 +6,11 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      backgroundColor: {
+        "main-guide": "rgba(81, 251, 86, 0.08)",
+        "list-box": "rgba(0, 255, 0, 0.10);",
+        map: "rgba(0, 255, 0, 0.23)",
+      },
       backgroundImage: {
         "custom-gradient":
           "linear-gradient(180deg, #000 0%, #000 60.1%, #FFF 100%)",
@@ -16,16 +21,10 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
-// <<<<<<< feature
-//         main: "#0F0",
-//         background: "hsl(var(--background))",
-//         foreground: "hsl(var(--foreground))",
-// =======
-//         main: '#0F0',
-//         background: 'hsl(var(--background))',
-//         foreground: 'hsl(var(--foreground))',
+        main: "#0F0",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
 
-// >>>>>>> main
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
@@ -66,13 +65,10 @@ export default {
         },
       },
       fontFamily: {
-// <<<<<<< feature
-//         neurimbo: ["neurimboGothicRegular"],
-//         pretendard: ["Pretendard-Regular"],
-//         cafe24: ["Cafe24ClassicType-Regular"],
-// =======
-//         "gmarket-sans": ['"Gmarket Sans"', "sans-serif"],
-// >>>>>>> main
+        neurimbo: ["neurimboGothicRegular"],
+        pretendard: ["Pretendard-Regular"],
+        cafe24: ["Cafe24ClassicType-Regular"],
+        "gmarket-sans": ['"Gmarket Sans"', "sans-serif"],
       },
     },
   },

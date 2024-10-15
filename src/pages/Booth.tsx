@@ -19,7 +19,7 @@ export default function Booth() {
 
   return (
     <div className="h-screen flex flex-col items-center">
-      <h1 className="text-main text-4xl font-cafe24 mb-14">타임테이블</h1>
+      <h1 className="text-main text-4xl font-cafe24 mb-14">부스</h1>
       <div className="mb-10 flex justify-center items-center gap-[10px] px-[30px] text-center">
         {[5, 6, 7].map((number) => (
           <Button

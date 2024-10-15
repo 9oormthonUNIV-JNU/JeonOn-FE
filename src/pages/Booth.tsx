@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button"; // shadcn/ui의 Button 컴포넌트 사용
+import { useState } from "react";
 import BoothCategory from "@/components/ui/category";
+import BoothDate from "@/components/Booth/booth-date";
 
 export default function Booth() {
   const [selected, setSelected] = useState<number | null>(null);
@@ -8,7 +8,7 @@ export default function Booth() {
   // 카테고리 상태 관리
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
-  const handleClick = (number: number) => {
+  const handleDateChange = (number: number) => {
     setSelected(number);
   };
 
@@ -18,23 +18,11 @@ export default function Booth() {
   };
 
   return (
-    <div className="h-screen flex flex-col items-center">
-      <h1 className="text-main text-4xl font-cafe24 mb-14">부스</h1>
-      <div className="mb-10 flex justify-center items-center gap-[10px] px-[30px] text-center">
-        {[5, 6, 7].map((number) => (
-          <Button
-            key={number} // 고유한 number 값을 key로 사용
-            className={`hover:bg-black bg-black text-white cursor-pointer transition-all duration-300 transform ${
-              selected === number
-                ? "text-[#00ff00] scale-110 text-[70px]" // 선택된 상태
-                : "text-[50px] hover:text-[#00ff00]" // 기본 상태 및 hover
-            }`}
-            onClick={() => handleClick(number)} // 클릭한 number로 상태 업데이트
-          >
-            {number}
-          </Button>
-        ))}
-      </div>
+    <div className="h-screen flex flex-col items-center" >
+      <h1 className="text-main text-4xl font-cafe24">부스</h1>
+
+      <BoothDate selected={selected} onDateChange={handleDateChange} />
+
       <div className="text-white w-[80vw] max-w-[305px] h-[80vw] max-h-[305px] relative border-2 border-white">
         부스 이미지
       </div>
@@ -42,7 +30,7 @@ export default function Booth() {
       {/* BoothCategory 컴포넌트에서 선택된 카테고리를 상위 컴포넌트로 전달 */}
       <BoothCategory onCategoryChange={handleCategoryChange} />
 
-      {/* 선택된 카테고리를 렌더링하는 div */}
+      {/* <FilteredBooth /> */}
       <div className="mt-4">
         <h2 className="text-xl text-white mb-2">선택된 카테고리:</h2>
         {selectedCategories.length === 0 ? (
@@ -62,8 +50,7 @@ export default function Booth() {
         3. 전부 안눌려있을 때 '모든 부스 랜더링'
         4. 지금 필터링 해야할 거 두개임 (날짜, 카테고리)
        */}
-
-      {/* <FilteredBooth /> */}
+      
     </div>
   );
 }

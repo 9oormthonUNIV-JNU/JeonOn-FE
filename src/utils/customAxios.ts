@@ -19,7 +19,9 @@ api.interceptors.request.use(
   ): Promise<InternalAxiosRequestConfig> => {
     const nextConfig = config;
     const accessToken = getAuthToken();
-    nextConfig.headers.Authorization = accessToken ? `${accessToken}` : '';
+    nextConfig.headers.Authorization = accessToken
+      ? `Bearer ${accessToken}`
+      : '';
 
     return nextConfig;
   },

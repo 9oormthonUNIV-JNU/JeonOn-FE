@@ -36,32 +36,30 @@ export default function Feedback() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const img = imgRef.current?.files?.[0];
-    console.log(img);
     const formData = new FormData();
-    
-    formData.append('title', title);
-    formData.append('category', feedbackType);
-    formData.append('detail', detail);
-    // 이미지가 있는 경우에만 추가
-    if (img) {
-      formData.append('image', img);
-    }
+    const imgs = imgRef.current?.files;
+    if (imgs)
+      if (imgs.length == 0) {
+        // 파일이 없는 경우, FormData에 빈 문자열을 추가합니다.
+        formData.append('image', '');
+      } else {
+        formData.append('image', imgs[0]);
+      }
 
-    // const config = {
-    //   headers: {
-    //     // Authorization: ...,  // 토큰 넣어주기
-    //     'Content-Type': 'multipart/form-data',  // 데이터 형식 지정
-    //   },
-    // };
+    const category = 'jnu-festival';
+
+    const requestObject = { title, category, content: detail };
+    // requestObject를 JSON 문자열로 변환하여 Blob 객체로 만듭니다.
+    const requestBlob = new Blob([JSON.stringify(requestObject)], {
+      type: 'application/json',
+    });
+
+    formData.append('request', requestBlob);
+
     try {
       const result = await postFeedback(formData);
       console.log(result);
-      // formData.append('image', );
-      // if(result.status===200){
 
-      // }
       setOpenModal((v) => !v);
     } catch (error) {
       console.error(error);
@@ -141,9 +139,9 @@ export default function Feedback() {
                 <SelectValue placeholder="유형" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="light">축준위</SelectItem>
-                <SelectItem value="dark">전대미문-축제</SelectItem>
-                <SelectItem value="system">앱</SelectItem>
+                <SelectItem value="festival-committee">축준위</SelectItem>
+                <SelectItem value="jnu-festival">전대미문-축제</SelectItem>
+                <SelectItem value="festival-site">앱</SelectItem>
               </SelectContent>
             </Select>
           </div>

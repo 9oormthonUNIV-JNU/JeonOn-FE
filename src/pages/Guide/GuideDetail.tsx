@@ -24,10 +24,12 @@ import { getToken } from '@/utils/tokenHandler';
 
 export default function GuideDetail() {
   const { id } = useParams();
-  // const { data } = useQuery({
-  //   queryKey: ['partners-detail', id],
-  //   queryFn: () => getPartnerDetail(id),
-  // });
+  const { data } = useQuery({
+    queryKey: ['partners-detail', id],
+    queryFn: () => getPartnerDetail(id),
+  });
+
+  console.log(data);
 
   const test = async () => {
     try {

@@ -1,11 +1,12 @@
 import { useState } from 'react';
-// import favorites from '@/../public/assets/svgs/favorites.svg';
+import favorites from '@/../public/assets/svgs/favorites.svg';
 import bookmark from '@/../public/assets/svgs/bookmark.svg';
 import love from '@/../public/svgs/love.svg';
 import { useNavigate } from 'react-router-dom';
 import GuideCarousel from '@/components/guide/GuideCarousel';
-// import { useQuery } from '@tanstack/react-query';
-// import { getNofifications, getPartners } from '@/api/guide';
+import { useQuery } from '@tanstack/react-query';
+import { getZones, getPartners } from '@/api/guide';
+import { formatDateToYYYYMMDD } from '@/utils/dateStr';
 
 export default function Guide() {
   const [clicked, setClicked] = useState(true);
@@ -15,13 +16,14 @@ export default function Guide() {
   const defaultStyle =
     'text-xl text-white h-12 px-2 flex justify-center items-center';
 
-  // const { data } = useQuery({
-  //   queryKey: ['guide', clicked],
-  //   queryFn: () => {
-  //     if (clicked) getNofifications();
-  //     if (!clicked) getPartners();
-  //   },
-  // });
+  const { data } = useQuery({
+    queryKey: ['guide', clicked],
+    queryFn: async () => {
+      if (clicked) return await getZones();
+      if (!clicked) return await getPartners();
+    },
+  });
+  console.log(data);
 
   const items = [{ id: 1 }, { id: 2 }, { id: 3 }];
 
@@ -46,71 +48,38 @@ export default function Guide() {
       </div>
       {!clicked ? (
         <div className="flex flex-col justify-center items-center gap-5 px-5">
-          <div
-            id="1"
-            className="w-full h-24 bg-white rounded-2xl px-5 py-3"
-            onClick={(e) => navigate(`/guide/${e.currentTarget.id}`)}
-          >
-            <div className="flex justify-between items-start">
-              <h3 className="text-xl">제목</h3>
+          {data?.data.map((item: any) => (
+            <div
+              key={item.id}
+              id={item.id}
+              className="w-full h-24 bg-white rounded-2xl px-5 py-3"
+              onClick={(e) => navigate(`/guide/${e.currentTarget.id}`)}
+            >
+              <div className="flex justify-between items-start">
+                <h3 className="text-xl">{item.name}</h3>
+                <div>
+                  {bookmark ? (
+                    <img src={bookmark} alt="favorites" />
+                  ) : (
+                    <img src={favorites} alt="favorites" />
+                  )}
+                </div>
+              </div>
               <div>
-                <img src={bookmark} alt="favorites" />
+                <span className="text-xs font-normal">{item.description}</span>
+              </div>
+              <div className="flex justify-end items-end">
+                <span className="text-[10px]">
+                  {formatDateToYYYYMMDD(item.created_at)}
+                </span>
               </div>
             </div>
-            <div>
-              <span className="text-xs font-normal">
-                본문내용본문내용 본문내용 본문내용
-              </span>
-            </div>
-            <div className="flex justify-end items-end">
-              <span className="text-[10px]">2024-01-01</span>
-            </div>
-          </div>
-          <div
-            id="2"
-            className="w-full h-24 bg-white rounded-2xl px-5 py-3"
-            onClick={(e) => navigate(`/guide/${e.currentTarget.id}`)}
-          >
-            <div className="flex justify-between items-start">
-              <h3 className="text-xl">제목</h3>
-              <div>
-                <img src={bookmark} alt="favorites" />
-              </div>
-            </div>
-            <div>
-              <span className="text-xs font-normal">
-                본문내용본문내용 본문내용 본문내용
-              </span>
-            </div>
-            <div className="flex justify-end items-end">
-              <span className="text-[10px]">2024-01-01</span>
-            </div>
-          </div>
-          <div
-            id="3"
-            className="w-full h-24 bg-white rounded-2xl px-5 py-3"
-            onClick={(e) => navigate(`/guide/${e.currentTarget.id}`)}
-          >
-            <div className="flex justify-between items-start">
-              <h3 className="text-xl">제목</h3>
-              <div>
-                <img src={bookmark} alt="favorites" />
-              </div>
-            </div>
-            <div>
-              <span className="text-xs font-normal">
-                본문내용본문내용 본문내용 본문내용
-              </span>
-            </div>
-            <div className="flex justify-end items-end">
-              <span className="text-[10px]">2024-01-01</span>
-            </div>
-          </div>
+          ))}
         </div>
       ) : (
         <div className="px-5">
           <div className="mb-16">
-            <GuideCarousel />
+            <GuideCarousel images={[]} />
           </div>
           <div className="w-full bg-map rounded-xl border border-[#0F0] flex flex-col">
             {items.map((item, index) => (

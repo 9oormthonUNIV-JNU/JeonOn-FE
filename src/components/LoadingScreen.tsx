@@ -16,7 +16,7 @@ export default function LoadingScreen() {
         left: '45%',
       }}
     >
-      <Loader2 className="h-10 w-10 animate-spin" />
+      <Loader2 color="white" className="h-10 w-10 animate-spin" />
     </div>
   );
 }

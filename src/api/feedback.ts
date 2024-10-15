@@ -8,7 +8,10 @@ import { api } from '@/utils/customAxios';
 //   //   user_id?: number;
 // };
 
-export default async function postFeedback(formData: FormData) {
-  const result = await api.post('feedbacks', formData);
+export default async function postFeedback(formdata: any) {
+  console.log(1);
+  const result = await api.post('feedbacks', formdata, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
   return result;
 }

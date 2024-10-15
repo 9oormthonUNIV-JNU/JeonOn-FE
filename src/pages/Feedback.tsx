@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,6 +24,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import SignInModal from '@/components/common/Modal/SignInModal';
+import { isLoggedIn } from '@/api/login';
 
 export default function Feedback() {
   const [title, setTitle] = useState('');
@@ -31,11 +33,28 @@ export default function Feedback() {
   const [detail, setDetail] = useState('');
 
   const [openModal, setOpenModal] = useState(false);
+  const [activeModal, setActiveModal] = useState(true);
 
   const imgRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    const isUserLoggedIn = isLoggedIn();
+    console.log(isUserLoggedIn);
+    if (isUserLoggedIn || isUserLoggedIn === undefined) {
+      setActiveModal(false);
+    } else {
+      setActiveModal(true);
+    }
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    //로그인 안했으면 모달창 띄우기
+    const isUserLoggedIn = isLoggedIn();
+    if (!isUserLoggedIn || undefined) {
+      setActiveModal(true);
+      return;
+    }
     const formData = new FormData();
     const imgs = imgRef.current?.files;
     if (imgs)
@@ -59,7 +78,6 @@ export default function Feedback() {
     try {
       const result = await postFeedback(formData);
       console.log(result);
-
       setOpenModal((v) => !v);
     } catch (error) {
       console.error(error);
@@ -209,6 +227,11 @@ export default function Feedback() {
           </DialogHeader>
         </DialogContent>
       </Dialog>
+      {/* 로그인 모달 */}
+      <SignInModal
+        isOpen={activeModal}
+        setIsOpen={() => setActiveModal(false)}
+      />
     </div>
   );
 }

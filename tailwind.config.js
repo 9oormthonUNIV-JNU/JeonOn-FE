@@ -20,10 +20,16 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
-        main: '#0F0',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
+// <<<<<<< feature
+//         main: "#0F0",
+//         background: "hsl(var(--background))",
+//         foreground: "hsl(var(--foreground))",
+// =======
+//         main: '#0F0',
+//         background: 'hsl(var(--background))',
+//         foreground: 'hsl(var(--foreground))',
 
+// >>>>>>> main
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
@@ -64,7 +70,13 @@ export default {
         },
       },
       fontFamily: {
-        "gmarket-sans": ['"Gmarket Sans"', "sans-serif"],
+// <<<<<<< feature
+//         neurimbo: ["neurimboGothicRegular"],
+//         pretendard: ["Pretendard-Regular"],
+//         cafe24: ["Cafe24ClassicType-Regular"],
+// =======
+//         "gmarket-sans": ['"Gmarket Sans"', "sans-serif"],
+// >>>>>>> main
       },
     },
   },

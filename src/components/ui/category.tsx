@@ -22,7 +22,6 @@ const BoothCategory: React.FC<BoothCategoryProps> = ({ onCategoryChange }) => {
 
   // 버튼 클릭 시 실행되는 함수
   const handleCategoryClick = (category: string) => {
-    // 이미 선택된 카테고리라면 배열에서 제거, 아니면 추가
     const updatedCategories = selectedCategories.includes(category)
       ? selectedCategories.filter((cat) => cat !== category)
       : [...selectedCategories, category];
@@ -32,8 +31,17 @@ const BoothCategory: React.FC<BoothCategoryProps> = ({ onCategoryChange }) => {
 
   // 카테고리 상태가 변경될 때 상위 컴포넌트로 상태 전달
   useEffect(() => {
-    onCategoryChange(selectedCategories); // 상태가 변경될 때마다 상위 컴포넌트에 전달
+    onCategoryChange(selectedCategories);
   }, [selectedCategories, onCategoryChange]);
+
+  // 좌우 스크롤 버튼 함수
+  const handleLeftClick = () => {
+    if (emblaApi) emblaApi.scrollPrev();
+  };
+
+  const handleRightClick = () => {
+    if (emblaApi) emblaApi.scrollNext();
+  };
 
   // 카테고리 버튼 렌더링
   const renderButton = (category: string) => {
@@ -55,12 +63,22 @@ const BoothCategory: React.FC<BoothCategoryProps> = ({ onCategoryChange }) => {
   };
 
   return (
-    <div className="relative embla w-full max-w-lg mx-auto">
-      <div className="embla__viewport overflow-hidden px-4" ref={emblaRef}>
-        <div className="mt-5 embla__container flex space-x-2 font-medium">
-          <img src={left} alt="left" />
-          
-          {/* 버튼 렌더링 */}
+    <div className="relative w-full max-w-lg mx-auto flex items-center">
+      {/* 좌측 스크롤 버튼 */}
+      <button
+        className="pt-3 absolute left-5 z-20 h-full flex items-center"
+        onClick={handleLeftClick}
+      >
+        <img src={left} alt="left" className="h-6" />
+      </button>
+
+      {/* 좌측 그라데이션 오버레이 */}
+      <div className="absolute left-0 top-0 bottom-0 w-[80px] z-10 bg-gradient-to-r from-black pointer-events-none"></div>
+
+      {/* 캐러셀 뷰포트 */}
+      <div className="embla__viewport overflow-hidden px-16" ref={emblaRef}>
+        <div className="mt-3 embla__container flex space-x-2 font-medium">
+          {/* 카테고리 버튼들 렌더링 */}
           {renderButton("음식")}
           {renderButton("체험")}
           {renderButton("플리마켓")}
@@ -69,10 +87,19 @@ const BoothCategory: React.FC<BoothCategoryProps> = ({ onCategoryChange }) => {
           {renderButton("주/야간")}
           {renderButton("주간")}
           {renderButton("야간")}
-          
-          <img src={right} alt="right" />
         </div>
       </div>
+
+      {/* 우측 그라데이션 오버레이 */}
+      <div className="absolute right-0 top-0 bottom-0 w-[80px] z-10 bg-gradient-to-l from-black pointer-events-none"></div>
+
+      {/* 우측 스크롤 버튼 */}
+      <button
+        className="pt-3 absolute right-5 z-20 h-full flex items-center"
+        onClick={handleRightClick}
+      >
+        <img src={right} alt="right" className="h-6" />
+      </button>
     </div>
   );
 };

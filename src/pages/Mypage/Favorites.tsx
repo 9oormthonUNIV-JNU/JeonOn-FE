@@ -6,7 +6,9 @@ export default function Favorites() {
   return (
     <div className="h-screen">
       <div className="mb-9">
-        <h1 className="text-[#0F0] text-[35px] text-center font-bold">마이</h1>
+        <h1 className="text-[#0F0] text-[35px] text-center font-bold font-cafe24">
+          마이
+        </h1>
         <h3 className="text-xl text-white text-center">즐겨찾기</h3>
       </div>
 
@@ -22,7 +24,7 @@ export default function Favorites() {
           className="flex justify-between items-center px-2"
           onClick={() => navigate('/my-page/favorites/announcement')}
         >
-          <h2 className="text-white text-xl">공지사항 및 프로그램</h2>
+          <h2 className="text-white text-xl">콘텐츠</h2>
           <div>
             <img src={rightArrow} alt="right-arrow" />
           </div>

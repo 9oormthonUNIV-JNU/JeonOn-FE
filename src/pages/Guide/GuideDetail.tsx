@@ -14,7 +14,8 @@ import {
 } from '@/api/guide';
 
 import { formatDateToYYYYMMDD } from '@/utils/dateStr';
-import { useEffect, useState } from 'react';
+
+import useBookmark from '@/hook/useBookmark';
 
 // type TPartnersDetail = {
 //   name: string;
@@ -29,35 +30,43 @@ import { useEffect, useState } from 'react';
 
 export default function GuideDetail() {
   const { id } = useParams();
-  const [like, setLike] = useState(false);
+
   const { data } = useQuery({
     queryKey: ['partners-detail', id],
     queryFn: () => getPartnerDetail(id),
   });
 
-  const queryClient = useQueryClient();
-
-  const favoriteMutation = useMutation({
-    mutationFn: async () => {
-      if (like) {
-        const res = await partnersBookmarkCancel(id);
-        console.log(res);
-        return res;
-      } else {
-        const res = await partnersBookmark(id);
-        console.log(res);
-        return res;
-      }
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['partners-detail', id] });
-    },
+  const { like, toggleBookmark } = useBookmark({
+    id,
+    queryKey: 'partners-detail', // 예시 쿼리 키
+    bookmarkFn: partnersBookmark, // 북마크 추가 API 함수
+    bookmarkCancelFn: partnersBookmarkCancel, // 북마크 취소 API 함수
+    initialBookmarkState: data?.bookmark ?? false, // 초기 상태 설정
   });
-  useEffect(() => {
-    if (data) {
-      setLike(data?.bookmark); // data.bookmark 값으로 상태 업데이트
-    }
-  }, [data]);
+
+  // const queryClient = useQueryClient();
+
+  // const favoriteMutation = useMutation({
+  //   mutationFn: async () => {
+  //     if (like) {
+  //       const res = await partnersBookmarkCancel(id);
+  //       console.log(res);
+  //       return res;
+  //     } else {
+  //       const res = await partnersBookmark(id);
+  //       console.log(res);
+  //       return res;
+  //     }
+  //   },
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({ queryKey: ['partners-detail', id] });
+  //   },
+  // });
+  // useEffect(() => {
+  //   if (data) {
+  //     setLike(data?.bookmark); // data.bookmark 값으로 상태 업데이트
+  //   }
+  // }, [data]);
 
   return (
     <div className="h-screen overflow-hidden">
@@ -72,16 +81,11 @@ export default function GuideDetail() {
         </div>
         <div className="mb-1 flex justify-between items-center">
           <h1 className="text-[#0F0] text-3xl font-cafe24">{data?.name}</h1>
-          <div
-            onClick={(e) => {
-              console.log(e.currentTarget);
-              favoriteMutation.mutate();
-            }}
-          >
-            {data?.bookmark ? (
+          <div onClick={toggleBookmark}>
+            {like ? (
               <img src={favorites} alt="favorites" />
             ) : (
-              <img src={bookmark} alt="favorites" />
+              <img src={bookmark} alt="bookmark" />
             )}
           </div>
         </div>

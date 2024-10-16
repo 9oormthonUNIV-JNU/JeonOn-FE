@@ -12,6 +12,7 @@ import GuideCarousel from '@/components/guide/GuideCarousel';
 import { useQuery } from '@tanstack/react-query';
 import { getZones, getPartners } from '@/api/guide';
 import { formatDateToYYYYMMDD } from '@/utils/dateStr';
+import useBookmark from '@/hook/useBookmark';
 
 export default function Guide() {
   const [clicked, setClicked] = useState(true);
@@ -41,7 +42,8 @@ export default function Guide() {
     queryKey: ['maps', curIndex],
     queryFn: () => getZones(curIndex.toString()),
   });
-  console.log(mapInfo.data?.data);
+
+  console.log(data);
 
   const images = [backGate, square, stadium];
 
@@ -76,10 +78,10 @@ export default function Guide() {
               <div className="flex justify-between items-start">
                 <h3 className="text-xl text-[#0F0]">{item.name}</h3>
                 <div>
-                  {bookmark ? (
-                    <img src={bookmark} alt="favorites" />
-                  ) : (
+                  {item?.bookmark ? (
                     <img src={favorites} alt="favorites" />
+                  ) : (
+                    <img src={bookmark} alt="favorites" />
                   )}
                 </div>
               </div>

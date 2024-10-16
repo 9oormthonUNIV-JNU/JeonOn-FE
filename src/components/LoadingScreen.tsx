@@ -14,6 +14,8 @@ export default function LoadingScreen() {
         zIndex: 999,
         top: '45%',
         left: '45%',
+        color: 'white',
+        backgroundColor: 'white',
       }}
     >
       <Loader2 color="white" className="h-10 w-10 animate-spin" />

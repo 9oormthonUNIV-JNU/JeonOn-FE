@@ -3,9 +3,18 @@ import { FontFamilyIcon } from "@radix-ui/react-icons";
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: ["class"],
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./src/pages/AdminPage/CustomDatePicker.css",
+  ],
   theme: {
     extend: {
+      fontFamily: {
+        neurimbo: ["neurimboGothicRegular"],
+        cafe24: ["Cafe24ClassicType-Regular"],
+        pretendard: ["Pretendard-Regular"],
+      },
       backgroundImage: {
         "custom-gradient":
           "linear-gradient(180deg, #000 0%, #000 60.1%, #FFF 100%)",

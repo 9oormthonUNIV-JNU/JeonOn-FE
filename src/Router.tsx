@@ -4,13 +4,16 @@ import NotFound from './pages/NotFound';
 import Layout from './components/Layout';
 import Feedback from './pages/Feedback';
 import TimeCapsule from './pages/TimeCapsule';
-import Guide from './pages/Guide';
+import Guide from './pages/Guide/Guide';
 import TimeTable from './pages/TimeTable';
 import Booth from './pages/Booth';
 import MyPage from './pages/Mypage/MyPage';
 import Favorites from './pages/Mypage/Favorites';
 import Announcement from './pages/Mypage/Announcement';
 import Affiliation from './pages/Mypage/Affiliation';
+import GuideDetail from './pages/Guide/GuideDetail';
+import Contents from './pages/Contents/Contents';
+import ContentsDetail from './pages/Contents/ContentsDetail';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +37,18 @@ const router = createBrowserRouter([
       {
         path: '/guide',
         element: <Guide />,
+      },
+      {
+        path: '/guide/:id',
+        element: <GuideDetail />,
+      },
+      {
+        path: '/contents',
+        element: <Contents />,
+      },
+      {
+        path: '/contents/:id',
+        element: <ContentsDetail />,
       },
       {
         path: '/booth',

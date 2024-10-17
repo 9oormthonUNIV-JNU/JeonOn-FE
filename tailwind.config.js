@@ -10,10 +10,10 @@ export default {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        neurimbo: ["neurimboGothicRegular"],
-        cafe24: ["Cafe24ClassicType-Regular"],
-        pretendard: ["Pretendard-Regular"],
+      backgroundColor: {
+        "main-guide": "rgba(81, 251, 86, 0.08)",
+        "list-box": "rgba(0, 255, 0, 0.10);",
+        map: "rgba(0, 255, 0, 0.23)",
       },
       backgroundImage: {
         "custom-gradient":
@@ -28,6 +28,7 @@ export default {
         main: "#0F0",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
@@ -66,6 +67,12 @@ export default {
           4: "hsl(var(--chart-4))",
           5: "hsl(var(--chart-5))",
         },
+      },
+      fontFamily: {
+        neurimbo: ["neurimboGothicRegular"],
+        pretendard: ["Pretendard-Regular"],
+        cafe24: ["Cafe24ClassicType-Regular"],
+        "gmarket-sans": ['"Gmarket Sans"', "sans-serif"],
       },
     },
   },

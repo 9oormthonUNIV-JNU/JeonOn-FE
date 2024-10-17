@@ -4,34 +4,37 @@ import NotFound from './pages/NotFound';
 import Layout from './components/Layout';
 import Feedback from './pages/Feedback';
 import TimeCapsule from './pages/TimeCapsule';
-import Guide from './pages/Guide/Guide';
+import Guide from './pages/Guide';
+import GuideDetail from './pages/Guide/GuideDetail';
 import TimeTable from './pages/TimeTable';
 import Booth from './pages/Booth';
 import MyPage from './pages/Mypage/MyPage';
 import Favorites from './pages/Mypage/Favorites';
 import Announcement from './pages/Mypage/Announcement';
 import Affiliation from './pages/Mypage/Affiliation';
-import GuideDetail from './pages/Guide/GuideDetail';
+import AdminMenu from './pages/AdminPage/AdminMenu';
+import RegisterAffiliate from './pages/AdminPage/RegisterAffilate';
+import RegisterMap from './pages/AdminPage/RegisterMap';
 import Contents from './pages/Contents/Contents';
 import ContentsDetail from './pages/Contents/ContentsDetail';
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    id: "root",
+    path: '/',
+    id: 'root',
     errorElement: <NotFound />,
     element: <Layout />,
     children: [
       {
-        path: "",
+        path: '',
         element: <Home />,
       },
       {
-        path: "/time-capsule",
+        path: '/time-capsule',
         element: <TimeCapsule />,
       },
       {
-        path: "/feedback",
+        path: '/feedback',
         element: <Feedback />,
       },
       {
@@ -73,6 +76,18 @@ const router = createBrowserRouter([
       {
         path: '/my-page/favorites/affiliate',
         element: <Affiliation />,
+      },
+      {
+        path: '/admin-page/admin-menu',
+        element: <AdminMenu />,
+      },
+      {
+        path: '/admin-page/register-map',
+        element: <RegisterMap />,
+      },
+      {
+        path: '/admin-page/register-affiliate',
+        element: <RegisterAffiliate />,
       },
     ],
   },

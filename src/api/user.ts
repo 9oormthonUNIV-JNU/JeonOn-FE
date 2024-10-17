@@ -11,7 +11,7 @@ export async function getPartnersBookmark() {
 }
 export async function getContentsBookmark() {
   const res = await api.get('/users/bookmarks/contents');
-  return res;
+  return res.data.data;
 }
 
 export async function getBoothsBookmark() {

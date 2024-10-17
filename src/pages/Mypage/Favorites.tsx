@@ -13,7 +13,10 @@ export default function Favorites() {
       </div>
 
       <div className="px-5 flex flex-col justify-center items-stretch gap-14">
-        <div className="flex justify-between items-center px-2">
+        <div
+          className="flex justify-between items-center px-2"
+          onClick={() => navigate('/my-page/favorites/booth')}
+        >
           <h2 className="text-white text-xl">부스</h2>
           <div>
             <img src={rightArrow} alt="right-arrow" />

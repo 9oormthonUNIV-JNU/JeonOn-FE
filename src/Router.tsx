@@ -15,6 +15,7 @@ import GuideDetail from './pages/Guide/GuideDetail';
 import Contents from './pages/Contents/Contents';
 import ContentsDetail from './pages/Contents/ContentsDetail';
 import MyBooth from './pages/Mypage/MyBooth';
+import RegisterContents from './pages/AdminPage/RegisterContents';
 
 const router = createBrowserRouter([
   {
@@ -78,6 +79,10 @@ const router = createBrowserRouter([
       {
         path: '/my-page/favorites/booth',
         element: <MyBooth />,
+      },
+      {
+        path: '/admin-page/register-contents',
+        element: <RegisterContents />,
       },
     ],
   },

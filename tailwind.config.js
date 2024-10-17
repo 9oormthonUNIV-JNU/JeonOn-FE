@@ -12,7 +12,7 @@ export default {
     extend: {
       backgroundColor: {
         "main-guide": "rgba(81, 251, 86, 0.08)",
-        "list-box": "rgba(0, 255, 0, 0.10);",
+        "list-box": "rgba(0, 255, 0, 0.10)",
         map: "rgba(0, 255, 0, 0.23)",
       },
       backgroundImage: {

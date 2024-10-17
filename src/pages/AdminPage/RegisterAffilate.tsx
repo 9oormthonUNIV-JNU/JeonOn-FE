@@ -14,6 +14,7 @@ import "./CustomDatePicker.css";
 import triagle_down from "@/../public/assets/svgs/triangle_down.svg";
 import photo from "@/../public/assets/svgs/photo.svg";
 import { Textarea } from "@/components/ui/textarea";
+import postAffiliate from "@/api/afilliate";
 
 type CustomInputProps = {
   value?: string;
@@ -102,27 +103,25 @@ const RegisterAffiliate = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const img = imgRef.current?.files?.[0];
-    const formData = new FormData();
+    const images = imgRef.current?.files
+      ? Array.from(imgRef.current.files)
+      : [];
 
-    formData.append("name", name);
-    formData.append("location", location);
-    formData.append("startDate", startDate?.toISOString() || "");
-    formData.append("endDate", endDate?.toISOString() || "");
-    formData.append("description", description);
-    if (img) {
-      formData.append("image", img);
-    }
+    const data = {
+      name,
+      location,
+      start_date: startDate?.toISOString().split("T")[0] || "",
+      end_date: endDate?.toISOString().split("T")[0] || "",
+      description,
+      images,
+    };
 
-    /*
     try {
-      const result = await API;
-      console.log(result);
-      setOpenModal(true); 
+      await postAffiliate(data);
+      setOpenModal(true);
     } catch (error) {
-      console.error(error);
-    } 
-    */
+      console.error("Registeration failed:", error);
+    }
   };
 
   return (

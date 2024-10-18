@@ -18,14 +18,16 @@ export default function Booth() {
   };
 
   return (
-    <div className="h-screen flex flex-col items-center" >
+    <div className="h-screen flex flex-col items-center">
       <h1 className="text-main text-4xl font-cafe24">부스</h1>
 
       <BoothDate selected={selected} onDateChange={handleDateChange} />
 
-      <div className="text-white w-[80vw] max-w-[305px] h-[80vw] max-h-[305px] relative border-2 border-white">
-        부스 이미지
-      </div>
+      <img
+        className="w-[80vw] h-[80vw] max-h-[305px] max-w-[303px] rounded-lg"
+        src="https://via.placeholder.com/305x303"
+        alt=""
+      />
 
       {/* BoothCategory 컴포넌트에서 선택된 카테고리를 상위 컴포넌트로 전달 */}
       <BoothCategory onCategoryChange={handleCategoryChange} />
@@ -50,7 +52,6 @@ export default function Booth() {
         3. 전부 안눌려있을 때 '모든 부스 랜더링'
         4. 지금 필터링 해야할 거 두개임 (날짜, 카테고리)
        */}
-      
     </div>
   );
 }

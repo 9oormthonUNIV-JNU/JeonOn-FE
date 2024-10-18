@@ -17,6 +17,7 @@ import RegisterAffiliate from "./pages/AdminPage/RegisterAffilate";
 import RegisterMap from "./pages/AdminPage/RegisterMap";
 import Contents from "./pages/Contents/Contents";
 import ContentsDetail from "./pages/Contents/ContentsDetail";
+import ViewFeedback from "./pages/AdminPage/ViewFeedback";
 
 const router = createBrowserRouter([
   {
@@ -88,6 +89,10 @@ const router = createBrowserRouter([
       {
         path: "/admin-page/register-affiliate",
         element: <RegisterAffiliate />,
+      },
+      {
+        path: "/admin-page/view-feedback",
+        element: <ViewFeedback />,
       },
     ],
   },

@@ -33,11 +33,46 @@ const feedbacks: FeedbackType[] = [
   },
 ];
 
-type FeedbackItemProps = {
-  feedbacks: FeedbackType[];
+type FeedbackDetailType = {
+  id: number;
+  nickname: string;
+  title: string;
+  content: string;
+  images: string[];
+  createdAt: string;
 };
 
-const FeedbackItem = ({ feedbacks }: FeedbackItemProps) => {
+const feedbackDetails: FeedbackDetailType[] = [
+  {
+    id: 1,
+    nickname: "망곰",
+    title: "축제에 망곰이를 불러줬으면 좋겠어요",
+    content: "망곰이가 요즘 인기잖아요? 망곰이와 콜라보를 진행시켜주세요.",
+    images: ["https://https://s3.ap-northeast-2.amazonaws.com/image1"],
+    createdAt: "2024-11-07T13:00:00",
+  },
+  {
+    id: 2,
+    nickname: "룰루랄라",
+    title: "축제에 이범호를 불러줬으면 좋겠어요",
+    content: "이범호가 요즘 인기잖아요? 이범호와 콜라보를 진행시켜주세요.",
+    images: [
+      "https://https://s3.ap-northeast-2.amazonaws.com/image1",
+      "https://https://s3.ap-northeast-2.amazonaws.com/image1",
+      "https://https://s3.ap-northeast-2.amazonaws.com/image1",
+    ],
+    createdAt: "2024-11-07T13:00:00",
+  },
+];
+
+type FeedbackItemProps = {
+  feedbacks: FeedbackType[];
+  feedbackDetails: FeedbackDetailType[];
+};
+
+const FeedbackItem = ({ feedbacks, feedbackDetails }: FeedbackItemProps) => {
+  const [selectedItem, setSelectedItem] = useState<number | null>(null);
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -48,29 +83,65 @@ const FeedbackItem = ({ feedbacks }: FeedbackItemProps) => {
     return `${month}-${day} ${hours}:${minutes}`;
   };
 
+  const getDetailById = (id: number) =>
+    feedbackDetails.find((detail) => detail.id === id);
+
   return (
     <>
-      {feedbacks &&
-        feedbacks.map((feedback) => (
-          <div className="flex bg-white border rounded-3xl font-pretendard p-4 gap-2">
-            <div className="rounded-full shrink-0 bg-black w-5 h-5 flex justify-center items-center">
-              <div className="text-main text-base flex font-extrabold">
-                {feedback.id}
+      {feedbacks.map((feedback) => {
+        const detail = getDetailById(feedback.id);
+        const isSelected = selectedItem === feedback.id;
+
+        return (
+          <div
+            key={feedback.id}
+            className="flex bg-white border rounded-3xl font-pretendard p-4 flex-col gap-4"
+            onClick={() =>
+              setSelectedItem((prev) =>
+                prev === feedback.id ? null : feedback.id
+              )
+            }
+          >
+            <div className="flex flex-row gap-3">
+              <div className="rounded-full shrink-0 bg-black w-5 h-5 flex justify-center items-center">
+                <div className="text-main text-base flex font-extrabold">
+                  {feedback.id}
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col min-w-0 gap-1 w-full">
-              <div className="text-base vw-full whitespace-nowrap overflow-hidden text-ellipsis">
-                {feedback.title}
-              </div>
-              <div className="flex flex-row justify-between">
-                <div className="text-xs">{feedback.nickname}</div>
-                <div className="flex text-xs text-[#5C5C5CDE] justify-end">
-                  {formatDate(feedback.createdAt)}
+              <div className="flex flex-col min-w-0 gap-1 w-full">
+                <div className="text-base vw-full whitespace-nowrap overflow-hidden text-ellipsis">
+                  {feedback.title}
+                </div>
+                <div className="flex flex-row justify-between">
+                  <div className="text-xs">{feedback.nickname}</div>
                 </div>
               </div>
             </div>
+            {isSelected && detail && (
+              <div className="flex flex-col px-2">
+                <div
+                  key={detail.id}
+                  className="flex flex-row bg-white border border-black rounded-xl p-3 text-xs"
+                >
+                  {detail.content}
+                </div>
+
+                <div className="flex flex-row gap-2 mt-2 w-full overflow-x-auto">
+                  {detail.images.map((item) => (
+                    <img
+                      src={item}
+                      className="w-20 h-20 object-cover rounded-lg bg-[#D9D9D9]"
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+            <div className="flex text-xs text-[#5C5C5CDE] justify-end">
+              {formatDate(feedback.createdAt)}
+            </div>
           </div>
-        ))}
+        );
+      })}
     </>
   );
 };
@@ -108,7 +179,10 @@ const ViewFeedback = () => {
           })}
         </div>
         <div className="flex flex-col gap-2">
-          <FeedbackItem feedbacks={sortedFeedbacks} />
+          <FeedbackItem
+            feedbacks={sortedFeedbacks}
+            feedbackDetails={feedbackDetails}
+          />
         </div>
       </div>
     </div>

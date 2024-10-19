@@ -5,6 +5,12 @@ export async function boothsList(queryString: string = "") {
   return result;
 }
 
+export async function boothDetail(boothId: number) {
+  const result = await api.get(`booths/${boothId}`);
+  return result;
+}
+
+
 export async function favoritesBooths() {
   const result = await api.get("users/bookmarks/booths");
   return result;

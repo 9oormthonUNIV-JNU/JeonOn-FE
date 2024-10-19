@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import BoothCategory from "@/components/ui/booth-category";
 import BoothDate from "@/components/Booth/BoothDate";
 import BoothCards from "@/components/Booth/BoothCards";
-//import BoothDetail from 
 
 export default function Booth() {
   const navigate = useNavigate();
@@ -21,6 +20,11 @@ export default function Booth() {
     setSelectedCategories(categories); // 카테고리 상태를 업데이트
   };
 
+  // BoothCards에서 카드 선택 시 호출되는 함수로 부스 ID를 받아 처리
+  const handleCardSelect = (boothId: number) => {
+    navigate(`/booth/detail?boothId=${boothId}`); // boothId를 쿼리 파라미터로 전달
+  };  
+
   return (
     <div className="h-screen flex flex-col items-center">
       <h1 className="text-main text-4xl font-cafe24">부스</h1>
@@ -35,8 +39,13 @@ export default function Booth() {
 
       {/* BoothCategory 컴포넌트에서 선택된 카테고리를 상위 컴포넌트로 전달 */}
       <BoothCategory onCategoryChange={handleCategoryChange} />
-      
-      <BoothCards selectedDate={selectedDate} selectedCategories={selectedCategories}/>
+
+      {/* BoothCards에 카드 선택 이벤트를 전달 */}
+      <BoothCards
+        selectedDate={selectedDate}
+        selectedCategories={selectedCategories}
+        onCardSelect={handleCardSelect} // 부스 선택 시 호출
+      />
     </div>
   );
 }

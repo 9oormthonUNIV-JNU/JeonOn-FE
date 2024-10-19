@@ -7,6 +7,7 @@ import { boothsList } from "@/api/booth"; // API 호출 함수
 interface BoothCardsProps {
   selectedCategories: string[];
   selectedDate: number | null; // 임시데이터가 실제 날짜에 맞지 않아서 일단 로직 생성X
+  onCardSelect: (boothId: number) => void; // 카드 선택 시 호출되는 함수
 }
 
 interface Booth {
@@ -22,7 +23,7 @@ interface Booth {
   like_count: number;
 }
 
-const BoothCards: React.FC<BoothCardsProps> = ({ selectedCategories }) => {
+const BoothCards: React.FC<BoothCardsProps> = ({ selectedCategories, onCardSelect }) => {
   const [booths, setBooths] = useState<Booth[]>([]);
 
   // Query string 생성 로직 (위치 필터링은 제외)
@@ -93,14 +94,15 @@ const BoothCards: React.FC<BoothCardsProps> = ({ selectedCategories }) => {
           조건에 해당하는 부스가 없습니다.
         </div>
       ) : (
-        booths.map((booth, index) => (
+        booths.map((booth) => (
           <Card
             key={booth.id}
-            className="w-[90vw] max-w-[90vw] bg-white rounded-[15px] shadow-md mt-5 mx-auto"
+            onClick={() => onCardSelect(booth.id)} // 카드 클릭 시 부스 ID 전달
+            className="w-[90vw] max-w-[90vw] bg-white rounded-[15px] shadow-md mt-5 mx-auto cursor-pointer"
           >
             <CardHeader className="grid grid-cols-[auto_1fr] gap-2 items-center p-0.5">
               <div className="ml-2 w-[7vw] h-[7vw] bg-black rounded-full flex items-center justify-center text-[#00ff00] text-xs">
-                {booth.index}
+                {booth.id}
               </div>
               <CardTitle className="text-black text-[2.5vh] font-semibold font-['Pretendard']">
                 {booth.name}

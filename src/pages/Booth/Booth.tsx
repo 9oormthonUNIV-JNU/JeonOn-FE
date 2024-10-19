@@ -1,7 +1,8 @@
 import { useState } from "react";
-import BoothCategory from "@/components/ui/category";
-import BoothDate from "@/components/Booth/booth-date";
-import BoothCards from "@/components/Booth/booth-card";
+import BoothCategory from "@/components/ui/booth-category";
+import BoothDate from "@/components/Booth/BoothDate";
+import BoothCards from "@/components/Booth/BoothCards";
+//import BoothDetail from 
 
 export default function Booth() {
   const [selectedDate, setSelectedDate] = useState<number | null>(null);

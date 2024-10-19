@@ -6,7 +6,7 @@ import Feedback from './pages/Feedback';
 import TimeCapsule from './pages/TimeCapsule';
 import Guide from './pages/Guide/Guide';
 import TimeTable from './pages/TimeTable';
-import Booth from './pages/Booth';
+import Booth from './pages/Booth/Booth';
 import MyPage from './pages/Mypage/MyPage';
 import Favorites from './pages/Mypage/Favorites';
 import Announcement from './pages/Mypage/Announcement';

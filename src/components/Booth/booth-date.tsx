@@ -1,11 +1,9 @@
-import { useState } from "react";
-
 interface BoothDateProps {
-  selected: number | null;
+  selectedDate: number | null;
   onDateChange: (number: number) => void; // 날짜 변경 시 호출할 함수
 }
 
-export default function BoothDate({ selected, onDateChange }: BoothDateProps) {
+export default function BoothDate({ selectedDate, onDateChange }: BoothDateProps) {
   const dates = [
     { number: 5, day: "화" },
     { number: 6, day: "수" },
@@ -27,7 +25,7 @@ export default function BoothDate({ selected, onDateChange }: BoothDateProps) {
             {/* 숫자를 나타내는 버튼 */}
             <div
               className={`absolute bottom-0 cursor-pointer font-['Pretendard'] transition-all duration-300 transform ${
-                selected === date.number
+                selectedDate === date.number
                   ? "text-[#00ff00] text-[4.5rem] translate-y-[-15%] scale-110" // 선택된 상태
                   : "text-white text-[4rem] hover:translate-y-[-10%] hover:text-[#00ff00]" // 기본 상태 및 hover
               }`}
@@ -39,7 +37,7 @@ export default function BoothDate({ selected, onDateChange }: BoothDateProps) {
             {/* 요일을 나타내는 텍스트 */}
             <div
               className={`absolute bottom-[-1.5rem] text-[1rem] font-medium font-['NanumSquare Neo'] ${
-                selected === date.number ? "text-[#00ff00]" : "text-white"
+                selectedDate === date.number ? "text-[#00ff00]" : "text-white"
               }`}
             >
               {date.day}

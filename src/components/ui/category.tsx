@@ -1,3 +1,5 @@
+// 부스 페이지와 관리자 -> 부스 등록 페이지에서 사용됨
+
 import React, { useState, useEffect } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import left from "@/../public/assets/svgs/left.svg";

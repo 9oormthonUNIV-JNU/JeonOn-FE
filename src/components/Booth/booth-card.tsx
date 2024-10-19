@@ -1,33 +1,122 @@
-{
-  /* 
-<div className="w-[339px] h-[65px] relative bg-white rounded-[15px]">
-  <div className="left-[42px] top-[8px] absolute text-black text-xl font-medium font-['Pretendard']">
-    부스 이름
-  </div>
-  <div className="w-[22px] h-[22px] left-[12px] top-[8px] absolute bg-black rounded-full" />
-  <div className="w-3 h-1.5 left-[17px] top-[14px] absolute text-center text-[#7bf97b] text-xs font-normal font-['Pretendard']">
-    4
-  </div>
-  <div className="w-[164px] h-[17px] left-[34px] top-[39px] absolute">
-    <div className="w-[61px] h-[11px] left-[17px] top-[5px] absolute text-black text-[7px] font-normal font-['NanumSquare Neo']">
-      봉지 4번 부스
-    </div>
-    <div className="w-[17px] h-[17px] left-0 top-0 absolute">
-      <img
-        className="w-[9.92px] h-[11.23px] left-[3.54px] top-[2.83px] absolute"
-        src="https://via.placeholder.com/10x11"
-      />
-    </div>
-    <div className="w-3.5 h-3.5 left-[69px] top-[2px] absolute">
-      <img
-        className="w-[10.50px] h-[10.50px] left-[1.75px] top-[1.75px] absolute"
-        src="https://via.placeholder.com/10x10"
-      />
-    </div>
-    <div className="left-[87px] top-[5px] absolute text-black text-[7px] font-normal font-['NanumSquare Neo']">
-      5일(화), 18:00 ~ 24:00{" "}
-    </div>
-  </div>
-</div>;
-*/
+import React, { useEffect, useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import time from "@/../public/assets/svgs/time.svg";
+import location from "@/../public/assets/svgs/location_black.svg";
+import { boothsList } from "@/api/booth"; // API 호출 함수
+
+interface BoothCardsProps {
+  selectedCategories: string[];
+  selectedDate: number | null;  // 임시데이터가 실제 날짜에 맞지 않아서 일단 로직 생성X
 }
+
+interface Booth {
+  id: number;
+  name: string;
+  location: string;
+  index: number;
+  start_date: string;
+  end_date: string;
+  start_time: string;
+  end_time: string;
+  like: boolean;
+  like_count: number;
+}
+
+const BoothCards: React.FC<BoothCardsProps> = ({ selectedCategories }) => {
+  const [booths, setBooths] = useState<Booth[]>([]);
+
+  // Query string 생성 로직 (위치 필터링은 제외)
+  const createQueryString = () => {
+    const categoryMapping: { [key: string]: string } = {
+      음식: "food",
+      체험: "experience",
+      플리마켓: "flea-market",
+      홍보: "promotion",
+      기타: "etc",
+    };
+
+    const periodMapping: { [key: string]: string } = {
+      주간: "daytime",
+      야간: "nighttime",
+      "주/야간": "alltime",
+    };
+
+    // 필터링된 카테고리 값 추출
+    const categories = selectedCategories
+      .filter((category) => categoryMapping[category as keyof typeof categoryMapping])
+      .map((category) => categoryMapping[category as keyof typeof categoryMapping]);
+
+    const periods = selectedCategories
+      .filter((category) => periodMapping[category as keyof typeof periodMapping])
+      .map((category) => periodMapping[category as keyof typeof periodMapping]);
+
+    // 쿼리스트링 생성
+    let queryString = `?`;
+
+    if (categories.length > 0) {
+      queryString += `category=${categories.join(",")}&`;
+    }
+    if (periods.length > 0) {
+      queryString += `period=${periods.join(",")}`;
+    }
+
+    return queryString;
+  };
+
+  // API 호출로 부스 데이터를 받아오는 로직
+  useEffect(() => {
+    const getBooths = async () => {
+      try {
+        const queryString = createQueryString();
+        const result = await boothsList(queryString); // 생성된 쿼리스트링을 기반으로 API 요청
+        const boothData: Booth[] = result.data.data;
+        setBooths(boothData);
+      } catch (error) {
+        console.error("Error fetching booths:", error);
+      }
+    };
+
+    getBooths();
+  }, [selectedCategories]);
+
+  // 조건에 따라 렌더링
+  return (
+    <div className="bg-black w-full flex flex-col items-center space-y-4">
+      {booths.length === 0 ? (
+        <div className="mt-20 text-center text-white text-lg font-medium">
+          조건에 해당하는 부스가 없습니다.
+        </div>
+      ) : (
+        booths.map((booth, index) => (
+          <Card
+            key={booth.id}
+            className="w-[90vw] max-w-[90vw] bg-white rounded-[15px] shadow-md mt-5 mx-auto"
+          >
+            <CardHeader className="grid grid-cols-[auto_1fr] gap-2 items-center p-0.5">
+              <div className="ml-2 w-[7vw] h-[7vw] bg-black rounded-full flex items-center justify-center text-[#00ff00] text-xs">
+                {booth.index}
+              </div>
+              <CardTitle className="text-black text-[2.5vh] font-semibold font-['Pretendard']">
+                {booth.name}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="ml-6 text-[1.5vh] px-4 pb-4">
+              <div className="flex items-center space-x-1">
+                <img src={location} className="w-[5%]" alt="location" />
+                <div className="text-black font-normal font-['NanumSquare Neo']">
+                  {booth.location}
+                </div>
+                <img src={time} className="w-[7%]" alt="time" />
+                <div className="text-black font-normal font-['NanumSquare Neo']">
+                  {booth.start_date} ~ {booth.end_date}, {booth.start_time} ~ {booth.end_time}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))
+      )}
+    </div>
+  );
+};
+
+export default BoothCards;

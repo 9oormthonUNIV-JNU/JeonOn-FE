@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import BoothCategory from "@/components/ui/booth-category";
 import BoothDate from "@/components/Booth/BoothDate";
 import BoothCards from "@/components/Booth/BoothCards";
 //import BoothDetail from 
 
 export default function Booth() {
+  const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState<number | null>(null);
 
   // 카테고리 상태 관리

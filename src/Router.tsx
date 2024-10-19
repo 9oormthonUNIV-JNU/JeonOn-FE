@@ -1,19 +1,21 @@
-import { createBrowserRouter } from 'react-router-dom';
-import Home from './pages/Home';
-import NotFound from './pages/NotFound';
-import Layout from './components/Layout';
-import Feedback from './pages/Feedback';
-import TimeCapsule from './pages/TimeCapsule';
-import Guide from './pages/Guide/Guide';
-import TimeTable from './pages/TimeTable';
-import Booth from './pages/Booth/Booth';
-import MyPage from './pages/Mypage/MyPage';
-import Favorites from './pages/Mypage/Favorites';
-import Announcement from './pages/Mypage/Announcement';
-import Affiliation from './pages/Mypage/Affiliation';
-import GuideDetail from './pages/Guide/GuideDetail';
-import Contents from './pages/Contents/Contents';
-import ContentsDetail from './pages/Contents/ContentsDetail';
+import { createBrowserRouter } from "react-router-dom";
+import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
+import Layout from "./components/Layout";
+import Feedback from "./pages/Feedback";
+import TimeCapsule from "./pages/TimeCapsule";
+import Guide from "./pages/Guide/Guide";
+import TimeTable from "./pages/TimeTable";
+import Booth from "./pages/Booth/Booth";
+import BoothDetail from "./pages/Booth/Details";
+import BoothSearch from "./pages/Booth/Search";
+import MyPage from "./pages/Mypage/MyPage";
+import Favorites from "./pages/Mypage/Favorites";
+import Announcement from "./pages/Mypage/Announcement";
+import Affiliation from "./pages/Mypage/Affiliation";
+import GuideDetail from "./pages/Guide/GuideDetail";
+import Contents from "./pages/Contents/Contents";
+import ContentsDetail from "./pages/Contents/ContentsDetail";
 
 const router = createBrowserRouter([
   {
@@ -35,43 +37,51 @@ const router = createBrowserRouter([
         element: <Feedback />,
       },
       {
-        path: '/guide',
+        path: "/guide",
         element: <Guide />,
       },
       {
-        path: '/guide/:id',
+        path: "/guide/:id",
         element: <GuideDetail />,
       },
       {
-        path: '/contents',
+        path: "/contents",
         element: <Contents />,
       },
       {
-        path: '/contents/:id',
+        path: "/contents/:id",
         element: <ContentsDetail />,
       },
       {
-        path: '/booth',
+        path: "/booth",
         element: <Booth />,
       },
       {
-        path: '/time-table',
+        path: "/booth/detail",
+        element: <BoothDetail />,
+      },
+      {
+        path: "/booth/search",
+        element: <BoothSearch />,
+      },
+      {
+        path: "/time-table",
         element: <TimeTable />,
       },
       {
-        path: '/my-page',
+        path: "/my-page",
         element: <MyPage />,
       },
       {
-        path: '/my-page/favorites',
+        path: "/my-page/favorites",
         element: <Favorites />,
       },
       {
-        path: '/my-page/favorites/announcement',
+        path: "/my-page/favorites/announcement",
         element: <Announcement />,
       },
       {
-        path: '/my-page/favorites/affiliate',
+        path: "/my-page/favorites/affiliate",
         element: <Affiliation />,
       },
     ],

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import time from "@/../public/assets/svgs/time.svg";
+import time from "@/../public/assets/svgs/time_black.svg";
 import location from "@/../public/assets/svgs/location_black.svg";
 import { boothsList } from "@/api/booth"; // API 호출 함수
 
 interface BoothCardsProps {
   selectedCategories: string[];
-  selectedDate: number | null;  // 임시데이터가 실제 날짜에 맞지 않아서 일단 로직 생성X
+  selectedDate: number | null; // 임시데이터가 실제 날짜에 맞지 않아서 일단 로직 생성X
 }
 
 interface Booth {
@@ -43,11 +43,17 @@ const BoothCards: React.FC<BoothCardsProps> = ({ selectedCategories }) => {
 
     // 필터링된 카테고리 값 추출
     const categories = selectedCategories
-      .filter((category) => categoryMapping[category as keyof typeof categoryMapping])
-      .map((category) => categoryMapping[category as keyof typeof categoryMapping]);
+      .filter(
+        (category) => categoryMapping[category as keyof typeof categoryMapping]
+      )
+      .map(
+        (category) => categoryMapping[category as keyof typeof categoryMapping]
+      );
 
     const periods = selectedCategories
-      .filter((category) => periodMapping[category as keyof typeof periodMapping])
+      .filter(
+        (category) => periodMapping[category as keyof typeof periodMapping]
+      )
       .map((category) => periodMapping[category as keyof typeof periodMapping]);
 
     // 쿼리스트링 생성
@@ -108,7 +114,8 @@ const BoothCards: React.FC<BoothCardsProps> = ({ selectedCategories }) => {
                 </div>
                 <img src={time} className="w-[7%]" alt="time" />
                 <div className="text-black font-normal font-['NanumSquare Neo']">
-                  {booth.start_date} ~ {booth.end_date}, {booth.start_time} ~ {booth.end_time}
+                  {booth.start_date} ~ {booth.end_date}, {booth.start_time} ~{" "}
+                  {booth.end_time}
                 </div>
               </div>
             </CardContent>

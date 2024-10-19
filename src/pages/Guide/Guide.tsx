@@ -1,45 +1,45 @@
-import { useState } from 'react';
-import favorites from '@/../public/assets/svgs/favorites.svg';
-import bookmark from '@/../public/assets/svgs/bookmark.svg';
-import love from '@/../public/svgs/love.svg';
+import { useState } from "react";
+import favorites from "@/../public/assets/svgs/favorites.svg";
+import bookmark from "@/../public/assets/svgs/bookmark_empty.svg";
+import love from "@/../public/svgs/love.svg";
 
-import backGate from '@/../public/images/back-gate.png';
-import square from '@/../public/images/518-square.png';
-import stadium from '@/../public/images/stadium.png';
+import backGate from "@/../public/images/back-gate.png";
+import square from "@/../public/images/518-square.png";
+import stadium from "@/../public/images/stadium.png";
 
-import { useNavigate } from 'react-router-dom';
-import GuideCarousel from '@/components/guide/GuideCarousel';
-import { useQuery } from '@tanstack/react-query';
-import { getZones, getPartners } from '@/api/guide';
-import { formatDateToYYYYMMDD } from '@/utils/dateStr';
-import useBookmark from '@/hook/useBookmark';
+import { useNavigate } from "react-router-dom";
+import GuideCarousel from "@/components/guide/GuideCarousel";
+import { useQuery } from "@tanstack/react-query";
+import { getZones, getPartners } from "@/api/guide";
+import { formatDateToYYYYMMDD } from "@/utils/dateStr";
+import useBookmark from "@/hook/useBookmark";
 
 export default function Guide() {
   const [clicked, setClicked] = useState(true);
   const [curIndex, setCurIndex] = useState(1);
 
-  console.log('curIndex', curIndex);
+  console.log("curIndex", curIndex);
 
   const navigate = useNavigate();
   const clickedStyle =
-    'text-xl text-[#0F0] border-b-2 border-[#0F0] h-12 px-2 flex justify-center items-center';
+    "text-xl text-[#0F0] border-b-2 border-[#0F0] h-12 px-2 flex justify-center items-center";
   const defaultStyle =
-    'text-xl text-white h-12 px-2 flex justify-center items-center';
+    "text-xl text-white h-12 px-2 flex justify-center items-center";
 
   const handleIndex = (index: any) => {
     setCurIndex(index);
   };
 
   const { data } = useQuery({
-    queryKey: ['guide', clicked],
+    queryKey: ["guide", clicked],
     queryFn: async () => {
-      if (clicked) return await getZones('');
+      if (clicked) return await getZones("");
       if (!clicked) return await getPartners();
     },
   });
 
   const mapInfo = useQuery({
-    queryKey: ['maps', curIndex],
+    queryKey: ["maps", curIndex],
     queryFn: () => getZones(curIndex.toString()),
   });
 
@@ -108,7 +108,7 @@ export default function Guide() {
               <div className="px-3" key={item.id}>
                 <div
                   className={`gap-3 flex justify-start px-2 py-3 border-b border-[#0F0] ${
-                    index === mapInfo.data?.data.length - 1 ? 'border-b-0' : ''
+                    index === mapInfo.data?.data.length - 1 ? "border-b-0" : ""
                   }`}
                 >
                   <div>

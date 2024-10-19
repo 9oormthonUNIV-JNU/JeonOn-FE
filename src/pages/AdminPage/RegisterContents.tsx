@@ -3,6 +3,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import photo from '@/../public/assets/svgs/photo.svg';
 import { useRef, useState } from 'react';
+import { postContents } from '@/api/admin';
 
 export default function RegisterContents() {
   const [title, setTitle] = useState('');
@@ -10,20 +11,32 @@ export default function RegisterContents() {
 
   const imgRef2 = useRef<HTMLInputElement>(null);
 
-  const formData = new FormData();
-  const imgs = imgRef2.current?.files;
-
-  if (imgs)
-    if (imgs.length == 0) {
-      // 파일이 없는 경우, FormData에 빈 문자열을 추가합니다.
-      formData.append('image', '');
-    } else {
-      formData.append('image', imgs[0]);
-    }
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(2);
+    const formData = new FormData();
+    const imgs = imgRef2.current?.files;
+    if (imgs) {
+      for (let i = 0; i < Math.min(3, imgs.length); i++) {
+        formData.append('images', imgs[i]);
+      }
+    } else {
+      // 파일이 없는 경우
+      formData.append('images', '');
+    }
+    const requestObject = { title, description: detail };
+    // requestObject를 JSON 문자열로 변환하여 Blob 객체로 만듭니다.
+    const requestBlob = new Blob([JSON.stringify(requestObject)], {
+      type: 'application/json',
+    });
+
+    formData.append('request', requestBlob);
+
+    try {
+      const result = await postContents(formData);
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <div className="w-screen h-screen flex flex-col">

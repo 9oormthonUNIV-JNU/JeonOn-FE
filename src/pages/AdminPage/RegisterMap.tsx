@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
+import postMap from "@/api/map";
 
 const RegisterMap = () => {
   const [location, setLocation] = useState<string>("");
@@ -26,20 +27,18 @@ const RegisterMap = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("location", location);
-    formData.append("title", title);
-    formData.append("description", description);
+    const data = {
+      name: title,
+      location,
+      description,
+    };
 
-    /*
     try {
-      const result = await API;
-      console.log(result);
-      setOpenModal(true); 
+      await postMap(data);
+      setOpenModal(true);
     } catch (error) {
-      console.error(error);
+      console.error("Map registration failed", error);
     }
-    */
   };
 
   return (

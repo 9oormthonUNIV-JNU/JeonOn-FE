@@ -27,7 +27,6 @@ const RegisterMap = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // API 명세 수정 시 변경 필요
     const data = {
       name: title,
       location,

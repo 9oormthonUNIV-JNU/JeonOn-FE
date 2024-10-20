@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,6 +24,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import SignInModal from '@/components/common/Modal/SignInModal';
+import { isLoggedIn } from '@/api/login';
 
 export default function Feedback() {
   const [title, setTitle] = useState('');
@@ -31,37 +33,49 @@ export default function Feedback() {
   const [detail, setDetail] = useState('');
 
   const [openModal, setOpenModal] = useState(false);
+  const [activeModal, setActiveModal] = useState(true);
 
   const imgRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    const isUserLoggedIn = isLoggedIn();
+    console.log(isUserLoggedIn);
+    if (isUserLoggedIn || isUserLoggedIn === undefined) {
+      setActiveModal(false);
+    } else {
+      setActiveModal(true);
+    }
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const img = imgRef.current?.files?.[0];
-    console.log(img);
-    const formData = new FormData();
-    
-    formData.append('title', title);
-    formData.append('category', feedbackType);
-    formData.append('detail', detail);
-    // 이미지가 있는 경우에만 추가
-    if (img) {
-      formData.append('image', img);
+    //로그인 안했으면 모달창 띄우기
+    const isUserLoggedIn = isLoggedIn();
+    if (!isUserLoggedIn || undefined) {
+      setActiveModal(true);
+      return;
     }
+    const formData = new FormData();
+    const imgs = imgRef.current?.files;
+    if (imgs)
+      if (imgs.length == 0) {
+        // 파일이 없는 경우, FormData에 빈 문자열을 추가합니다.
+        formData.append('image', '');
+      } else {
+        formData.append('image', imgs[0]);
+      }
 
-    // const config = {
-    //   headers: {
-    //     // Authorization: ...,  // 토큰 넣어주기
-    //     'Content-Type': 'multipart/form-data',  // 데이터 형식 지정
-    //   },
-    // };
+    const requestObject = { title, category: feedbackType, content: detail };
+    // requestObject를 JSON 문자열로 변환하여 Blob 객체로 만듭니다.
+    const requestBlob = new Blob([JSON.stringify(requestObject)], {
+      type: 'application/json',
+    });
+
+    formData.append('request', requestBlob);
+
     try {
       const result = await postFeedback(formData);
       console.log(result);
-      // formData.append('image', );
-      // if(result.status===200){
-
-      // }
       setOpenModal((v) => !v);
     } catch (error) {
       console.error(error);
@@ -71,7 +85,9 @@ export default function Feedback() {
   return (
     <div className="h-screen px-12">
       <div className="flex flex-col justify-center items-center mb-9">
-        <h1 className="text-main text-3xl font-bold mb-1">피드백</h1>
+        <h1 className="text-main text-3xl font-bold mb-1 font-cafe24">
+          피드백
+        </h1>
         <h3 className="text-white text-xl">피드백 작성</h3>
       </div>
       <form onSubmit={handleSubmit}>
@@ -141,9 +157,9 @@ export default function Feedback() {
                 <SelectValue placeholder="유형" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="light">축준위</SelectItem>
-                <SelectItem value="dark">전대미문-축제</SelectItem>
-                <SelectItem value="system">앱</SelectItem>
+                <SelectItem value="festival-committee">축준위</SelectItem>
+                <SelectItem value="jnu-festival">전대미문-축제</SelectItem>
+                <SelectItem value="festival-site">앱</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -172,6 +188,7 @@ export default function Feedback() {
             </div>
             <div className="relative">
               <Input
+                multiple
                 id="photo"
                 type="file"
                 accept="image/*"
@@ -211,6 +228,11 @@ export default function Feedback() {
           </DialogHeader>
         </DialogContent>
       </Dialog>
+      {/* 로그인 모달 */}
+      <SignInModal
+        isOpen={activeModal}
+        setIsOpen={() => setActiveModal(false)}
+      />
     </div>
   );
 }

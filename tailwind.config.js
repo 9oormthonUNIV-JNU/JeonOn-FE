@@ -12,7 +12,7 @@ export default {
     extend: {
       backgroundColor: {
         "main-guide": "rgba(81, 251, 86, 0.08)",
-        "list-box": "rgba(0, 255, 0, 0.10);",
+        "list-box": "rgba(0, 255, 0, 0.10)",
         map: "rgba(0, 255, 0, 0.23)",
       },
       backgroundImage: {
@@ -28,7 +28,6 @@ export default {
         main: "#0F0",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",

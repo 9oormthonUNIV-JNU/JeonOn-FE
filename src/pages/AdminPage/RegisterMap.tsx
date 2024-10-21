@@ -65,10 +65,9 @@ const RegisterMap = () => {
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="font-pretendard text-black text-sm">
-              <SelectItem value="전체">전체</SelectItem>
-              <SelectItem value="공연장">공연장</SelectItem>
-              <SelectItem value="518 광장">518 광장</SelectItem>
-              <SelectItem value="후문 거리">후문 거리</SelectItem>
+              <SelectItem value="후문">후문</SelectItem>
+              <SelectItem value="봉지">봉지</SelectItem>
+              <SelectItem value="대운동장">대운동장</SelectItem>
             </SelectContent>
           </Select>
         </div>

@@ -12,11 +12,11 @@ import MyPage from "./pages/Mypage/MyPage";
 import Favorites from "./pages/Mypage/Favorites";
 import Announcement from "./pages/Mypage/Announcement";
 import Affiliation from "./pages/Mypage/Affiliation";
-import AdminMenu from "./pages/AdminPage/AdminMenu";
 import RegisterAffiliate from "./pages/AdminPage/RegisterAffilate";
 import RegisterMap from "./pages/AdminPage/RegisterMap";
 import Contents from "./pages/Contents/Contents";
 import ContentsDetail from "./pages/Contents/ContentsDetail";
+import ViewFeedback from "./pages/AdminPage/ViewFeedback";
 
 const router = createBrowserRouter([
   {
@@ -78,16 +78,16 @@ const router = createBrowserRouter([
         element: <Affiliation />,
       },
       {
-        path: "/admin-page/admin-menu",
-        element: <AdminMenu />,
-      },
-      {
         path: "/admin-page/register-map",
         element: <RegisterMap />,
       },
       {
         path: "/admin-page/register-affiliate",
         element: <RegisterAffiliate />,
+      },
+      {
+        path: "/admin-page/view-feedback",
+        element: <ViewFeedback />,
       },
     ],
   },

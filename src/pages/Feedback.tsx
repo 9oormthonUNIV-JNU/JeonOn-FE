@@ -65,9 +65,7 @@ export default function Feedback() {
         formData.append('image', imgs[0]);
       }
 
-    const category = 'jnu-festival';
-
-    const requestObject = { title, category, content: detail };
+    const requestObject = { title, category: feedbackType, content: detail };
     // requestObject를 JSON 문자열로 변환하여 Blob 객체로 만듭니다.
     const requestBlob = new Blob([JSON.stringify(requestObject)], {
       type: 'application/json',
@@ -87,7 +85,9 @@ export default function Feedback() {
   return (
     <div className="h-screen px-12">
       <div className="flex flex-col justify-center items-center mb-9">
-        <h1 className="text-main text-3xl font-bold mb-1">피드백</h1>
+        <h1 className="text-main text-3xl font-bold mb-1 font-cafe24">
+          피드백
+        </h1>
         <h3 className="text-white text-xl">피드백 작성</h3>
       </div>
       <form onSubmit={handleSubmit}>
@@ -188,6 +188,7 @@ export default function Feedback() {
             </div>
             <div className="relative">
               <Input
+                multiple
                 id="photo"
                 type="file"
                 accept="image/*"

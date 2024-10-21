@@ -1,39 +1,41 @@
-import { createBrowserRouter } from "react-router-dom";
-import Home from "./pages/Home";
-import NotFound from "./pages/NotFound";
-import Layout from "./components/Layout";
-import Feedback from "./pages/Feedback";
-import TimeCapsule from "./pages/TimeCapsule";
-import Guide from "./pages/Guide/Guide";
-import TimeTable from "./pages/TimeTable";
-import Booth from "./pages/Booth/Booth";
-import BoothDetail from "./pages/Booth/BoothDetails";
-import BoothSearch from "./pages/Booth/BoothSearch";
-import MyPage from "./pages/Mypage/MyPage";
-import Favorites from "./pages/Mypage/Favorites";
-import Announcement from "./pages/Mypage/Announcement";
-import Affiliation from "./pages/Mypage/Affiliation";
-import GuideDetail from "./pages/Guide/GuideDetail";
-import Contents from "./pages/Contents/Contents";
-import ContentsDetail from "./pages/Contents/ContentsDetail";
+import { createBrowserRouter } from 'react-router-dom';
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
+import Layout from './components/Layout';
+import Feedback from './pages/Feedback';
+import TimeCapsule from './pages/TimeCapsule';
+import Guide from './pages/Guide/Guide';
+import TimeTable from './pages/TimeTable';
+import Booth from './pages/Booth/Booth';
+import BoothDetail from './pages/Booth/BoothDetails';
+import BoothSearch from './pages/Booth/BoothSearch';
+import MyPage from './pages/Mypage/MyPage';
+import Favorites from './pages/Mypage/Favorites';
+import MyContents from './pages/Mypage/Contents';
+import Affiliation from './pages/Mypage/Affiliation';
+import GuideDetail from './pages/Guide/GuideDetail';
+import Contents from './pages/Contents/Contents';
+import ContentsDetail from './pages/Contents/ContentsDetail';
+import MyBooth from './pages/Mypage/MyBooth';
+import RegisterContents from './pages/AdminPage/RegisterContents';
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    id: "root",
+    path: '/',
+    id: 'root',
     errorElement: <NotFound />,
     element: <Layout />,
     children: [
       {
-        path: "",
+        path: '',
         element: <Home />,
       },
       {
-        path: "/time-capsule",
+        path: '/time-capsule',
         element: <TimeCapsule />,
       },
       {
-        path: "/feedback",
+        path: '/feedback',
         element: <Feedback />,
       },
       {
@@ -77,12 +79,20 @@ const router = createBrowserRouter([
         element: <Favorites />,
       },
       {
-        path: "/my-page/favorites/announcement",
-        element: <Announcement />,
+        path: '/my-page/favorites/announcement',
+        element: <MyContents />,
       },
       {
         path: "/my-page/favorites/affiliate",
         element: <Affiliation />,
+      },
+      {
+        path: '/my-page/favorites/booth',
+        element: <MyBooth />,
+      },
+      {
+        path: '/admin-page/register-contents',
+        element: <RegisterContents />,
       },
     ],
   },

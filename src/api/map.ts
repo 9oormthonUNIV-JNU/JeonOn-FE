@@ -13,7 +13,7 @@ export default async function postMap(data: MapData) {
         const requestBlob = new Blob([JSON.stringify(data)], { type: "application/json" });
         formData.append("request", requestBlob);
 
-        const result = await api.post("/admins/zones", formData,
+        const result = await api.post("admins/zones", formData,
            { headers: { 'Content-Type': 'multipart/form-data' }},
         );   
 

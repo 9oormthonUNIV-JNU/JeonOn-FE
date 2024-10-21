@@ -12,7 +12,6 @@ import MyPage from "./pages/Mypage/MyPage";
 import Favorites from "./pages/Mypage/Favorites";
 import Announcement from "./pages/Mypage/Announcement";
 import Affiliation from "./pages/Mypage/Affiliation";
-import AdminMenu from "./pages/AdminPage/AdminMenu";
 import RegisterAffiliate from "./pages/AdminPage/RegisterAffilate";
 import RegisterMap from "./pages/AdminPage/RegisterMap";
 import Contents from "./pages/Contents/Contents";
@@ -77,10 +76,6 @@ const router = createBrowserRouter([
       {
         path: "/my-page/favorites/affiliate",
         element: <Affiliation />,
-      },
-      {
-        path: "/admin-page/admin-menu",
-        element: <AdminMenu />,
       },
       {
         path: "/admin-page/register-map",

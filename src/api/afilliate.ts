@@ -29,7 +29,7 @@ export default async function postAffiliate(data: AffiliateData) {
             formData.append(`images[${index}]`, image);
         });
 
-        const result = await api.post("/admins/partners", formData, {
+        const result = await api.post("admins/partners", formData, {
             headers: {"Content-Type": "multipart/form-data"},
         });
 

@@ -1,5 +1,5 @@
 import jar_empty from "@/../public/images/jar_empty.png";
-import cancel from "@/../public/assets/svgs/cancel.svg";
+import cancel from "@/../public/assets/svgs/cancel-white.svg";
 import { useState, useEffect } from "react";
 import { getPublicTimeCapsules, deleteTimeCapsule } from "@/api/timecapsule";
 import { isLoggedIn } from "@/api/login";
@@ -96,11 +96,7 @@ export default function TimeCapsule() {
       </div>
 
       <div className="px-8 bg-black text-white flex items-center text-[10px] font-['NanumSquare Neo'] whitespace-nowrap">
-        <img
-          src={cancel}
-          alt="cancel"
-          className="mr-1 filter brightness-0 invert"
-        />
+        <img src={cancel} alt="cancel" className="mr-1" />
         <p>비방, 욕설 등 부적절한 글은 작성이 제한되며, 삭제될 수 있습니다.</p>
       </div>
 

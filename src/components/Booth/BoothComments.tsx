@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Input } from "@/components/ui/input";
-import { boothComments } from "@/api/booth"; // boothComments 함수 가져오기
+import deleteIcon from "@/../public/assets/svgs/delete_white.svg";
+import { boothComments, deleteComment } from "@/api/booth"; // boothComments 및 deleteComment 함수 가져오기
 
 // 댓글 데이터 타입 정의
 interface Comment {
@@ -11,11 +11,16 @@ interface Comment {
   created_at: string;
 }
 
-const BoothComments: React.FC = () => {
+interface BoothCommentsProps {
+  commentsUpdated: boolean; // 댓글이 갱신되었는지 여부
+  nickname?: string | null;
+}
+
+const BoothComments: React.FC<BoothCommentsProps> = ({ commentsUpdated, nickname }) => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [searchParams] = useSearchParams(); // searchParams 사용
-  const boothId = searchParams.get("boothId"); // boothId 추출
+  const [searchParams] = useSearchParams();
+  const boothId = searchParams.get("boothId");
 
   // 댓글 목록을 불러오는 함수
   const fetchComments = async () => {
@@ -33,22 +38,43 @@ const BoothComments: React.FC = () => {
     }
   };
 
+  // 댓글 삭제
+  const handleDeleteComment = async (commentId: number) => {
+    if (boothId) {
+      try {
+        const response = await deleteComment(Number(boothId), commentId); // 삭제 요청
+        if (response.data.success) {
+          // 삭제 성공 시 상태 갱신
+          setComments((prevComments) =>
+            prevComments.filter((comment) => comment.id !== commentId)
+          );
+          alert("댓글이 삭제되었습니다.");
+        } else {
+          alert("댓글 삭제에 실패했습니다.");
+        }
+      } catch (error) {
+        console.error("댓글 삭제 중 오류가 발생했습니다:", error);
+        alert("댓글 삭제 중 오류가 발생했습니다.");
+      }
+    }
+  };
+
   // 날짜 포맷팅 함수
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
+    return date.toLocaleDateString("ko-KR", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
   // 컴포넌트가 마운트될 때 API 호출
   useEffect(() => {
     fetchComments();
-  }, [boothId]); // boothId가 변경될 때마다 다시 호출, 새로운 댓글이 작성되면 다시 호출
+  }, [boothId, commentsUpdated]); // boothId나 commentsUpdated가 변경될 때마다 다시 호출
 
   if (loading) {
     return <div className="text-white">댓글을 불러오는 중...</div>;
@@ -59,29 +85,38 @@ const BoothComments: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col items-center space-y-4">
+    <div className="flex flex-col items-center space-y-4 w-full max-w-[800px] px-4">
       {comments.map((comment) => (
         <div
           key={comment.id}
-          className="w-[339px] h-[50px] relative rounded-[15px] border border-white"
+          className="relative w-full p-4 rounded-xl border border-white flex flex-col md:flex-row md:items-center"
         >
           {/* 닉네임 */}
-          <div className="w-[37px] h-3.5 absolute left-[21px] top-[7px] text-[#e9e9e9]/90 text-[10px] font-normal font-['Pretendard']">
+          <div className="text-[#e9e9e9]/90 text-[12px] font-normal font-['Pretendard'] md:w-1/4 md:text-left">
             {comment.nickname}
           </div>
 
-          {/* 댓글 시간 */}
-          <div className="w-[42px] h-2.5 absolute left-[278px] top-[34px] text-[#e8e8e8]/90 text-[8px] font-normal font-['Pretendard']">
-            {formatDate(comment.created_at)}
-          </div>
-
           {/* 댓글 내용 */}
-          <div className="w-[229px] h-[17.69px] absolute left-[21px] top-[21.15px] text-white text-xs font-normal font-['Noto Sans KR']">
+          <div className="text-white text-xs font-normal font-['Noto Sans KR'] w-full md:w-2/4 md:text-left mt-2 md:mt-0">
             {comment.content}
           </div>
 
-          {/* 추가적인 아이콘 등을 위한 빈 공간 (필요 시 추가) */}
-          <div className="w-[8.39px] h-[8.83px] absolute left-[320px] top-[7px]"></div>
+          {/* 댓글 시간 */}
+          <div className="absolute right-2 bottom-1 text-[#e8e8e8]/90 text-[1vh] font-normal font-['Pretendard'] md:w-1/4 md:text-right mt-2 md:mt-0">
+            {formatDate(comment.created_at)}
+          </div>
+
+          {/* 삭제 버튼: 현재 로그인된 사용자와 댓글 작성자의 닉네임이 같을 때만 렌더링 */}
+          {comment.nickname === nickname && (
+            <div className="absolute right-2 top-1 text-[#e8e8e8]/90 text-[1vh] font-normal font-['Pretendard'] md:w-1/4 md:text-right mt-2 md:mt-0">
+              <img
+                src={deleteIcon}
+                alt="delete"
+                onClick={() => handleDeleteComment(comment.id)} // 삭제 버튼 클릭 시 삭제 함수 호출
+                className="cursor-pointer"
+              />
+            </div>
+          )}
         </div>
       ))}
     </div>

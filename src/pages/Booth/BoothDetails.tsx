@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
+import { getProfile } from "@/api/user";
+import { isLoggedIn } from "@/api/login";
 import { useSearchParams } from "react-router-dom";
 import { boothDetail } from "@/api/booth"; // boothDetail API 함수 가져오기
-
+import SignInModal from "@/components/common/Modal/SignInModal";
 import time from "@/../public/assets/svgs/time_white.svg";
 import location from "@/../public/assets/svgs/location_white.svg";
 import BoothComments from "@/components/Booth/BoothComments";
 import NewBoothComment from "@/components/Booth/NewBoothComment";
+
+interface UserProfile {
+  nickname: string;
+}
 
 interface BoothDetailData {
   id: number;
@@ -25,9 +31,12 @@ interface BoothDetailData {
 
 export default function BoothDetail() {
   const [searchParams] = useSearchParams();
-  const boothId = searchParams.get("boothId"); // 쿼리 파라미터에서 boothId 추출
-  const categories = searchParams.get("categories"); // 전달받은 카테고리 추출
+  const boothId = searchParams.get("boothId");
+  const categories = searchParams.get("categories"); // 전달받은 카테고리로 카테고리 렌더링...?
   const [boothData, setBoothData] = useState<BoothDetailData | null>(null); // 부스 데이터 상태
+  const [nickname, setNickname] = useState<string | null>(null); // 사용자 닉네임 상태
+  const [showLoginModal, setShowLoginModal] = useState(false); // 로그인 모달 상태
+  const [commentsUpdated, setCommentsUpdated] = useState(false);
 
   // 부스 상세 데이터를 API로부터 요청
   useEffect(() => {
@@ -35,8 +44,8 @@ export default function BoothDetail() {
       const fetchBoothDetail = async () => {
         try {
           const result = await boothDetail(Number(boothId)); // boothId로 데이터 요청
-          if (result.data && result.data.data) {
-            setBoothData(result.data.data); // 데이터 상태에 저장
+          if (result && result.data) {
+            setBoothData(result.data); // 데이터 상태에 저장
           }
         } catch (error) {
           console.error("Error fetching booth details:", error);
@@ -44,7 +53,39 @@ export default function BoothDetail() {
       };
       fetchBoothDetail();
     }
+
+    // 로그인 여부 체크 및 프로필 정보 가져오기
+    const token = isLoggedIn(); // 로그인 여부 확인
+    if (token) {
+      fetchProfile();
+    }
   }, [boothId]);
+
+  // 사용자 프로필을 가져오는 함수
+  const fetchProfile = async () => {
+    try {
+      const userData = await getProfile();
+      if (userData && userData.nickname) {
+        setNickname(userData.nickname);
+      }
+    } catch (error) {
+      console.error("Error fetching user profile:", error);
+    }
+  };
+
+  // 모달 열기 함수
+  const handleOpenLoginModal = () => {
+    setShowLoginModal(true);
+  };
+
+  const handleLoginSuccess =() => {
+    setShowLoginModal(false);
+    fetchProfile();
+  }
+
+  const handleCommentSubmitted = () => {
+    setCommentsUpdated(!commentsUpdated);
+  };
 
   // 부스 데이터가 없는 경우 로딩 처리
   if (!boothData) {
@@ -53,7 +94,7 @@ export default function BoothDetail() {
 
   // 부스 데이터를 렌더링 (이미지 아래에 정보 일렬로 나열)
   return (
-    <div className="h-screen flex flex-col items-center bg-black p-5">
+    <div className="min-h-screen flex flex-col items-center bg-black p-5">
       <h1 className="mb-4 text-main text-4xl font-cafe24">부스</h1>
       <div className="flex flex-col items-start w-full max-w-[305px]">
         {/* 부스 이미지 */}
@@ -113,32 +154,39 @@ export default function BoothDetail() {
 
         {/* 댓글 분리선 */}
         <div className="w-full my-4">
-          {/* 구분선 */}
           <div className="relative w-full flex items-center">
             {/* 왼쪽 원형 */}
             <div className="w-4 h-4 bg-white rounded-full"></div>
-
             {/* 가로선 */}
             <div className="flex-grow h-[2px] bg-white"></div>
-
             {/* 오른쪽 원형 */}
             <div className="w-4 h-4 bg-white rounded-full"></div>
           </div>
-
           {/* 댓글 텍스트 */}
           <div className="mt-2 text-left">
             <span className="text-white text-[15px] font-normal font-['Pretendard']">
               댓글
             </span>
           </div>
+
+
         </div>
+        
       </div>
-
       {/* 작성된 댓글들 */}
-      <BoothComments />
+      <BoothComments nickname={nickname} commentsUpdated={commentsUpdated}/>
 
-      {/* 새로운 댓글 작성 */}
-      <NewBoothComment />
+      {/* 로그인 여부에 따라 댓글 작성란 처리 */}
+      {isLoggedIn() ? (
+        <NewBoothComment nickname={nickname} onCommentSubmit={handleCommentSubmitted}/>
+      ) : (
+        <NewBoothComment nickname={null} onClick={handleOpenLoginModal} />
+      )}
+      
+
+      {showLoginModal && (
+        <SignInModal isOpen={showLoginModal} setIsOpen={setShowLoginModal} onLoginSuccess={handleLoginSuccess}/>
+      )}
     </div>
   );
 }

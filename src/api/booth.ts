@@ -2,17 +2,45 @@ import { api } from "@/utils/customAxios";
 
 export async function boothsList(queryString: string = "") {
   const result = await api.get(`booths${queryString}`);
-  return result;
+  return result.data;
 }
 
 export async function boothDetail(boothId: number) {
   const result = await api.get(`booths/${boothId}`);
-  return result;
+  return result.data;
 }
 
 export async function boothComments(boothId: number){
   const result = await api.get(`booths/${boothId}/comments`);
-  return result;
+  return result.data;
+}
+
+export async function addBoothComment(boothId: number, content: string) {
+  try {
+    const requestBody = {
+      content: content,
+    };
+    const response = await api.post(`/booths/${boothId}/comments`, requestBody);
+    return response;
+  } catch (error) {
+    console.error("Error adding comment:", error);
+
+    // 요청 실패 시의 response body 구조
+    return {
+      success: false,
+      data: null,
+      error: error.message || "Unknown error occurred",
+    };
+  }
+}
+
+export async function deleteComment(boothId: number, commentId: number){
+  try{
+    const response = await api.delete(`booths/${boothId}/comments/${commentId}`);
+    return response;
+  } catch (error: any) {
+    console.error("댓글을 삭제할 수 없습니다 : ", error);
+  }
 }
 
 export async function favoritesBooths() {

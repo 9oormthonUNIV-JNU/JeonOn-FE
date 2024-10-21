@@ -76,7 +76,7 @@ const BoothCards: React.FC<BoothCardsProps> = ({ selectedCategories, onCardSelec
       try {
         const queryString = createQueryString();
         const result = await boothsList(queryString); // 생성된 쿼리스트링을 기반으로 API 요청
-        const boothData: Booth[] = result.data.data;
+        const boothData: Booth[] = result.data;
         setBooths(boothData);
       } catch (error) {
         console.error("Error fetching booths:", error);

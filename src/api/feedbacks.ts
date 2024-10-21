@@ -2,7 +2,7 @@ import { api } from "@/utils/customAxios";
 
 type FeedbackIdType = number;
 
-export async function getFeedbackList(categoryQuery: string) {
+export async function getFeedbackList(categoryQuery: string = "") {
   const result = await api.get(`admins/feedbacks?category=${categoryQuery}`);
   
   return result.data.feedbacks;

@@ -162,21 +162,24 @@ const ViewFeedback = () => {
           ))}
         </div>
         <div className="flex flex-col gap-2">
-          {feedbacks.map((feedback) => (
-            <FeedbackItem
-              key={feedback.id}
-              feedback={feedback}
-              isSelected={selectedFeedbackId === feedback.id}
-              detail={
-                selectedFeedbackId === feedback.id ? selectedDetail : undefined
-              }
-              onClick={() =>
-                setSelectedFeedbackId((prev) =>
-                  prev === feedback.id ? null : feedback.id
-                )
-              }
-            />
-          ))}
+          {feedbacks?.length > 0 &&
+            feedbacks.map((feedback) => (
+              <FeedbackItem
+                key={feedback.id}
+                feedback={feedback}
+                isSelected={selectedFeedbackId === feedback.id}
+                detail={
+                  selectedFeedbackId === feedback.id
+                    ? selectedDetail
+                    : undefined
+                }
+                onClick={() =>
+                  setSelectedFeedbackId((prev) =>
+                    prev === feedback.id ? null : feedback.id
+                  )
+                }
+              />
+            ))}
         </div>
       </div>
     </div>

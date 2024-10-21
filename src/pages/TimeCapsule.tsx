@@ -104,7 +104,7 @@ export default function TimeCapsule() {
         <p>비방, 욕설 등 부적절한 글은 작성이 제한되며, 삭제될 수 있습니다.</p>
       </div>
 
-      {/* 공개된 타임캡슐 목록 */}
+      {/* 공개된 타임캡슐 목록 -> 컴포넌트 내부에서 하나하나 렌더링할 수 있게 수정 */}
       {capsules.length > 0 ? (
         <div className="mt-10 max-w-lg w-full bg-black text-white flex flex-col mb-10 space-y-5">
           {capsules.map((capsule, index) => (

@@ -15,10 +15,9 @@ const feedbackOptions: FeedbackOptionType[] = [
 
 type FeedbackType = {
   id: number;
-  category: string;
   nickname: string;
   title: string;
-  createdAt: string;
+  created_at: string;
 };
 
 type FeedbackDetailType = {
@@ -62,7 +61,7 @@ const FeedbackItem: React.FC<{
             <div className="text-xs">{feedback.nickname}</div>
             {!isSelected && (
               <div className="text-xs text-[#5C5C5CDE]">
-                {formatDate(feedback.createdAt)}
+                {formatDate(feedback.created_at)}
               </div>
             )}
           </div>
@@ -70,7 +69,7 @@ const FeedbackItem: React.FC<{
       </div>
 
       {isSelected && detail && (
-        <div className="flex flex-col px-2 mt-2">
+        <div className="flex flex-col px-2 mt-2 gap-2">
           <div
             key={detail.id}
             className="flex flex-row bg-white border border-black rounded-xl p-3 text-xs"
@@ -92,7 +91,7 @@ const FeedbackItem: React.FC<{
 
       {isSelected && (
         <div className="mt-auto flex justify-end text-xs text-[#5C5C5CDE]">
-          {formatDate(feedback.createdAt)}
+          {formatDate(feedback.created_at)}
         </div>
       )}
     </div>
@@ -114,7 +113,8 @@ const ViewFeedback = () => {
     async function fetchFeedbacks() {
       try {
         const feedbackList = await getFeedbackList(selectedCategory);
-        setFeedbacks(feedbackList);
+        const sortedFeedbacks = feedbackList.sort((b, a) => a.id - b.id);
+        setFeedbacks(sortedFeedbacks);
       } catch (error) {
         console.error("Failed to fetch feedback list", error);
       }

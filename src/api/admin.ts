@@ -13,3 +13,9 @@ export async function deleteContents(contentId: any) {
   const result = await api.delete(`/admins/contents/${contentId}`);
   return result;
 }
+
+//제휴업체 삭제 api
+export async function deletePartners(partnerId: any) {
+  const result = await api.delete(`/admins/partners/${partnerId}`);
+  return result;
+}

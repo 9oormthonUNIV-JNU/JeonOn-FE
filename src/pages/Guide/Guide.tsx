@@ -2,6 +2,7 @@ import { useState } from 'react';
 import favorites from '@/../public/assets/svgs/favorites.svg';
 import bookmark from '@/../public/assets/svgs/bookmark.svg';
 import love from '@/../public/svgs/love.svg';
+import trashCan from '@/../public/svgs/delete.svg';
 
 import backGate from '@/../public/images/back-gate.png';
 import square from '@/../public/images/518-square.png';
@@ -12,11 +13,20 @@ import GuideCarousel from '@/components/guide/GuideCarousel';
 import { useQuery } from '@tanstack/react-query';
 import { getZones, getPartners } from '@/api/guide';
 import { formatDateToYYYYMMDD } from '@/utils/dateStr';
-import useBookmark from '@/hook/useBookmark';
+// import useBookmark from '@/hook/useBookmark';
+// import { checkAdminToken } from '@/utils/tokenHandler';
+import RegisterButton from '@/components/admin/registerButton';
+import { checkAdminToken } from '@/utils/tokenHandler';
+import DeleteModal from '@/components/common/Modal/DeleteModal';
+import { deletePartners } from '@/api/admin';
 
 export default function Guide() {
   const [clicked, setClicked] = useState(true);
   const [curIndex, setCurIndex] = useState(1);
+
+  // 모달 상태와 선택된 아이템 ID 상태 관리
+  const [open, setOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
 
   console.log('curIndex', curIndex);
 
@@ -43,12 +53,18 @@ export default function Guide() {
     queryFn: () => getZones(curIndex.toString()),
   });
 
+  const handleDeleteClick = (id: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSelectedId(id);
+    setOpen(true);
+  };
+
   console.log(data);
 
   const images = [backGate, square, stadium];
 
   return (
-    <div className="h-screen overflow-hidden">
+    <div className="h-screen overflow-x-hidden">
       <h1 className="text-[#0F0] text-[35px] text-center font-bold mb-3 font-cafe24">
         안내
       </h1>
@@ -67,36 +83,44 @@ export default function Guide() {
         </div>
       </div>
       {!clicked ? (
-        <div className="flex flex-col justify-center items-center gap-5 px-5">
-          {data?.data.map((item: any) => (
-            <div
-              key={item.id}
-              id={item.id}
-              className="w-full h-24 bg-list-box rounded-2xl px-5 py-3 border border-[#0F0]"
-              onClick={(e) => navigate(`/guide/${e.currentTarget.id}`)}
-            >
-              <div className="flex justify-between items-start">
-                <h3 className="text-xl text-[#0F0]">{item.name}</h3>
+        <div>
+          <RegisterButton path={'affiliate'} />
+          <div className="flex flex-col justify-center items-center gap-5 px-5 mb-10">
+            {data?.data.map((item: any) => (
+              <div
+                key={item.id}
+                id={item.id}
+                className="w-full h-24 bg-list-box rounded-2xl px-5 py-3 border border-[#0F0]"
+                onClick={(e) => navigate(`/guide/${e.currentTarget.id}`)}
+              >
+                <div className="flex justify-between items-start">
+                  <h3 className="text-xl text-[#0F0]">{item.name}</h3>
+                  <div>
+                    {item?.bookmark ? (
+                      <img src={favorites} alt="favorites" />
+                    ) : (
+                      <img src={bookmark} alt="favorites" />
+                    )}
+                  </div>
+                </div>
                 <div>
-                  {item?.bookmark ? (
-                    <img src={favorites} alt="favorites" />
-                  ) : (
-                    <img src={bookmark} alt="favorites" />
-                  )}
+                  <span className="text-xs font-normal text-white">
+                    {item.description}
+                  </span>
+                </div>
+                <div className="flex justify-end items-center gap-1">
+                  <span className="text-[10px] text-white">
+                    {formatDateToYYYYMMDD(item.created_at)}
+                  </span>
+                  {checkAdminToken() ? (
+                    <div onClick={(e) => handleDeleteClick(item.id, e)}>
+                      <img src={trashCan} alt="delete" />
+                    </div>
+                  ) : null}
                 </div>
               </div>
-              <div>
-                <span className="text-xs font-normal text-white">
-                  {item.description}
-                </span>
-              </div>
-              <div className="flex justify-end items-end">
-                <span className="text-[10px] text-white">
-                  {formatDateToYYYYMMDD(item.created_at)}
-                </span>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       ) : (
         <div className="px-5">
@@ -126,6 +150,15 @@ export default function Guide() {
           </div>
         </div>
       )}
+      {/* 모달 컴포넌트 */}
+      <DeleteModal
+        isOpen={open}
+        id={selectedId}
+        setIsOpen={setOpen}
+        queryKey={'guide'}
+        queryKeyOptions={clicked}
+        deleteFn={deletePartners}
+      />
     </div>
   );
 }

@@ -12,6 +12,7 @@ export default function DeleteModal({
   queryKey,
   id,
   deleteFn,
+  queryKeyOptions = null,
 }) {
   const queryClient = useQueryClient();
   const deleteMutation = useMutation({
@@ -19,14 +20,19 @@ export default function DeleteModal({
       deleteFn(id);
     },
     onSuccess: () => {
+      queryClient.setQueryData(
+        [queryKeyOptions !== null ? [queryKey, queryKeyOptions] : queryKey],
+        (oldData: any) => {
+          if (!oldData) return oldData;
+          return oldData.filter((item: any) => item.id !== id);
+        },
+      );
       setIsOpen(false);
-      queryClient.invalidateQueries({
-        queryKey: [queryKey],
-      });
     },
     onError: (error) => {
       alert(error.message);
     },
+    onSettled: () => {},
   });
 
   const handleDelete = async () => {
@@ -35,15 +41,13 @@ export default function DeleteModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent
-        className="flex flex-col items-center justify-center w-[60%] max-w-[600px] mx-auto rounded-xl"
-        onClick={(e) => e.stopPropagation()}
-      >
+      <DialogContent className="flex flex-col items-center justify-center w-[60%] max-w-[600px] mx-auto rounded-xl">
         <DialogTitle className="text-center text-xs mt-2">
           정말 삭제 하시겠습니까?
         </DialogTitle>
         <DialogDescription>
           <button
+            type="submit"
             className="text-black border border-black px-8 rounded-full text-[10px]"
             onClick={handleDelete}
           >

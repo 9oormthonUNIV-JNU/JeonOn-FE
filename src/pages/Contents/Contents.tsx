@@ -10,6 +10,7 @@ import { checkAdminToken } from '@/utils/tokenHandler';
 import DeleteModal from '@/components/common/Modal/DeleteModal';
 import { useState } from 'react';
 import { deleteContents } from '@/api/admin';
+import RegisterButton from '@/components/admin/registerButton';
 
 type TContent = {
   title: string;
@@ -37,21 +38,14 @@ export default function Contents() {
     setOpen(true);
   };
 
+  console.log(selectedId);
+
   return (
     <div className="h-screen overflow-x-hidden">
       <h1 className="text-[#0F0] text-[35px] text-center font-bold mb-10 font-cafe24">
         콘텐츠
       </h1>
-      {checkAdminToken() ? (
-        <div
-          className="px-5 flex justify-end items-end mb-8"
-          onClick={() => navigate('/admin-page/register-contents')}
-        >
-          <button className="text-main bg-black px-8 py-2 rounded-full border border-main hover:bg-main hover:border-main hover:text-black">
-            등록하기
-          </button>
-        </div>
-      ) : null}
+      <RegisterButton path={'contents'} />
 
       <div className="flex flex-col justify-center items-center gap-5 px-5 mb-10">
         {data?.map((item: TContent) => (

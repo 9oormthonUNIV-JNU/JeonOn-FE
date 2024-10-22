@@ -7,12 +7,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import "react-datepicker/dist/react-datepicker.css";
 import photo from "@/../public/assets/svgs/photo.svg";
 import { Textarea } from "@/components/ui/textarea";
-import postAffiliate from "@/api/afilliate";
 import { useState, useRef } from "react";
 import { CustomDatePicker } from "@/components/common/DatePicker/CustomDatePicker";
+import { postAffiliate } from "@/api/afilliate";
 
 const RegisterAffiliate = () => {
   const [name, setName] = useState<string>("");

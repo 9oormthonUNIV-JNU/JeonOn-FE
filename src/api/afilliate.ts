@@ -9,7 +9,7 @@ type AffiliateData = {
     images?: File[];
 }
 
-export default async function postAffiliate(data: AffiliateData) {
+export async function postAffiliate(data: AffiliateData) {
     try {
         const formData = new FormData();
 
@@ -39,4 +39,9 @@ export default async function postAffiliate(data: AffiliateData) {
         console.error("Affilliate registeration failed: ", error);
         throw error;
     }
+}
+
+export async function deleteAffiliate(affiliateId: number) {
+    const result = await api.delete(`admins/partners/${affiliateId}`)
+    return result;
 }

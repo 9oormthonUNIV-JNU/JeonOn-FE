@@ -6,7 +6,7 @@ import { boothsList } from "@/api/booth"; // API 호출 함수
 
 interface BoothCardsProps {
   selectedCategories: string[];
-  selectedDate: number | null; // 임시데이터가 실제 날짜에 맞지 않아서 일단 로직 생성X
+  selectedDate: number | null;
   onCardSelect: (boothId: number) => void; // 카드 선택 시 호출되는 함수
 }
 
@@ -23,7 +23,7 @@ interface Booth {
   like_count: number;
 }
 
-const BoothCards: React.FC<BoothCardsProps> = ({ selectedCategories, onCardSelect }) => {
+const BoothCards: React.FC<BoothCardsProps> = ({ selectedCategories, selectedDate, onCardSelect }) => {
   const [booths, setBooths] = useState<Booth[]>([]);
 
   // Query string 생성 로직 (위치 필터링은 제외)
@@ -70,13 +70,33 @@ const BoothCards: React.FC<BoothCardsProps> = ({ selectedCategories, onCardSelec
     return queryString;
   };
 
+  // 날짜 비교 함수
+  const isDateInRange = (selectedDay: number, startDate: string, endDate: string): boolean => {
+    const startDay = new Date(startDate).getDate(); // start_date의 일(day) 추출
+    const endDay = new Date(endDate).getDate(); // end_date의 일(day) 추출
+    return selectedDay >= startDay && selectedDay <= endDay;
+  };
+
   // API 호출로 부스 데이터를 받아오는 로직
   useEffect(() => {
     const getBooths = async () => {
       try {
         const queryString = createQueryString();
-        const result = await boothsList(queryString); // 생성된 쿼리스트링을 기반으로 API 요청
-        const boothData: Booth[] = result.data;
+        const result = await boothsList(queryString); // API 요청
+        let boothData: Booth[] = result.data;
+
+        // selectedDate 필터링 적용
+        if (selectedDate) {
+          const selectedDateObj = new Date(selectedDate);
+
+          // selectedDate 필터링 적용
+        if (selectedDate !== null) {
+          boothData = boothData.filter((booth) => {
+            return isDateInRange(selectedDate, booth.start_date, booth.end_date);
+          });
+        }
+        }
+
         setBooths(boothData);
       } catch (error) {
         console.error("Error fetching booths:", error);
@@ -84,7 +104,7 @@ const BoothCards: React.FC<BoothCardsProps> = ({ selectedCategories, onCardSelec
     };
 
     getBooths();
-  }, [selectedCategories]);
+  }, [selectedCategories, selectedDate]);
 
   // 조건에 따라 렌더링
   return (

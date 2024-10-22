@@ -19,21 +19,14 @@ export function getAuthToken() {
 
 export function checkAdminToken() {
   const token = localStorage.getItem('token');
-  if (
-    token !==
-    'eyJhbGciOiJIUzI1NiJ9.eyJuaWNrbmFtZSI6ImFkbWluIiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTcyOTI3MjE1MSwiZXhwIjoxNzI5ODc2OTUxfQ.TTVtY67gKeB0CnUuqKO74BD5jzxpgCTuvi1TMGelXsM'
-  )
-    return null;
+  if (token !== import.meta.env.VITE_ADMIN_TOKEN) return null;
 
   return token;
 }
 
 export function checkAdminLoader() {
   const token = localStorage.getItem('token');
-  if (
-    token !==
-    'eyJhbGciOiJIUzI1NiJ9.eyJuaWNrbmFtZSI6ImFkbWluIiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTcyOTI3MjE1MSwiZXhwIjoxNzI5ODc2OTUxfQ.TTVtY67gKeB0CnUuqKO74BD5jzxpgCTuvi1TMGelXsM'
-  ) {
+  if (token !== import.meta.env.VITE_ADMIN_TOKEN) {
     return redirect('/');
   }
   return null;

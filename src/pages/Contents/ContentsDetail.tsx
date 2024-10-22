@@ -1,7 +1,7 @@
 import bookmark from '@/../public/assets/svgs/guide/bookmark.svg';
 import favorites from '@/../public/assets/svgs/guide/favorites.svg';
 import divideLine from '@/../public/images/divideLine.png';
-import setting from '@/../public/svgs/setting.svg';
+
 import {
   contentsBookmark,
   contentsBookmarkCancel,
@@ -63,7 +63,7 @@ export default function ContentsDetail() {
       </h1>
       <div className="px-6">
         <div className="mb-1 flex justify-between items-center">
-          <h1 className="text-white text-3xl">{data?.title}</h1>
+          <h1 className="text-white text-3xl font-cafe24">{data?.title}</h1>
           <div onClick={toggleBookmark}>
             {like ? (
               <img src={favorites} alt="favorites" />
@@ -83,7 +83,11 @@ export default function ContentsDetail() {
         <div className="mb-4">
           <img src={divideLine} alt="divide-line" />
         </div>
-        <div className="text-white">{data?.description}</div>
+        <div className="text-white">
+          {data?.description?.split('.').map((sentence, index) => (
+            <p key={index}>{sentence.trim()}.</p>
+          ))}
+        </div>
       </div>
     </div>
   );

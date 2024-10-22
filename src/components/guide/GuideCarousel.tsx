@@ -32,11 +32,7 @@ export default function GuideCarousel({ images, handleIndex }: any) {
           ))
         ) : (
           // images가 없을 경우 빈 슬라이드 렌더링
-          <SwiperSlide>
-            <div>
-              <div className="w-full h-80 rounded-3xl mb-5"></div>
-            </div>
-          </SwiperSlide>
+          <SwiperSlide></SwiperSlide>
         )}
       </Swiper>
     </div>

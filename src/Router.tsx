@@ -16,6 +16,7 @@ import Contents from './pages/Contents/Contents';
 import ContentsDetail from './pages/Contents/ContentsDetail';
 import MyBooth from './pages/Mypage/MyBooth';
 import RegisterContents from './pages/AdminPage/RegisterContents';
+import { checkAdminLoader } from './utils/tokenHandler';
 
 const router = createBrowserRouter([
   {
@@ -83,6 +84,7 @@ const router = createBrowserRouter([
       {
         path: '/admin-page/register-contents',
         element: <RegisterContents />,
+        loader: checkAdminLoader,
       },
     ],
   },

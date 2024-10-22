@@ -1,7 +1,5 @@
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { useState, forwardRef, useRef } from "react";
-import DatePicker from "react-datepicker";
 import {
   Dialog,
   DialogClose,
@@ -10,85 +8,11 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import "react-datepicker/dist/react-datepicker.css";
-import "./CustomDatePicker.css";
-import triagle_down from "@/../public/assets/svgs/triangle_down.svg";
 import photo from "@/../public/assets/svgs/photo.svg";
 import { Textarea } from "@/components/ui/textarea";
 import postAffiliate from "@/api/afilliate";
-
-type CustomInputProps = {
-  value?: string;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-};
-
-const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
-  ({ value, onClick }, ref) => (
-    <div className="relative flex items-center">
-      <Input
-        value={value}
-        ref={ref}
-        readOnly
-        className="font-pretendard bg-white text-black text-sm px-2 py-1 border rounded-md"
-      />
-      <button
-        onClick={onClick}
-        className="absolute right-1 top-1/2 transform -translate-y-1/2 bg-white p-1"
-      >
-        <img src={triagle_down} alt="Open calendar" className="w-4 h-4" />
-      </button>
-    </div>
-  )
-);
-
-type CustomDatePickerProps = {
-  selectedDate: Date | null;
-  onChange: (date: Date | null) => void;
-};
-
-const CustomDatePicker = ({
-  selectedDate,
-  onChange,
-}: CustomDatePickerProps) => {
-  return (
-    <DatePicker
-      showPopperArrow={false}
-      selected={selectedDate}
-      onChange={onChange}
-      dateFormat="yyyy-MM-dd"
-      popperPlacement="bottom-start"
-      placeholderText="0000-00-00"
-      portalId="root-portal"
-      customInput={<CustomInput />}
-      renderCustomHeader={({ date, decreaseMonth, increaseMonth }) => (
-        <div className="datepickerHeader flex justify-between items-start  text-white font-bold text-sm mx-3">
-          <span>
-            {date.toLocaleString("en-US", {
-              month: "long",
-              year: "numeric",
-            })}
-          </span>
-          <div className="flex flex-row gap-3">
-            <button onClick={decreaseMonth}>&lt;</button>
-            <button onClick={increaseMonth}>&gt;</button>
-          </div>
-        </div>
-      )}
-      renderDayContents={(day, date) => {
-        const isSelected =
-          selectedDate?.getTime() === date.getTime() &&
-          date.getDate() === selectedDate.getDate() &&
-          date.getMonth() === selectedDate.getMonth() &&
-          date.getFullYear() === selectedDate.getFullYear();
-
-        return (
-          <div className={`${isSelected ? "text-black" : "text-white"}`}>
-            {day}
-          </div>
-        );
-      }}
-    />
-  );
-};
+import { useState, useRef } from "react";
+import { CustomDatePicker } from "@/components/common/DatePicker/CustomDatePicker";
 
 const RegisterAffiliate = () => {
   const [name, setName] = useState<string>("");

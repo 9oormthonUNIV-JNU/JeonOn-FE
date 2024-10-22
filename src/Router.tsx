@@ -17,6 +17,7 @@ import RegisterMap from "./pages/AdminPage/RegisterMap";
 import Contents from "./pages/Contents/Contents";
 import ContentsDetail from "./pages/Contents/ContentsDetail";
 import ViewFeedback from "./pages/AdminPage/ViewFeedback";
+import RegisterBooth from "./pages/AdminPage/RegisterBooth";
 
 const router = createBrowserRouter([
   {
@@ -88,6 +89,10 @@ const router = createBrowserRouter([
       {
         path: "/admin-page/view-feedback",
         element: <ViewFeedback />,
+      },
+      {
+        path: "/admin-page/register-booth",
+        element: <RegisterBooth />,
       },
     ],
   },

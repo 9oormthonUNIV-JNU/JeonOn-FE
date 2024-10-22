@@ -27,11 +27,11 @@ type BoothCategoryType = {
 };
 
 const boothCategory: BoothCategoryType[] = [
-  { type: "음식", category: "" },
-  { type: "체험", category: "" },
-  { type: "플리마켓", category: "" },
-  { type: "홍보", category: "" },
-  { type: "기타", category: "" },
+  { type: "음식", category: "food" },
+  { type: "체험", category: "experience" },
+  { type: "플리마켓", category: "flea-market" },
+  { type: "홍보", category: "promotion" },
+  { type: "기타", category: "etc" },
 ];
 
 type BoothPeriodType = {
@@ -40,9 +40,9 @@ type BoothPeriodType = {
 };
 
 const boothPeriod: BoothPeriodType[] = [
-  { type: "주/야간", period: "" },
-  { type: "주간", period: "" },
-  { type: "야간", period: "" },
+  { type: "주/야간", period: "alltime" },
+  { type: "주간", period: "daytime" },
+  { type: "야간", period: "alltime" },
 ];
 
 const RegisterBooth = () => {

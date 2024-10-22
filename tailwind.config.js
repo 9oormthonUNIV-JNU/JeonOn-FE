@@ -28,7 +28,10 @@ export default {
         main: "#0F0",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",

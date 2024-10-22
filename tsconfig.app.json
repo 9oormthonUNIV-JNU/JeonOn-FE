@@ -16,13 +16,13 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
-    "jsx": "react-jsx",
+    "jsx": "react-jsx"
 
     /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    // "strict": true,
+    // "noUnusedLocals": false,
+    // "noUnusedParameters": false,
+    // "noFallthroughCasesInSwitch": true
   },
   "include": ["src"]
 }

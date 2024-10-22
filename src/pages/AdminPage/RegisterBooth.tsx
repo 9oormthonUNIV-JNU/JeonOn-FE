@@ -202,7 +202,7 @@ const RegisterBooth = () => {
                 const isSelected = selectedCategory === category.type;
                 const categoryClasses = `${
                   isSelected
-                    ? "bg-main text-black border-main"
+                    ? "bg-[#6EFA6E] text-black border-[#6EFA6E]"
                     : "bg-black text-white border-white"
                 } border text-xs w-16 h-7 flex shrink-0`;
                 return (
@@ -218,7 +218,7 @@ const RegisterBooth = () => {
                 const isSelected = selectedPeriod === period.type;
                 const periodClasses = `${
                   isSelected
-                    ? "bg-main text-black border-main"
+                    ? "bg-[#6EFA6E] text-black border-[#6EFA6E]"
                     : "bg-white text-black border-white"
                 } border text-xs w-16 h-7 flex shrink-0`;
                 return (
@@ -234,7 +234,7 @@ const RegisterBooth = () => {
           </div>
           <div className="flex justify-end mt-5 mx-10">
             <button
-              className="relative text-main font-pretendard text-base px-8 py-2  bg-black rounded-full border border-main hover:bg-main hover:border-main hover:text-black"
+              className="relative text-main font-pretendard text-base px-8 py-2 bg-black rounded-full border border-main hover:bg-main hover:border-main hover:text-black"
               type="submit"
             >
               등록하기

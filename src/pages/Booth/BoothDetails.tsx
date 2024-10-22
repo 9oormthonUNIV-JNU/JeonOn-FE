@@ -8,6 +8,7 @@ import time from "@/../public/assets/svgs/time_white.svg";
 import location from "@/../public/assets/svgs/location_white.svg";
 import BoothComments from "@/components/Booth/BoothComments";
 import NewBoothComment from "@/components/Booth/NewBoothComment";
+import BoothCarousel from "@/components/Booth/BoothCarousel";
 
 interface UserProfile {
   nickname: string;
@@ -97,20 +98,19 @@ export default function BoothDetail() {
     <div className="min-h-screen flex flex-col items-center bg-black p-5">
       <h1 className="mb-4 text-main text-4xl font-cafe24">부스</h1>
       <div className="flex flex-col items-start w-full max-w-[305px]">
-        {/* 부스 이미지 */}
+        {/* 부스 이미지 슬라이드 */}
         <div className="w-full max-w-[305px] h-[303px] mb-3 bg-white rounded-[20px] border-2 border-white">
           {boothData.images && boothData.images.length > 0 ? (
-            <img
-              src={boothData.images[0]}
-              alt="Booth"
-              className="w-full h-auto object-contain"
-            />
-          ) : (
-            <img
-              src="https://via.placeholder.com/305x303"
-              alt="booth"
-              className="w-full h-auto object-contain"
-            />
+            <BoothCarousel
+            images={boothData.images} // 부스 이미지 배열만 전달
+            handleIndex={(index) => console.log("Current image index:", index)}
+          />
+        ) : (
+          <img
+            src="https://via.placeholder.com/305x303"
+            alt="booth"
+            className="w-full h-auto object-contain"
+          />
           )}
         </div>
 

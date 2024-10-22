@@ -6,7 +6,7 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
-    "./src/pages/AdminPage/CustomDatePicker.css",
+    "./src/components/common/DatePicker/CustomDatePicker.css",
   ],
   theme: {
     extend: {

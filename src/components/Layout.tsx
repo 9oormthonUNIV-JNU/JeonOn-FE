@@ -1,7 +1,7 @@
 import { Outlet, useNavigate } from 'react-router-dom';
 import Hamburger from './Home/Hamburger';
 import back from '@/../public/assets/svgs/back.svg';
-import searchIcon from '@/../public/assets/svgs/search.svg'; // 검색 아이콘 가져오기
+import searchIcon from '@/../public/assets/svgs/search_green.svg';
 import { useLocation } from 'react-router-dom';
 
 export default function Layout() {

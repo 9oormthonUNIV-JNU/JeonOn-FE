@@ -20,8 +20,8 @@ export async function addBoothComment(boothId: number, content: string) {
     const requestBody = {
       content: content,
     };
-    const response = await api.post(`/booths/${boothId}/comments`, requestBody);
-    return response;
+    const result = await api.post(`/booths/${boothId}/comments`, requestBody);
+    return result;
   } catch (error) {
     console.error("Error adding comment:", error);
 
@@ -36,11 +36,26 @@ export async function addBoothComment(boothId: number, content: string) {
 
 export async function deleteComment(boothId: number, commentId: number){
   try{
-    const response = await api.delete(`booths/${boothId}/comments/${commentId}`);
-    return response;
+    const result = await api.delete(`booths/${boothId}/comments/${commentId}`);
+    return result;
   } catch (error: any) {
     console.error("댓글을 삭제할 수 없습니다 : ", error);
   }
+}
+
+export async function searchBooth(keyword: string) {
+  try {
+    const result = await api.get(`/booths/search?keyword=${encodeURIComponent(keyword)}`)
+    return result.data
+  } catch (error) {
+    console.error('Error searching booths:', error);
+    return null;
+  }
+}
+
+export async function popularBooth(){
+  const result = await api.get('booths/ranks');
+  return result.data.booths;
 }
 
 export async function favoritesBooths() {

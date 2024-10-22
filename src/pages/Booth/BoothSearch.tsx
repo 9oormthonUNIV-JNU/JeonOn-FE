@@ -1,97 +1,116 @@
+import { useState, useEffect } from "react";
+import { Input } from "@/components/ui/input";
+import { useNavigate } from "react-router-dom";
+import searchWhite from '@/../public/assets/svgs/search_white.svg';
+import searchBlack from '@/../public/assets/svgs/search_black.svg'; // 검은색 아이콘
+import { searchBooth } from "@/api/booth"; // searchBooth 함수 임포트
+import PopularBooth from "@/components/Booth/PopularBooth";
+
 export default function BoothSearch() {
+  const [searchQuery, setSearchQuery] = useState(""); // 검색 키워드
+  const [searchResults, setSearchResults] = useState<any[] | null>(null); // 검색 결과 상태
+  const [currentSearch, setCurrentSearch] = useState(""); // 실제 검색이 실행된 키워드
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (searchQuery === "") {
+      setSearchResults(null); // 검색어가 빈 문자열이면 검색 결과 초기화
+    }
+  }, [searchQuery]);
+
+  const handleSearch = async () => {
+    if (searchQuery.trim()) {
+      setCurrentSearch(searchQuery); // 검색어 저장 (검색 실행된 키워드)
+      const result = await searchBooth(searchQuery);
+      if (result && result.data) {
+        setSearchResults(result.data); // 검색 결과 저장
+      } else {
+        setSearchResults([]); // 검색 결과가 없으면 빈 배열
+      }
+    }
+  };
+
+  // 일치하는 단어를 강조
+  const highlightText = (text: string, keyword: string) => {
+    const parts = text.split(new RegExp(`(${keyword})`, 'gi'));
+    return parts.map((part, index) =>
+      part.toLowerCase() === keyword.toLowerCase() ? (
+        <span key={index} style={{ color: '#166ff4' }}>{part}</span>
+      ) : (
+        part
+      )
+    );
+  };
+
   return (
-    <div className="w-[390px] h-[844px] relative bg-black">
-      <div className="left-[162px] top-[40px] absolute text-[#56fb56] text-[35px] font-normal font-['Cafe24 ClassicType']">
-        부스
+    <div className="h-screen flex flex-col items-center">
+      <h1 className="text-main text-4xl font-cafe24">부스</h1>
+
+      {/* 검색 입력창과 검색 아이콘 */}
+      <div className="relative w-[85%] mt-10">
+        <Input
+          className="h-10 w-full text-medium text-white font-normal font-['NanumSquare Neo'] rounded-[30px] border border-white border-2 pl-4 pr-12"
+          placeholder="부스명을 입력해주세요."
+          value={searchQuery}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setSearchQuery(e.target.value);
+          }} // 입력 값 변경 시 상태 업데이트
+          onKeyPress={(e: React.KeyboardEvent) => {
+            if (e.key === "Enter") {
+              handleSearch(); // 엔터 키로 검색 수행
+            }
+          }} // Enter 키 감지
+        />
+        <img
+          src={searchWhite}
+          alt="search"
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
+          onClick={handleSearch} // 검색 버튼 클릭 시 검색 수행
+        />
       </div>
-      <div className="w-7 h-7 left-[302px] top-[18px] absolute">
-        <div className="w-[16.33px] h-[16.33px] left-[4.67px] top-[4.67px] absolute rounded-full border-2 border-[#00ff00]" />
-      </div>
-      <div className="w-[334px] h-[101px] left-[28px] top-[198px] absolute">
-        <div className="w-[334px] h-[101px] left-0 top-0 absolute">
-          <div className="w-[334px] h-[101px] left-0 top-0 absolute bg-white rounded-[10px] border border-white" />
-          <div className="w-[18px] h-[18px] left-[11px] top-[8px] absolute">
-            <div className="w-[10.50px] h-[10.50px] left-[3px] top-[3px] absolute rounded-full border-2 border-black" />
-          </div>
-          <div className="w-[313px] h-[0px] left-[11px] top-[32px] absolute border border-[#c8c8c8]"></div>
-        </div>
-        <div className="left-[34px] top-[36px] absolute">
-          <span className="text-[#166ff4] text-[15px] font-normal font-['Pretendard']">
-            라
-          </span>
-          <span className="text-black text-[15px] font-normal font-['Pretendard']">
-            멘
-          </span>
-        </div>
-        <div className="w-[42px] h-[21px] left-[34px] top-[55px] absolute">
-          <span className="text-[#166ff4] text-[15px] font-normal font-['Pretendard']">
-            라
-          </span>
-          <span className="text-black text-[15px] font-normal font-['Pretendard']">
-            이브
-            <br />
-          </span>
-        </div>
-        <div className="w-[42px] h-[18px] left-[34px] top-[73px] absolute">
-          <span className="text-[#166ff4] text-[15px] font-normal font-['Pretendard']">
-            라
-          </span>
-          <span className="text-black text-[15px] font-normal font-['Pretendard']">
-            라라
-            <br />
-          </span>
-        </div>
-        <div className="left-[34px] top-[9px] absolute text-black text-[15px] font-normal font-['Pretendard']">
-          라
-        </div>
-      </div>
-      <div className="w-[334px] h-10 left-[28px] top-[129px] absolute">
-        <div className="w-[21px] h-[21px] left-[296px] top-[8px] absolute">
-          <div className="w-[12.25px] h-[12.25px] left-[3.50px] top-[3.50px] absolute rounded-full border-2 border-white" />
-        </div>
-        <div className="w-[334px] h-10 left-0 top-0 absolute rounded-[30px] border border-white" />
-        <div className="left-[17px] top-[14px] absolute">
-          <span className="text-white text-xs font-normal font-['NanumSquare Neo']">
-            부스명을 정확하게 입력해주세요.
-          </span>
-          <span className="text-white text-[7px] font-normal font-['NanumSquare Neo']">
-            {" "}
-          </span>
-        </div>
-      </div>
-      <div className="w-[147px] left-[121px] top-[385px] absolute text-white text-xl font-medium font-['Pretendard']">
-        실시간 인기 부스
-      </div>
-      <div className="w-[339px] h-10 left-[25px] top-[432px] absolute">
-        <div className="w-[339px] h-10 left-0 top-0 absolute bg-white rounded-[15px]">
-          <div className="w-[55px] h-6 left-[55px] top-[9px] absolute text-black text-xl font-medium font-['Pretendard']">
-            라이브
-          </div>
-          <div className="w-4 h-[13px] left-[304px] top-[9px] absolute" />
-          <div className="w-3 h-[11.53px] left-[306px] top-[18.31px] absolute text-black text-[10px] font-normal font-['Pretendard']">
-            34
+
+      {/* 이전 검색 결과를 유지 */}
+      {searchQuery !== "" && searchResults !== null&& (
+        <div className="w-[85%] md:w-[85%] mx-auto mt-5">
+          <div className="w-full bg-white rounded-[10px] border border-white p-3 relative">
+            {/* 상단 검색 아이콘 및 실제 검색된 검색어 */}
+            <div className="flex items-center mb-3">
+              <img src={searchBlack} alt="search" className="w-6 h-6 mr-2" />
+              <span className="text-black text-lg font-medium">{currentSearch}</span>
+            </div>
+
+            {/* 얇은 실선 */}
+            <div className="w-full h-0.5 border-b border-[#c8c8c8] mb-3"></div>
+
+            {/* 검색 결과 렌더링 */}
+            <div className="flex flex-col space-y-3">
+              {searchResults.length > 0 ? (
+                searchResults.map((booth) => (
+                  <div 
+                    key={booth.id} 
+                    className="flex items-center"
+                    onClick={() => {
+                      navigate(`/booth/detail?boothId=${booth.id}`)}} // 부스 상세 페이지로 이동}
+                    >
+                    <div className="text-black text-md font-medium">
+                      {highlightText(booth.name, currentSearch)}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                searchResults.length === 0 && (
+                  <div className="text-black text-sm">검색하신 '{currentSearch}' 부스가 없습니다.</div>
+                )
+              )}
+            </div>
           </div>
         </div>
-        <div className="w-[26px] h-[27px] left-[23px] top-[7px] absolute" />
-        <div className="w-[29px] h-2 left-[22px] top-[13px] absolute text-center text-[#7bf97b] text-[10px] font-black font-['Pretendard']">
-          1위
-        </div>
-      </div>
-      <div className="w-[339px] h-10 left-[23px] top-[479px] absolute">
-        <div className="w-[339px] h-10 left-0 top-0 absolute bg-white rounded-[15px]">
-          <div className="w-[55px] h-6 left-[55px] top-[9px] absolute text-black text-xl font-medium font-['Pretendard']">
-            라이브
-          </div>
-          <div className="w-4 h-[13px] left-[304px] top-[9px] absolute" />
-          <div className="w-3 h-[11.53px] left-[306px] top-[18.31px] absolute text-black text-[10px] font-normal font-['Pretendard']">
-            24
-          </div>
-        </div>
-        <div className="w-[26px] h-[27px] left-[23px] top-[7px] absolute" />
-        <div className="w-[29px] h-2 left-[22px] top-[13px] absolute text-center text-[#7bf97b] text-[10px] font-black font-['Pretendard']">
-          2위
-        </div>
-      </div>
+      )}
+
+      {/* 인기 부스 검색 */}
+      <div className="mt-20 text-white text-xl font-medium font-['Pretendard']">실시간 인기 부스</div>
+      <PopularBooth />
     </div>
   );
 }

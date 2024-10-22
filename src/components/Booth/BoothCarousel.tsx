@@ -1,3 +1,4 @@
+// BoothDetail.tsx에서 보여지는 이미지들 캐러셀입니다.
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';

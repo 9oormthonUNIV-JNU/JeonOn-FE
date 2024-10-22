@@ -14,7 +14,7 @@ import "./CustomDatePicker.css";
 import triagle_down from "@/../public/assets/svgs/triangle_down.svg";
 import photo from "@/../public/assets/svgs/photo.svg";
 import { Textarea } from "@/components/ui/textarea";
-import postAffiliate from "@/api/afilliate";
+import { postAffiliate } from "@/api/afilliate";
 
 type CustomInputProps = {
   value?: string;

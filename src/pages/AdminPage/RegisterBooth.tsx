@@ -1,8 +1,16 @@
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { FilledBtn } from "@/components/common/Button/filled-btn";
 import { useState, useRef } from "react";
 import photo from "@/../public/assets/svgs/photo.svg";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   Select,
   SelectTrigger,
@@ -11,6 +19,31 @@ import {
   SelectContent,
 } from "@/components/ui/select";
 import { CustomDatePicker } from "@/components/common/DatePicker/CustomDatePicker";
+import { postBooth } from "@/api/booth";
+
+type BoothCategoryType = {
+  type: string;
+  category: string;
+};
+
+const boothCategory: BoothCategoryType[] = [
+  { type: "음식", category: "" },
+  { type: "체험", category: "" },
+  { type: "플리마켓", category: "" },
+  { type: "홍보", category: "" },
+  { type: "기타", category: "" },
+];
+
+type BoothPeriodType = {
+  type: string;
+  period: string;
+};
+
+const boothPeriod: BoothPeriodType[] = [
+  { type: "주/야간", period: "" },
+  { type: "주간", period: "" },
+  { type: "야간", period: "" },
+];
 
 const RegisterBooth = () => {
   const [name, setName] = useState<string>();
@@ -21,11 +54,47 @@ const RegisterBooth = () => {
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [endTime, setEndTime] = useState<Date | null>(null);
   const [description, setDescription] = useState<string>("");
-  const [category, setCategory] = useState<string>();
-  const [period, setPeriod] = useState<string>();
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedPeriod, setSelectedPeriod] = useState<string | null>(null);
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   const imgRef = useRef<HTMLInputElement>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const images = imgRef.current?.files
+      ? Array.from(imgRef.current.files)
+      : [];
+
+    // 날짜와 시간 분리
+    const formatDate = (date: Date | null) =>
+      date ? date.toISOString().split("T")[0] : "";
+
+    const formatTime = (date: Date | null) =>
+      date ? date.toTimeString().split(" ")[0] : "";
+
+    const data = {
+      name,
+      location,
+      index,
+      start_date: formatDate(startDate),
+      end_date: formatDate(endDate),
+      start_time: formatTime(startDate),
+      end_time: formatTime(endDate),
+      description,
+      category: selectedCategory,
+      period: selectedPeriod,
+      images,
+    };
+
+    try {
+      await postBooth(data);
+      setOpenModal(true);
+    } catch (error) {
+      console.error("Registeration failed:", error);
+    }
+  };
 
   return (
     <div className="w-screen h-screen flex flex-col">
@@ -36,7 +105,10 @@ const RegisterBooth = () => {
         <div className="text-white flex font-pretendard text-xl mt-10 mb-6 justify-center">
           부스 등록
         </div>
-        <form className="text-white text-sm font-pretendard flex flex-col gap-4">
+        <form
+          onSubmit={handleSubmit}
+          className="text-white text-sm font-pretendard flex flex-col gap-4"
+        >
           <div className="flex flex-col mx-10 gap-2">
             <Label htmlFor="booth_name" className="flex justify-start">
               부스명
@@ -121,6 +193,45 @@ const RegisterBooth = () => {
               <img src={photo} alt="photo" className="absolute top-2 right-2" />
             </div>
           </div>
+          <div className="flex flex-col mx-10 gap-2">
+            <Label htmlFor="booth_image" className="flex justify-start">
+              부스 필터링 선택
+            </Label>
+            <div className="flex flex-row gap-2 overflow-x-auto whitespace-nowrap max-w-full">
+              {boothCategory.map((category) => {
+                const isSelected = selectedCategory === category.type;
+                const categoryClasses = `${
+                  isSelected
+                    ? "bg-main text-black border-main"
+                    : "bg-black text-white border-white"
+                } border text-xs w-16 h-7 flex shrink-0`;
+                return (
+                  <FilledBtn
+                    className={categoryClasses}
+                    onClick={() => setSelectedCategory(category.type)}
+                  >
+                    {category.type}
+                  </FilledBtn>
+                );
+              })}
+              {boothPeriod.map((period) => {
+                const isSelected = selectedPeriod === period.type;
+                const periodClasses = `${
+                  isSelected
+                    ? "bg-main text-black border-main"
+                    : "bg-white text-black border-white"
+                } border text-xs w-16 h-7 flex shrink-0`;
+                return (
+                  <FilledBtn
+                    className={periodClasses}
+                    onClick={() => setSelectedPeriod(period.type)}
+                  >
+                    {period.type}
+                  </FilledBtn>
+                );
+              })}
+            </div>
+          </div>
           <div className="flex justify-end mt-5 mx-10">
             <button
               className="relative text-main font-pretendard text-base px-8 py-2  bg-black rounded-full border border-main hover:bg-main hover:border-main hover:text-black"
@@ -131,6 +242,23 @@ const RegisterBooth = () => {
           </div>
         </form>
       </div>
+      <Dialog open={openModal}>
+        <DialogContent className="w-5/6 h-40 rounded-xl font-pretendard">
+          <DialogHeader>
+            <DialogTitle className="pt-4">등록되었습니다.</DialogTitle>
+            <DialogClose asChild>
+              <div className="pt-5">
+                <button
+                  className="text-main bg-black px-8 py-2 rounded-full border border-main hover:bg-main hover:border-main hover:text-black"
+                  onClick={() => setOpenModal(false)}
+                >
+                  돌아가기
+                </button>
+              </div>
+            </DialogClose>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

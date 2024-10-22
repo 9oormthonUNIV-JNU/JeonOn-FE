@@ -13,14 +13,12 @@ import Favorites from './pages/Mypage/Favorites';
 import Affiliation from './pages/Mypage/Affiliation';
 import MyBooth from './pages/Mypage/MyBooth';
 import MyContents from './pages/Mypage/Contents';
-import Announcement from './pages/Mypage/Announcement';
 import Contents from './pages/Contents/Contents';
 import ContentsDetail from './pages/Contents/ContentsDetail';
 import RegisterAffiliate from './pages/AdminPage/RegisterAffilate';
 import RegisterMap from './pages/AdminPage/RegisterMap';
 import RegisterBooth from './pages/AdminPage/RegisterBooth';
 import ViewFeedback from './pages/AdminPage/ViewFeedback';
-import AdminMenu from './pages/AdminPage/AdminMenu';
 import RegisterContents from './pages/AdminPage/RegisterContents';
 
 const router = createBrowserRouter([
@@ -76,7 +74,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/my-page/favorites/announcement',
-        element: <Announcement />,
+        element: <MyContents />,
       },
       {
         path: '/my-page/favorites/affiliate',
@@ -85,10 +83,6 @@ const router = createBrowserRouter([
       {
         path: '/my-page/favorites/booth',
         element: <MyBooth />,
-      },
-      {
-        path: '/admin-page/admin-menu',
-        element: <AdminMenu />,
       },
       {
         path: '/admin-page/register-map',

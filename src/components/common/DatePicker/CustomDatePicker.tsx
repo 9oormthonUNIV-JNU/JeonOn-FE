@@ -1,7 +1,8 @@
 import triangle_down from "@/../public/assets/svgs/triangle_down.svg";
-import { forwardRef, useState } from "react";
+import { forwardRef } from "react";
 import { Input } from "@/components/ui/input";
 import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "./CustomDatePicker.css";
 
 type CustomInputProps = {
@@ -54,14 +55,14 @@ export const CustomDatePicker = ({
       popperPlacement="bottom-start"
       portalId="root-portal"
       renderCustomHeader={({ date, decreaseMonth, increaseMonth }) => (
-        <div className="datepickerHeader flex justify-between items-start  text-white font-bold text-sm mx-3">
+        <div className="datepickerHeader flex justify-between items-center text-white font-bold text-sm mx-3">
           <span>
             {date.toLocaleString("en-US", {
               month: "long",
               year: "numeric",
             })}
           </span>
-          <div className="flex flex-row gap-3">
+          <div className="flex gap-3">
             <button onClick={decreaseMonth}>&lt;</button>
             <button onClick={increaseMonth}>&gt;</button>
           </div>

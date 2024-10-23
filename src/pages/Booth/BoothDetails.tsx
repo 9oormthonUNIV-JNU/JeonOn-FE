@@ -1,99 +1,39 @@
-import React, { useEffect, useState } from "react";
-import { getProfile } from "@/api/user";
-import { isLoggedIn } from "@/api/login";
+import React from "react";
 import { useSearchParams } from "react-router-dom";
-import { boothDetail } from "@/api/booth"; // boothDetail API 함수 가져오기
+import { useBoothDetail } from "@/hook/useBoothDetail"; // 커스텀 훅 가져오기
 import SignInModal from "@/components/common/Modal/SignInModal";
 import time from "@/../public/assets/svgs/time_white.svg";
 import location from "@/../public/assets/svgs/location_white.svg";
+import comment from "@/../public/assets/svgs/comment.svg";
 import BoothComments from "@/components/Booth/BoothComments";
 import NewBoothComment from "@/components/Booth/NewBoothComment";
 import BoothCarousel from "@/components/Booth/BoothCarousel";
-
-interface UserProfile {
-  nickname: string;
-}
-
-interface BoothDetailData {
-  id: number;
-  name: string;
-  location: string;
-  index: number;
-  start_date: string;
-  end_date: string;
-  start_time: string;
-  end_time: string;
-  like: boolean;
-  like_count: number;
-  bookmark: boolean;
-  description: string;
-  images: string[];
-}
+import LikingBooth from "@/components/Booth/LikingBooth";
+import { isLoggedIn } from "@/api/login";
 
 export default function BoothDetail() {
   const [searchParams] = useSearchParams();
   const boothId = searchParams.get("boothId");
-  const categories = searchParams.get("categories"); // 전달받은 카테고리로 카테고리 렌더링...?
-  const [boothData, setBoothData] = useState<BoothDetailData | null>(null); // 부스 데이터 상태
-  const [nickname, setNickname] = useState<string | null>(null); // 사용자 닉네임 상태
-  const [showLoginModal, setShowLoginModal] = useState(false); // 로그인 모달 상태
-  const [commentsUpdated, setCommentsUpdated] = useState(false);
+  const categories = searchParams.get("categories");
 
-  // 부스 상세 데이터를 API로부터 요청
-  useEffect(() => {
-    if (boothId) {
-      const fetchBoothDetail = async () => {
-        try {
-          const result = await boothDetail(Number(boothId)); // boothId로 데이터 요청
-          if (result && result.data) {
-            setBoothData(result.data); // 데이터 상태에 저장
-          }
-        } catch (error) {
-          console.error("Error fetching booth details:", error);
-        }
-      };
-      fetchBoothDetail();
-    }
-
-    // 로그인 여부 체크 및 프로필 정보 가져오기
-    const token = isLoggedIn(); // 로그인 여부 확인
-    if (token) {
-      fetchProfile();
-    }
-  }, [boothId]);
-
-  // 사용자 프로필을 가져오는 함수
-  const fetchProfile = async () => {
-    try {
-      const userData = await getProfile();
-      if (userData && userData.nickname) {
-        setNickname(userData.nickname);
-      }
-    } catch (error) {
-      console.error("Error fetching user profile:", error);
-    }
-  };
-
-  // 모달 열기 함수
-  const handleOpenLoginModal = () => {
-    setShowLoginModal(true);
-  };
-
-  const handleLoginSuccess =() => {
-    setShowLoginModal(false);
-    fetchProfile();
-  }
-
-  const handleCommentSubmitted = () => {
-    setCommentsUpdated(!commentsUpdated);
-  };
+  // useBoothDetail 훅에서 부스 정보와 상태 가져오기
+  const {
+    boothData,
+    nickname,
+    showLoginModal,
+    setShowLoginModal,
+    commentsUpdated,
+    setCommentsUpdated,
+    handleOpenLoginModal,
+    handleLoginSuccess,
+    commentCount,
+  } = useBoothDetail(boothId);
 
   // 부스 데이터가 없는 경우 로딩 처리
   if (!boothData) {
     return <div className="text-white">Loading...</div>;
   }
 
-  // 부스 데이터를 렌더링 (이미지 아래에 정보 일렬로 나열)
   return (
     <div className="min-h-screen flex flex-col items-center bg-black p-5">
       <h1 className="mb-4 text-main text-4xl font-cafe24">부스</h1>
@@ -102,15 +42,15 @@ export default function BoothDetail() {
         <div className="w-full max-w-[305px] h-[303px] mb-3 bg-white rounded-[20px] border-2 border-white">
           {boothData.images && boothData.images.length > 0 ? (
             <BoothCarousel
-            images={boothData.images} // 부스 이미지 배열만 전달
-            handleIndex={(index) => console.log("Current image index:", index)}
-          />
-        ) : (
-          <img
-            src="https://via.placeholder.com/305x303"
-            alt="booth"
-            className="w-full h-auto object-contain"
-          />
+              images={boothData.images}
+              handleIndex={(index) => console.log("Current image index:", index)}
+            />
+          ) : (
+            <img
+              src="https://via.placeholder.com/305x303"
+              alt="booth"
+              className="w-full h-auto object-contain"
+            />
           )}
         </div>
 
@@ -123,8 +63,22 @@ export default function BoothDetail() {
 
         {/* 부스 정보 */}
         <div className="text-white w-full space-y-1">
-          {/* 부스 이름 */}
-          <h1 className="text-3xl text-main font-cafe24">{boothData.name}</h1>
+          <div className="flex items-center justify-between w-full">
+            {/* 부스 이름 */}
+            <h1 className="text-3xl text-main font-cafe24">{boothData.name}</h1>
+
+            <div className="flex items-center space-x-2 mr-1">
+              {/* 좋아요 버튼 */}
+              <LikingBooth boothId={Number(boothId)} />
+              {/* 댓글 개수 */}
+              <div className="relative w-6 h-6">
+                <img src={comment} className="w-full h-full" alt="comment" />
+                <span className="absolute top-[1px] right-2 transform text-black text-xs rounded-full z-20">
+                  {commentCount}
+                </span>
+              </div>
+            </div>
+          </div>
 
           {/* 부스 위치 */}
           <div className="flex items-center space-x-2">
@@ -145,13 +99,6 @@ export default function BoothDetail() {
           <div>{boothData.description}</div>
         </div>
 
-        {/* 좋아요 및 북마크 상태
-        <p>좋아요 수: {boothData.like_count}</p>
-        <p>좋아요 상태: {boothData.like ? "Liked" : "Not Liked"}</p>
-        <p>
-          북마크 상태: {boothData.bookmark ? "북마크됨" : "북마크되지 않음"}
-        </p> */}
-
         {/* 댓글 분리선 */}
         <div className="w-full my-4">
           <div className="relative w-full flex items-center">
@@ -168,24 +115,28 @@ export default function BoothDetail() {
               댓글
             </span>
           </div>
-
-
         </div>
-        
       </div>
+
       {/* 작성된 댓글들 */}
-      <BoothComments nickname={nickname} commentsUpdated={commentsUpdated}/>
+      <BoothComments nickname={nickname} commentsUpdated={commentsUpdated} />
 
       {/* 로그인 여부에 따라 댓글 작성란 처리 */}
       {isLoggedIn() ? (
-        <NewBoothComment nickname={nickname} onCommentSubmit={handleCommentSubmitted}/>
+        <NewBoothComment
+          nickname={nickname}
+          onCommentSubmit={() => setCommentsUpdated(!commentsUpdated)}
+        />
       ) : (
         <NewBoothComment nickname={null} onClick={handleOpenLoginModal} />
       )}
-      
 
       {showLoginModal && (
-        <SignInModal isOpen={showLoginModal} setIsOpen={setShowLoginModal} onLoginSuccess={handleLoginSuccess}/>
+        <SignInModal
+          isOpen={showLoginModal}
+          setIsOpen={setShowLoginModal}
+          onLoginSuccess={handleLoginSuccess}
+        />
       )}
     </div>
   );

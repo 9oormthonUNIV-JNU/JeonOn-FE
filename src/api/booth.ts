@@ -53,6 +53,24 @@ export async function searchBooth(keyword: string) {
   }
 }
 
+export async function likeBooth(boothId: number) {
+  try {
+    const result = await api.post(`/booths/${boothId}/likes`);
+    return result.data;
+  } catch (error) {
+    console.error("Error adding comment:", error);
+  }
+}
+
+export async function cancelLikeBooth(boothId: number) {
+  try {
+    const result = await api.delete(`booths/${boothId}/likes`);
+    return result.data;
+  } catch (error: any) {
+    console.error("댓글을 삭제할 수 없습니다 : ", error);
+  }
+}
+
 export async function popularBooth(){
   const result = await api.get('booths/ranks');
   return result.data.booths;

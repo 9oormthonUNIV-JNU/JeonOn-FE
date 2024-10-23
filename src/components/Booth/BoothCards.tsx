@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import time from "@/../public/assets/svgs/time_black.svg";
 import location from "@/../public/assets/svgs/location_black.svg";
 import { boothsList } from "@/api/booth"; // API 호출 함수
+import LikingBooth from "../Booth/LikingBooth.tsx";
 
 interface BoothCardsProps {
   selectedCategories: string[];
@@ -23,7 +24,11 @@ interface Booth {
   like_count: number;
 }
 
-const BoothCards: React.FC<BoothCardsProps> = ({ selectedCategories, selectedDate, onCardSelect }) => {
+export default function BoothCards({
+  selectedCategories,
+  selectedDate,
+  onCardSelect,
+}: BoothCardsProps) {
   const [booths, setBooths] = useState<Booth[]>([]);
 
   // Query string 생성 로직 (위치 필터링은 제외)
@@ -86,15 +91,10 @@ const BoothCards: React.FC<BoothCardsProps> = ({ selectedCategories, selectedDat
         let boothData: Booth[] = result.data;
 
         // selectedDate 필터링 적용
-        if (selectedDate) {
-          const selectedDateObj = new Date(selectedDate);
-
-          // selectedDate 필터링 적용
         if (selectedDate !== null) {
           boothData = boothData.filter((booth) => {
             return isDateInRange(selectedDate, booth.start_date, booth.end_date);
           });
-        }
         }
 
         setBooths(boothData);
@@ -118,10 +118,10 @@ const BoothCards: React.FC<BoothCardsProps> = ({ selectedCategories, selectedDat
           <Card
             key={booth.id}
             onClick={() => onCardSelect(booth.id)} // 카드 클릭 시 부스 ID 전달
-            className="w-[90vw] max-w-[90vw] bg-white rounded-[15px] shadow-md mt-5 mx-auto cursor-pointer"
+            className="relative w-[90vw] max-w-[90vw] bg-white rounded-[15px] shadow-md mt-5 mx-auto"
           >
             <CardHeader className="grid grid-cols-[auto_1fr] gap-2 items-center p-0.5">
-              <div className="ml-2 w-[7vw] h-[7vw] bg-black rounded-full flex items-center justify-center text-[#00ff00] text-xs">
+            <div className="mt-1 font-cafe24 ml-2 w-[6vw] h-[6vw] bg-black rounded-full flex items-center justify-center text-[#00ff00] text-xs">
                 {booth.id}
               </div>
               <CardTitle className="text-black text-[2.5vh] font-semibold font-['Pretendard']">
@@ -130,22 +130,26 @@ const BoothCards: React.FC<BoothCardsProps> = ({ selectedCategories, selectedDat
             </CardHeader>
             <CardContent className="ml-6 text-[1.5vh] px-4 pb-4">
               <div className="flex items-center space-x-1">
-                <img src={location} className="w-[5%]" alt="location" />
+                <img src={location} className="w-4" alt="location" />
                 <div className="text-black font-normal font-['NanumSquare Neo']">
                   {booth.location}
                 </div>
-                <img src={time} className="w-[7%]" alt="time" />
+                <img src={time} className="w-6" alt="time" />
                 <div className="text-black font-normal font-['NanumSquare Neo']">
                   {booth.start_date} ~ {booth.end_date}, {booth.start_time} ~{" "}
                   {booth.end_time}
                 </div>
               </div>
             </CardContent>
+            <div
+              className="top-2 right-2 absolute"
+              onClick={(e) => e.stopPropagation()} // 이벤트 버블링 방지
+            >
+              <LikingBooth boothId={booth.id} />
+            </div>
           </Card>
         ))
       )}
     </div>
   );
 };
-
-export default BoothCards;

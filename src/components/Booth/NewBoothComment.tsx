@@ -11,11 +11,11 @@ interface NewBoothCommentProps {
   onCommentSubmit?: () => void;
 }
 
-const NewBoothComment: React.FC<NewBoothCommentProps> = ({
+export default function NewBoothComment({
   nickname,
   onClick,
   onCommentSubmit,
-}) => {
+}: NewBoothCommentProps){
   const [content, setContent] = useState<string>(""); // 댓글 내용 상태
   const [searchParams] = useSearchParams();
   const boothId = searchParams.get("boothId"); // boothId 가져오기
@@ -79,5 +79,3 @@ const NewBoothComment: React.FC<NewBoothCommentProps> = ({
     </div>
   );
 };
-
-export default NewBoothComment;

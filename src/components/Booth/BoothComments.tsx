@@ -16,7 +16,7 @@ interface BoothCommentsProps {
   nickname?: string | null;
 }
 
-const BoothComments: React.FC<BoothCommentsProps> = ({ commentsUpdated, nickname }) => {
+export default function BoothComments({ commentsUpdated, nickname }: BoothCommentsProps) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [searchParams] = useSearchParams();
@@ -122,5 +122,3 @@ const BoothComments: React.FC<BoothCommentsProps> = ({ commentsUpdated, nickname
     </div>
   );
 };
-
-export default BoothComments;

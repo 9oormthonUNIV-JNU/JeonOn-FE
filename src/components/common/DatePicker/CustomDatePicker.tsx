@@ -8,12 +8,14 @@ import "./CustomDatePicker.css";
 type CustomInputProps = {
   value?: string;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  time: boolean;
 };
 
 const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
-  ({ value, onClick }, ref) => (
+  ({ value, onClick, time }, ref) => (
     <div className="relative flex items-center">
       <Input
+        placeholder={time ? "0000-00-00 00:00" : "0000-00-00"}
         value={value}
         ref={ref}
         readOnly
@@ -49,8 +51,7 @@ export const CustomDatePicker = ({
       timeInputLabel=""
       timeFormat="HH:mm"
       dateFormat={time ? "yyyy-MM-dd HH:mm" : "yyyy-MM-dd"}
-      placeholderText={time ? "0000-00-00 00:00" : "0000-00-00"}
-      customInput={<CustomInput />}
+      customInput={<CustomInput time={time} />}
       showPopperArrow={false}
       popperPlacement="bottom-start"
       portalId="root-portal"

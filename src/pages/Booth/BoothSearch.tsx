@@ -31,6 +31,10 @@ export default function BoothSearch() {
     }
   };
 
+  const handleCardSelect = (boothId: number) => {
+    navigate(`/booth/detail?boothId=${boothId}`); // 카테고리가 없으면 쿼리에서 제외
+  }; 
+
   // 일치하는 단어를 강조
   const highlightText = (text: string, keyword: string) => {
     const parts = text.split(new RegExp(`(${keyword})`, 'gi'));
@@ -110,7 +114,7 @@ export default function BoothSearch() {
 
       {/* 인기 부스 검색 */}
       <div className="mt-20 text-white text-xl font-medium font-['Pretendard']">실시간 인기 부스</div>
-      <PopularBooth />
+      <PopularBooth onCardSelect={handleCardSelect}/>
     </div>
   );
 }

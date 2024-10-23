@@ -57,7 +57,7 @@ export async function searchBooth(keyword: string) {
 
 export async function popularBooth() {
   const result = await api.get("booths/ranks");
-  return result.data.booths;
+  return result.data;
 }
 
 export async function likeBooth(boothId: number) {

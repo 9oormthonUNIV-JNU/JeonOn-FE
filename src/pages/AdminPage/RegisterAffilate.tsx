@@ -76,10 +76,9 @@ const RegisterAffiliate = () => {
         </div>
         <div className="flex flex-col mx-10 gap-2">
           <Label htmlFor="affiliate_location" className="flex justify-start">
-            매장 위치
+            매장 위치(선택)
           </Label>
           <Input
-            required
             id="affiliate_location"
             type="text"
             onChange={(e) => setLocation(e.target.value)}
@@ -112,7 +111,7 @@ const RegisterAffiliate = () => {
             id="affiliate_description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="bg-white min-h-56 max-h-64 text-black"
+            className="bg-white min-h-56 max-h-64 text-black resize-none overflow-auto"
           />
         </div>
         <div className="flex flex-col mx-10 gap-2">
@@ -124,7 +123,7 @@ const RegisterAffiliate = () => {
               id="affiliate_image"
               type="file"
               accept="image/*"
-              className="bg-white"
+              className="bg-white text-black"
             />
             <img src={photo} alt="photo" className="absolute top-2 right-2" />
           </div>

@@ -17,8 +17,11 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { postMap } from "@/api/map";
+import { useNavigate } from "react-router-dom";
 
 const RegisterMap = () => {
+  const nav = useNavigate();
+
   const [location, setLocation] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -113,7 +116,10 @@ const RegisterMap = () => {
               <div className="pt-5">
                 <button
                   className="text-main bg-black px-8 py-2 rounded-full border border-main hover:bg-main hover:border-main hover:text-black"
-                  onClick={() => setOpenModal(false)}
+                  onClick={() => {
+                    setOpenModal(false);
+                    nav("/guide");
+                  }}
                 >
                   돌아가기
                 </button>

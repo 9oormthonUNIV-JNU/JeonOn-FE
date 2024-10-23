@@ -12,8 +12,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState, useRef, useEffect } from "react";
 import { CustomDatePicker } from "@/components/common/DatePicker/CustomDatePicker";
 import { postAffiliate } from "@/api/afilliate";
+import { useNavigate } from "react-router-dom";
 
 const RegisterAffiliate = () => {
+  const nav = useNavigate();
+
   const [name, setName] = useState<string>("");
   const [location, setLocation] = useState<string>("");
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -167,7 +170,7 @@ const RegisterAffiliate = () => {
             ))}
           </div>
         </div>
-        <div className="flex justify-end mt-5 mb-5 mx-10">
+        <div className="flex justify-end mt-5 mb-10 mx-10">
           <button
             className="relative text-main font-pretendard text-base px-8 py-2 bg-black rounded-full border border-main hover:bg-main hover:border-main hover:text-black"
             type="submit"
@@ -184,7 +187,10 @@ const RegisterAffiliate = () => {
               <div className="pt-5">
                 <button
                   className="text-main bg-black px-8 py-2 rounded-full border border-main hover:bg-main hover:border-main hover:text-black"
-                  onClick={() => setOpenModal(false)}
+                  onClick={() => {
+                    setOpenModal(false);
+                    nav("/guide");
+                  }}
                 >
                   돌아가기
                 </button>

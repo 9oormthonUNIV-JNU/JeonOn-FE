@@ -42,13 +42,20 @@ export default function PopularBooth() {
   }
 
   if (boothData.length === 0) {
-    return <div className="text-white mt-10">현재 인기 부스가 존재하지 않습니다.</div>; // 데이터가 없을 때
+    return (
+      <div className="text-white mt-10">
+        현재 인기 부스가 존재하지 않습니다.
+      </div>
+    ); // 데이터가 없을 때
   }
 
   return (
     <div className="flex flex-col space-y-3 mt-10">
       {boothData.map((booth) => (
-        <Card key={booth.id} className="w-[339px] h-10 relative bg-white rounded-[15px] shadow-md">
+        <Card
+          key={booth.id}
+          className="w-[339px] h-10 relative bg-white rounded-[15px] shadow-md"
+        >
           <CardContent className="p-0">
             {/* 부스 제목 */}
             <div className="w-[55px] h-6 absolute left-[55px] top-[9px] text-black text-xl font-medium font-['Pretendard']">

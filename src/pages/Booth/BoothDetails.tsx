@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import { getProfile } from "@/api/user";
 import { isLoggedIn } from "@/api/login";
 import { useSearchParams } from "react-router-dom";
-import { boothDetail } from "@/api/booth"; // boothDetail API 함수 가져오기
+import { boothDetail, boothComments } from "@/api/booth"; // boothDetail API 함수 가져오기
 import SignInModal from "@/components/common/Modal/SignInModal";
 import time from "@/../public/assets/svgs/time_white.svg";
 import location from "@/../public/assets/svgs/location_white.svg";
+import comment from "@/../public/assets/svgs/comment.svg";
 import BoothComments from "@/components/Booth/BoothComments";
 import NewBoothComment from "@/components/Booth/NewBoothComment";
 import BoothCarousel from "@/components/Booth/BoothCarousel";
+import LikingBooth from "@/components/Booth/LikingBooth";
 
 interface UserProfile {
   nickname: string;
@@ -33,11 +35,12 @@ interface BoothDetailData {
 export default function BoothDetail() {
   const [searchParams] = useSearchParams();
   const boothId = searchParams.get("boothId");
-  const categories = searchParams.get("categories"); // 전달받은 카테고리로 카테고리 렌더링...?
+  const categories = searchParams.get("categories");
   const [boothData, setBoothData] = useState<BoothDetailData | null>(null); // 부스 데이터 상태
   const [nickname, setNickname] = useState<string | null>(null); // 사용자 닉네임 상태
   const [showLoginModal, setShowLoginModal] = useState(false); // 로그인 모달 상태
-  const [commentsUpdated, setCommentsUpdated] = useState(false);
+  const [commentsUpdated, setCommentsUpdated] = useState(false); // 코멘트 추가 상태
+  const [commentCount, setCommentCount] = useState<number>(0); // 댓글 개수 상태
 
   // 부스 상세 데이터를 API로부터 요청
   useEffect(() => {
@@ -47,6 +50,11 @@ export default function BoothDetail() {
           const result = await boothDetail(Number(boothId)); // boothId로 데이터 요청
           if (result && result.data) {
             setBoothData(result.data); // 데이터 상태에 저장
+          }
+
+          const boothCommentResponse = await boothComments(Number(boothId)); // 부스 댓글 데이터 요청
+          if (boothCommentResponse && boothCommentResponse.data) {
+            setCommentCount(boothCommentResponse.data.comment_count); // 댓글 개수를 상태로 저장
           }
         } catch (error) {
           console.error("Error fetching booth details:", error);
@@ -60,7 +68,7 @@ export default function BoothDetail() {
     if (token) {
       fetchProfile();
     }
-  }, [boothId]);
+  }, [boothId, commentsUpdated]);
 
   // 사용자 프로필을 가져오는 함수
   const fetchProfile = async () => {
@@ -79,13 +87,9 @@ export default function BoothDetail() {
     setShowLoginModal(true);
   };
 
-  const handleLoginSuccess =() => {
+  const handleLoginSuccess = () => {
     setShowLoginModal(false);
     fetchProfile();
-  }
-
-  const handleCommentSubmitted = () => {
-    setCommentsUpdated(!commentsUpdated);
   };
 
   // 부스 데이터가 없는 경우 로딩 처리
@@ -102,15 +106,17 @@ export default function BoothDetail() {
         <div className="w-full max-w-[305px] h-[303px] mb-3 bg-white rounded-[20px] border-2 border-white">
           {boothData.images && boothData.images.length > 0 ? (
             <BoothCarousel
-            images={boothData.images} // 부스 이미지 배열만 전달
-            handleIndex={(index) => console.log("Current image index:", index)}
-          />
-        ) : (
-          <img
-            src="https://via.placeholder.com/305x303"
-            alt="booth"
-            className="w-full h-auto object-contain"
-          />
+              images={boothData.images} // 부스 이미지 배열만 전달
+              handleIndex={(index) =>
+                console.log("Current image index:", index)
+              }
+            />
+          ) : (
+            <img
+              src="https://via.placeholder.com/305x303"
+              alt="booth"
+              className="w-full h-auto object-contain"
+            />
           )}
         </div>
 
@@ -123,8 +129,22 @@ export default function BoothDetail() {
 
         {/* 부스 정보 */}
         <div className="text-white w-full space-y-1">
-          {/* 부스 이름 */}
-          <h1 className="text-3xl text-main font-cafe24">{boothData.name}</h1>
+          <div className="flex items-center justify-between w-full">
+            {/* 부스 이름 */}
+            <h1 className="text-3xl text-main font-cafe24">{boothData.name}</h1>
+
+            <div className="flex items-center space-x-2 mr-1">
+              {/* 좋아요 버튼 */}
+              <LikingBooth boothId={Number(boothId)} />
+              {/* 댓글 개수 */}
+              <div className="relative w-6 h-6">
+                <img src={comment} className="w-full h-full" alt="comment" />
+                <span className="absolute top-[1px] right-2 transform text-black text-xs rounded-full z-20">
+                  {commentCount}
+                </span>
+              </div>
+            </div>
+          </div>
 
           {/* 부스 위치 */}
           <div className="flex items-center space-x-2">
@@ -145,13 +165,6 @@ export default function BoothDetail() {
           <div>{boothData.description}</div>
         </div>
 
-        {/* 좋아요 및 북마크 상태
-        <p>좋아요 수: {boothData.like_count}</p>
-        <p>좋아요 상태: {boothData.like ? "Liked" : "Not Liked"}</p>
-        <p>
-          북마크 상태: {boothData.bookmark ? "북마크됨" : "북마크되지 않음"}
-        </p> */}
-
         {/* 댓글 분리선 */}
         <div className="w-full my-4">
           <div className="relative w-full flex items-center">
@@ -168,24 +181,29 @@ export default function BoothDetail() {
               댓글
             </span>
           </div>
-
-
         </div>
-        
       </div>
       {/* 작성된 댓글들 */}
-      <BoothComments nickname={nickname} commentsUpdated={commentsUpdated}/>
+      <BoothComments nickname={nickname} commentsUpdated={commentsUpdated} />
 
       {/* 로그인 여부에 따라 댓글 작성란 처리 */}
       {isLoggedIn() ? (
-        <NewBoothComment nickname={nickname} onCommentSubmit={handleCommentSubmitted}/>
+        <NewBoothComment
+          nickname={nickname}
+          onCommentSubmit={() => {
+            setCommentsUpdated(!commentsUpdated);
+          }}
+        />
       ) : (
         <NewBoothComment nickname={null} onClick={handleOpenLoginModal} />
       )}
-      
 
       {showLoginModal && (
-        <SignInModal isOpen={showLoginModal} setIsOpen={setShowLoginModal} onLoginSuccess={handleLoginSuccess}/>
+        <SignInModal
+          isOpen={showLoginModal}
+          setIsOpen={setShowLoginModal}
+          onLoginSuccess={handleLoginSuccess}
+        />
       )}
     </div>
   );

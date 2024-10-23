@@ -122,3 +122,4 @@ export default function BoothComments({ commentsUpdated, nickname }: BoothCommen
     </div>
   );
 };
+

@@ -5,6 +5,7 @@ import location from "@/../public/assets/svgs/location_black.svg";
 import { boothsList } from "@/api/booth"; // API 호출 함수
 import LikingBooth from "../Booth/LikingBooth.tsx";
 
+
 interface BoothCardsProps {
   selectedCategories: string[];
   selectedDate: number | null;
@@ -76,7 +77,11 @@ export default function BoothCards({
   };
 
   // 날짜 비교 함수
-  const isDateInRange = (selectedDay: number, startDate: string, endDate: string): boolean => {
+  const isDateInRange = (
+    selectedDay: number,
+    startDate: string,
+    endDate: string
+  ): boolean => {
     const startDay = new Date(startDate).getDate(); // start_date의 일(day) 추출
     const endDay = new Date(endDate).getDate(); // end_date의 일(day) 추출
     return selectedDay >= startDay && selectedDay <= endDay;
@@ -93,7 +98,11 @@ export default function BoothCards({
         // selectedDate 필터링 적용
         if (selectedDate !== null) {
           boothData = boothData.filter((booth) => {
-            return isDateInRange(selectedDate, booth.start_date, booth.end_date);
+            return isDateInRange(
+              selectedDate,
+              booth.start_date,
+              booth.end_date
+            );
           });
         }
 
@@ -121,7 +130,7 @@ export default function BoothCards({
             className="relative w-[90vw] max-w-[90vw] bg-white rounded-[15px] shadow-md mt-5 mx-auto"
           >
             <CardHeader className="grid grid-cols-[auto_1fr] gap-2 items-center p-0.5">
-            <div className="mt-1 font-cafe24 ml-2 w-[6vw] h-[6vw] bg-black rounded-full flex items-center justify-center text-[#00ff00] text-xs">
+              <div className="mt-1 font-cafe24 ml-2 w-[6vw] h-[6vw] bg-black rounded-full flex items-center justify-center text-[#00ff00] text-xs">
                 {booth.id}
               </div>
               <CardTitle className="text-black text-[2.5vh] font-semibold font-['Pretendard']">
@@ -152,4 +161,5 @@ export default function BoothCards({
       )}
     </div>
   );
-};
+}
+

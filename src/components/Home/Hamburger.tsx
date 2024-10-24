@@ -50,7 +50,7 @@ export default function Hamburger() {
           <DropdownMenuCheckboxItem onClick={() => navigate('/feedback')}>
             피드백
           </DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem disabled={checkAdminToken ? false : true}>
+          <DropdownMenuCheckboxItem disabled={checkAdminToken() ? false : true}>
             관리자
           </DropdownMenuCheckboxItem>
         </DropdownMenuContent>

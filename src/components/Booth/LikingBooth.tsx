@@ -1,71 +1,82 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { boothDetail, likeBooth, cancelLikeBooth } from "@/api/booth";
 import like_empty from "@/../public/assets/svgs/like_empty.svg";
 import like_filled from "@/../public/assets/svgs/like_filled.svg";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface LikingBoothProps {
   boothId: number;
 }
 
 export default function LikingBooth({ boothId }: LikingBoothProps) {
-  const [likeCount, setLikeCount] = useState<number>(0); // 좋아요 개수
+  const queryClient = useQueryClient();
+  const [likeCount, setLikeCount] = useState<number>(0);
   const [hasLiked, setHasLiked] = useState<boolean>(false); // 사용자가 좋아요를 눌렀는지 여부
-  const [loading, setLoading] = useState<boolean>(true); // 로딩 상태
 
-  // 부스 디테일을 가져오는 함수
-  const fetchBoothDetail = async () => {
-    try {
+  // 부스 디테일 가져오기
+  const { data: boothData, isLoading, isSuccess, isError, error } = useQuery({
+    queryKey: ["boothDetail", boothId],
+    queryFn: async () => {
       const data = await boothDetail(boothId);
-      setLikeCount(data.data.like_count); // 좋아요 개수를 설정
-      setHasLiked(data.data.like); // "like": true | false 값으로 사용자의 좋아요 여부 설정
-    } catch (error) {
-      console.error("부스 정보를 불러오는 중 에러가 발생했습니다:", error);
-    } finally {
-      setLoading(false);
+      return data.data;
+    },
+    enabled: !!boothId,
+  });
+
+  // 쿼리 성공 시 likeCount와 hasLiked 상태를 설정
+  useEffect(() => {
+    if (isSuccess && boothData) {
+      setLikeCount(boothData.like_count);
+      setHasLiked(boothData.like);
     }
-  };
+  }, [isSuccess, boothData]);
+
+  // 에러 처리
+  useEffect(() => {
+    if (isError && error) {
+      console.error("부스 정보를 불러오는 중 에러가 발생했습니다:", error);
+    }
+  }, [isError, error]);
+
+  // 좋아요 추가/취소 처리
+  const likeMutation = useMutation({
+    mutationFn: (liked: boolean) => {
+      return liked ? cancelLikeBooth(boothId) : likeBooth(boothId);
+    },
+    onMutate: async (liked: boolean) => {
+      await queryClient.cancelQueries({ queryKey: ["boothDetail", boothId]});
+      const previousData = queryClient.getQueryData<any>(["boothDetail", boothId]);
+      queryClient.setQueryData(["boothDetail", boothId], (oldData: any) => {
+        return {
+          ...oldData,
+          like_count: liked ? oldData.like_count - 1 : oldData.like_count + 1,
+          like: !liked,
+        };
+      });
+      return { previousData };
+    },
+    onError: (error, _, context) => {
+      if (context?.previousData) {
+        queryClient.setQueryData(["boothDetail", boothId], context.previousData);
+      }
+      console.error("좋아요 처리 중 오류가 발생했습니다:", error);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["boothDetail", boothId]});
+    },
+  });
 
   // 좋아요 버튼을 누를 때의 핸들러 함수
-  const handleLikeToggle = async () => { // 상위로의 이벤트 전파 막기
-    if (hasLiked) {
-      // 좋아요 취소 로직
-      try {
-        const result = await cancelLikeBooth(boothId);
-        if (result) {
-          setLikeCount(result.data.like_count); // 좋아요 개수 감소
-          setHasLiked(false); // 좋아요 상태 업데이트
-        }
-      } catch (error) {
-        console.error("좋아요 취소 중 오류가 발생했습니다:", error);
-      }
-    } else {
-      // 좋아요 추가 로직
-      try {
-        const result = await likeBooth(boothId);
-        if (result) {
-          setLikeCount(result.data.like_count); // 좋아요 개수 증가
-          setHasLiked(true); // 좋아요 상태 업데이트
-        }
-      } catch (error) {
-        console.error("좋아요 추가 중 오류가 발생했습니다:", error);
-      }
-    }
+  const handleLikeToggle = () => {
+    likeMutation.mutate(hasLiked);
   };
 
-  // 컴포넌트가 마운트될 때 부스 정보를 가져옴
-  useEffect(() => {
-    fetchBoothDetail();
-  }, [boothId]);
-
-  if (loading) {
+  if (isLoading) {
     return <div>로딩 중...</div>;
   }
 
   return (
-    <div 
-    className="relative flex items-center"
-    onClick={handleLikeToggle}
-    >
+    <div className="relative flex items-center" onClick={handleLikeToggle}>
       {/* 좋아요 버튼 */}
       <img
         src={hasLiked ? like_filled : like_empty}

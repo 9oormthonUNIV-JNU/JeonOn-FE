@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { boothDetail, boothComments } from "@/api/booth";
 import { getProfile } from "@/api/user";
 import { isLoggedIn } from "@/api/login";
+import { useParams } from "react-router-dom";
 
 // Booth 데이터 타입
 interface BoothDetailData {

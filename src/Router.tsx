@@ -63,7 +63,7 @@ const router = createBrowserRouter([
         element: <Booth />,
       },
       {
-        path: "/booth/detail",
+        path: "/booth/:id",
         element: <BoothDetail />,
       },
       {

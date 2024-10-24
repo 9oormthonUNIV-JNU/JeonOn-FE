@@ -8,8 +8,10 @@ export default function Layout() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
-  // 검색 버튼이 활성화되어야 하는 경로 목록
-  const searchEnabledRoutes = ['/booth', '/booth/detail'];
+  const boothDetails = new RegExp('/booth/\\d+$');
+
+  // 검색 버튼이 활성화되어야 하는 경로
+  const isSearchEnabled = pathname === '/booth' || boothDetails.test(pathname);
 
   return (
     <div className="bg-black">
@@ -24,7 +26,7 @@ export default function Layout() {
 
         <div className="flex items-center">
           {/* 검색 버튼이 특정 경로에서만 활성화 */}
-          {searchEnabledRoutes.includes(pathname) && (
+          {isSearchEnabled && (
             <div onClick={() => navigate('/booth/search')} className="mr-3">
               <img src={searchIcon} alt="searchIcon" />
             </div>

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import deleteIcon from "@/../public/assets/svgs/delete_white.svg";
 import { boothComments, deleteComment } from "@/api/booth"; // boothComments 및 deleteComment 함수 가져오기
 
@@ -16,17 +16,19 @@ interface BoothCommentsProps {
   nickname?: string | null;
 }
 
-export default function BoothComments({ commentsUpdated, nickname }: BoothCommentsProps) {
+export default function BoothComments({
+  commentsUpdated,
+  nickname,
+}: BoothCommentsProps) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [searchParams] = useSearchParams();
-  const boothId = searchParams.get("boothId");
+  const { id } = useParams();
 
   // 댓글 목록을 불러오는 함수
   const fetchComments = async () => {
-    if (boothId) {
+    if (id) {
       try {
-        const result = await boothComments(Number(boothId)); // boothId로 API 호출
+        const result = await boothComments(Number(id)); // boothId로 API 호출
         if (result.data && result.data.comments) {
           setComments(result.data.comments); // 불러온 댓글 데이터를 상태에 저장
         }
@@ -40,9 +42,9 @@ export default function BoothComments({ commentsUpdated, nickname }: BoothCommen
 
   // 댓글 삭제
   const handleDeleteComment = async (commentId: number) => {
-    if (boothId) {
+    if (id) {
       try {
-        const response = await deleteComment(Number(boothId), commentId); // 삭제 요청
+        const response = await deleteComment(Number(id), commentId); // 삭제 요청
         if (response.data.success) {
           // 삭제 성공 시 상태 갱신
           setComments((prevComments) =>
@@ -74,7 +76,7 @@ export default function BoothComments({ commentsUpdated, nickname }: BoothCommen
   // 컴포넌트가 마운트될 때 API 호출
   useEffect(() => {
     fetchComments();
-  }, [boothId, commentsUpdated]); // boothId나 commentsUpdated가 변경될 때마다 다시 호출
+  }, [id, commentsUpdated]); // boothId나 commentsUpdated가 변경될 때마다 다시 호출
 
   if (loading) {
     return <div className="text-white">댓글을 불러오는 중...</div>;
@@ -121,5 +123,4 @@ export default function BoothComments({ commentsUpdated, nickname }: BoothCommen
       ))}
     </div>
   );
-};
-
+}

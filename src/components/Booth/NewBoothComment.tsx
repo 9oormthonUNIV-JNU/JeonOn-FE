@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useState } from "react";
+import { useParams, useSearchParams } from "react-router-dom";
 import { addBoothComment } from "@/api/booth";
 import cancel from "@/../public/assets/svgs/cancel-white.svg";
 import send from "@/../public/assets/svgs/send.svg";
@@ -17,20 +17,19 @@ export default function NewBoothComment({
   onCommentSubmit,
 }: NewBoothCommentProps){
   const [content, setContent] = useState<string>(""); // 댓글 내용 상태
-  const [searchParams] = useSearchParams();
-  const boothId = searchParams.get("boothId"); // boothId 가져오기
+  const { id } = useParams();
 
   const handleSubmit = async () => {
     if (!content) {
       alert("댓글을 입력해주세요.");
       return;
     }
-    if (!boothId) {
+    if (!id) {
       console.error("부스 ID를 찾을 수 없습니다.");
       return;
     }
     try {
-      const response = await addBoothComment(Number(boothId), content); // 댓글 추가 요청
+      const response = await addBoothComment(Number(id), content); // 댓글 추가 요청
       if (response.data.success) {
         setContent(""); // 댓글 작성 후 입력란 초기화
         if (onCommentSubmit) onCommentSubmit();

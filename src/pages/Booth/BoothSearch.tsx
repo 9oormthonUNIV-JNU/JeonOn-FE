@@ -32,7 +32,7 @@ export default function BoothSearch() {
   };
 
   const handleCardSelect = (boothId: number) => {
-    navigate(`/booth/detail?boothId=${boothId}`); // 카테고리가 없으면 쿼리에서 제외
+    navigate(`/booth/${boothId}`); // 카테고리가 없으면 쿼리에서 제외
   }; 
 
   // 일치하는 단어를 강조
@@ -94,9 +94,7 @@ export default function BoothSearch() {
                   <div 
                     key={booth.id} 
                     className="flex items-center"
-                    onClick={() => {
-                      navigate(`/booth/detail?boothId=${booth.id}`)}} // 부스 상세 페이지로 이동}
-                    >
+                    onClick={() => handleCardSelect(booth.id)}>
                     <div className="text-black text-md font-medium">
                       {highlightText(booth.name, currentSearch)}
                     </div>

@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useParams } from "react-router-dom";
 import { useBoothDetail } from "@/hook/useBoothDetail";
 import useBookmark from "@/hook/useBookmark";
 import SignInModal from "@/components/common/Modal/SignInModal";
@@ -16,8 +16,9 @@ import { boothBookmark, cancelBoothBookmark } from "@/api/booth";
 
 export default function BoothDetail() {
   const [searchParams] = useSearchParams();
-  const boothId = searchParams.get("boothId");
   const categories = searchParams.get("categories");
+
+  const { id } = useParams();
 
   // 부스 정보, 상태 관리 (useBoothDetail 훅)
   const {
@@ -30,11 +31,11 @@ export default function BoothDetail() {
     handleOpenLoginModal,
     handleLoginSuccess,
     commentCount,
-  } = useBoothDetail(boothId);
+  } = useBoothDetail(id);
 
   // 북마크 상태 관리 (useBookmark 훅)
   const { like, toggleBookmark } = useBookmark({
-    id: boothId,
+    id: id,
     queryKey: "boothDetail",
     bookmarkFn: boothBookmark,
     bookmarkCancelFn: cancelBoothBookmark,
@@ -102,7 +103,7 @@ export default function BoothDetail() {
 
             <div className="flex items-center space-x-2 mr-1">
               {/* 좋아요 */}
-              <LikingBooth boothId={Number(boothId)} />
+              <LikingBooth boothId={Number(id)} />
 
               {/* 댓글 개수 */}
               <div className="relative w-6 h-6">

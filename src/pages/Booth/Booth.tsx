@@ -22,9 +22,12 @@ export default function Booth() {
 
   // BoothCards에서 카드 선택 시 호출되는 함수로 부스 ID를 받아 처리
   const handleCardSelect = (boothId: number) => {
-    const categoryQuery = selectedCategories.length > 0 ? `&categories=${encodeURIComponent(selectedCategories.join(','))}` : '';
-    navigate(`/booth/detail?boothId=${boothId}${categoryQuery}`); // 카테고리가 없으면 쿼리에서 제외
-  };  
+    const categoryQuery =
+      selectedCategories.length > 0
+        ? `&categories=${encodeURIComponent(selectedCategories.join(","))}`
+        : "";
+    navigate(`/booth/${boothId}${categoryQuery}`); // 카테고리가 없으면 쿼리에서 제외
+  };
 
   return (
     <div className="h-screen flex flex-col items-center">

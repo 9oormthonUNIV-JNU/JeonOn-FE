@@ -1,6 +1,7 @@
 import { FilledBtn } from "@/components/common/Button/filled-btn";
 import { useState, useEffect } from "react";
 import { getFeedbackDetail, getFeedbackList } from "@/api/feedbacks";
+import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog";
 
 type FeedbackOptionType = {
   type: string;
@@ -31,15 +32,14 @@ const FeedbackItem: React.FC<{
   isSelected: boolean;
   detail?: FeedbackDetailType;
   onClick: () => void;
-}> = ({ feedback, isSelected, detail, onClick }) => {
+  onImageClick: (src: string) => void;
+}> = ({ feedback, isSelected, detail, onClick, onImageClick }) => {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-
-    return `${month}-${day} ${hours}:${minutes}`;
+    return `${date.getMonth() + 1}-${date.getDate()} ${date
+      .getHours()
+      .toString()
+      .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
   };
 
   return (
@@ -48,7 +48,7 @@ const FeedbackItem: React.FC<{
       onClick={onClick}
     >
       <div className="flex flex-row gap-3">
-        <div className="rounded-full shrink-0 bg-black w-5 h-5 flex justify-center items-center">
+        <div className="rounded-full shrink-0 bg-black w-6 h-6 flex justify-center items-center">
           <div className="text-main text-base font-extrabold">
             {feedback.id}
           </div>
@@ -82,7 +82,12 @@ const FeedbackItem: React.FC<{
               <img
                 key={index}
                 src={img}
-                className="w-20 h-20 object-cover rounded-lg bg-[#D9D9D9]"
+                alt={`feedback-${index}`}
+                className="w-20 h-20 object-cover rounded-lg bg-[#D9D9D9] cursor-pointer"
+                onClick={() => onImageClick(img)}
+                onError={(e) => {
+                  e.currentTarget.src = "/assets/default-image.png";
+                }}
               />
             ))}
           </div>
@@ -100,17 +105,19 @@ const FeedbackItem: React.FC<{
 
 const ViewFeedback = () => {
   const [feedbacks, setFeedbacks] = useState<FeedbackType[]>([]);
-  const [selectedCategory, setSelectedCategory] =
-    useState<string>("festival-committee");
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    feedbackOptions[1].category
+  );
   const [selectedFeedbackId, setSelectedFeedbackId] = useState<number | null>(
     null
   );
   const [selectedDetail, setSelectedDetail] = useState<
     FeedbackDetailType | undefined
   >(undefined);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
-    async function fetchFeedbacks() {
+    const fetchFeedbacks = async () => {
       try {
         const feedbackList = await getFeedbackList(selectedCategory);
         const sortedFeedbacks = feedbackList.sort((b, a) => a.id - b.id);
@@ -118,12 +125,12 @@ const ViewFeedback = () => {
       } catch (error) {
         console.error("Failed to fetch feedback list", error);
       }
-    }
+    };
     fetchFeedbacks();
   }, [selectedCategory]);
 
   useEffect(() => {
-    async function fetchFeedbackDetail() {
+    const fetchFeedbackDetail = async () => {
       if (selectedFeedbackId === null) return;
       try {
         const detail = await getFeedbackDetail(selectedFeedbackId);
@@ -131,7 +138,7 @@ const ViewFeedback = () => {
       } catch (error) {
         console.error("Failed to fetch feedback details", error);
       }
-    }
+    };
     fetchFeedbackDetail();
   }, [selectedFeedbackId]);
 
@@ -150,6 +157,7 @@ const ViewFeedback = () => {
           {feedbackOptions.map((option) => (
             <FilledBtn
               key={option.category}
+              type="button"
               onClick={() => setSelectedCategory(option.category)}
               className={`w-28 border truncate text-xs font-thin bg-transparent ${
                 selectedCategory === option.category
@@ -162,26 +170,44 @@ const ViewFeedback = () => {
           ))}
         </div>
         <div className="flex flex-col gap-2">
-          {feedbacks?.length > 0 &&
-            feedbacks.map((feedback) => (
-              <FeedbackItem
-                key={feedback.id}
-                feedback={feedback}
-                isSelected={selectedFeedbackId === feedback.id}
-                detail={
-                  selectedFeedbackId === feedback.id
-                    ? selectedDetail
-                    : undefined
-                }
-                onClick={() =>
-                  setSelectedFeedbackId((prev) =>
-                    prev === feedback.id ? null : feedback.id
-                  )
-                }
-              />
-            ))}
+          {feedbacks.map((feedback) => (
+            <FeedbackItem
+              key={feedback.id}
+              feedback={feedback}
+              isSelected={selectedFeedbackId === feedback.id}
+              detail={
+                selectedFeedbackId === feedback.id ? selectedDetail : undefined
+              }
+              onClick={() =>
+                setSelectedFeedbackId((prev) =>
+                  prev === feedback.id ? null : feedback.id
+                )
+              }
+              onImageClick={(src) => setSelectedImage(src)}
+            />
+          ))}
         </div>
       </div>
+
+      {/* 이미지 모달 */}
+      <Dialog
+        open={!!selectedImage}
+        onOpenChange={() => setSelectedImage(null)}
+      >
+        <DialogContent className="w-full max-w-96 p-4">
+          <DialogClose asChild>
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-4 cursor-pointer"
+            />
+          </DialogClose>
+          <img
+            src={selectedImage || ""}
+            alt="Selected"
+            className="w-full h-auto object-contain"
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

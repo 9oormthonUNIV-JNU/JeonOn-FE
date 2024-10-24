@@ -1,5 +1,5 @@
 import jar_empty from "@/../public/images/jar_empty.png";
-import cancel from "@/../public/assets/svgs/cancel.svg";
+import cancel from "@/../public/assets/svgs/cancel-white.svg";
 import { useState, useEffect } from "react";
 import { getPublicTimeCapsules, deleteTimeCapsule } from "@/api/timecapsule";
 import { isLoggedIn } from "@/api/login";
@@ -79,9 +79,7 @@ export default function TimeCapsule() {
   return (
     <div className="bg-black flex flex-col items-center min-h-screen p-4 md:p-10 lg:p-20">
       <div className="flex flex-col items-center mb-5 w-full max-w-xl">
-        <div className="mx-auto mb-5 text-[#0F0] font-pretendard text-[7vw] md:text-[5vw] lg:text-[30px] font-bold leading-normal text-center">
-          타임캡슐
-        </div>
+        <h1 className="text-main text-4xl font-cafe24">타임캡슐</h1>
         <div className="mb-4 text-white text-center font-gmarket-sans text-[3.5vw] md:text-[2.5vw] lg:text-[15px] font-thin leading-[20px] mb-20">
           우리가 전하는 전대의 찬란함
         </div>
@@ -89,7 +87,7 @@ export default function TimeCapsule() {
         <img
           src={jar_empty}
           alt="empty jar"
-          className="w-[70%] max-w-[600px]"
+          className="w-[90%] max-w-[600px]"
         />
 
         <FilledBtn onClick={handleRegisterClick} className="text-s px-10 mt-5">
@@ -98,15 +96,11 @@ export default function TimeCapsule() {
       </div>
 
       <div className="px-8 bg-black text-white flex items-center text-[10px] font-['NanumSquare Neo'] whitespace-nowrap">
-        <img
-          src={cancel}
-          alt="cancel"
-          className="mr-1 filter brightness-0 invert"
-        />
+        <img src={cancel} alt="cancel" className="mr-1" />
         <p>비방, 욕설 등 부적절한 글은 작성이 제한되며, 삭제될 수 있습니다.</p>
       </div>
 
-      {/* 공개된 타임캡슐 목록 */}
+      {/* 공개된 타임캡슐 목록 -> 컴포넌트 내부에서 하나하나 렌더링할 수 있게 수정 */}
       {capsules.length > 0 ? (
         <div className="mt-10 max-w-lg w-full bg-black text-white flex flex-col mb-10 space-y-5">
           {capsules.map((capsule, index) => (

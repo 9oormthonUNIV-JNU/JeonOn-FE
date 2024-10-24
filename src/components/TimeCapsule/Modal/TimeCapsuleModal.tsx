@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-import cancel from "@/../public/assets/svgs/cancel.svg";
+import cancel from "@/../public/assets/svgs/cancel-black.svg";
 import empty_box from "@/../public/assets/svgs/empty-box.svg";
 import check_box from "@/../public/assets/svgs/check-box.svg";
 import send from "@/../public/assets/svgs/send.svg";

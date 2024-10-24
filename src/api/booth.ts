@@ -9,6 +9,8 @@ export type BoothType = {
     start_time: string;
     end_time: string;
     description: string;
+    category: string;
+    period: string;
     images: File[];
   };
   
@@ -20,11 +22,14 @@ export async function postBooth(data: BoothType) {
             [JSON.stringify({
               name: data.name,
               location: data.location,
+              index: data.index,
               start_date: data.start_date,
               end_date: data.end_date,
               start_time: data.start_time,
-              end_time: data.end_date,
+              end_time: data.end_time,
               description: data.description,
+              category: data.category,
+              period: data.period,
             })],
             { type: "application/json" }
           );
@@ -38,15 +43,15 @@ export async function postBooth(data: BoothType) {
             headers: {"Content-Type": "multipart/form-data"},
         });
 
-        console.log("Affiliate registered: ", result);
+        console.log("Booth registered: ", result);
         return result;
     } catch (error) {
-        console.error("Affilliate registeration failed: ", error);
+        console.error("Booth registeration failed: ", error);
         throw error;
     }
 }
 
 export async function deleteBooth(boothId: number) {
-    const result = await api.delete(`admins/boots/${boothId}`)
+    const result = await api.delete(`admins/booths/${boothId}`)
     return result;
 }

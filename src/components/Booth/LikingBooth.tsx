@@ -11,7 +11,7 @@ interface LikingBoothProps {
 export default function LikingBooth({ boothId }: LikingBoothProps) {
   const queryClient = useQueryClient();
   const [likeCount, setLikeCount] = useState<number>(0);
-  const [hasLiked, setHasLiked] = useState<boolean>(false); // 사용자가 좋아요를 눌렀는지 여부
+  const [hasLiked, setHasLiked] = useState<boolean>(false);
 
   // 부스 디테일 가져오기
   const { data: boothData, isLoading, isSuccess, isError, error } = useQuery({
@@ -66,7 +66,6 @@ export default function LikingBooth({ boothId }: LikingBoothProps) {
     },
   });
 
-  // 좋아요 버튼을 누를 때의 핸들러 함수
   const handleLikeToggle = () => {
     likeMutation.mutate(hasLiked);
   };
@@ -81,7 +80,7 @@ export default function LikingBooth({ boothId }: LikingBoothProps) {
       <img
         src={hasLiked ? like_filled : like_empty}
         alt="like button"
-        className="cursor-pointer h-7 w-7 z-10" // z-index 추가
+        className="cursor-pointer h-7 w-7 z-10"
       />
       {/* 좋아요 개수 */}
       <span className="absolute left-[10.3px] flex items-center justify-center text-black text-sm z-20">

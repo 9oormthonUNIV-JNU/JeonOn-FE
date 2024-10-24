@@ -1,23 +1,25 @@
-import React from "react";
 import { useSearchParams } from "react-router-dom";
 import { useBoothDetail } from "@/hook/useBoothDetail";
-// import { useBookmark } from "@/hook/useBookmark";
+import useBookmark from "@/hook/useBookmark";
 import SignInModal from "@/components/common/Modal/SignInModal";
 import time from "@/../public/assets/svgs/time_white.svg";
 import location from "@/../public/assets/svgs/location_white.svg";
 import comment from "@/../public/assets/svgs/comment.svg";
+import bookmark_empty from "@/../public/assets/svgs/bookmark_empty.svg";
+import bookmark_filled from "@/../public/assets/svgs/bookmark_filled.svg";
 import BoothComments from "@/components/Booth/BoothComments";
 import NewBoothComment from "@/components/Booth/NewBoothComment";
 import BoothCarousel from "@/components/Booth/BoothCarousel";
 import LikingBooth from "@/components/Booth/LikingBooth";
 import { isLoggedIn } from "@/api/login";
+import { boothBookmark, cancelBoothBookmark } from "@/api/booth";
 
 export default function BoothDetail() {
   const [searchParams] = useSearchParams();
   const boothId = searchParams.get("boothId");
   const categories = searchParams.get("categories");
 
-  // useBoothDetail 훅에서 부스 정보와 상태 가져오기
+  // 부스 정보, 상태 관리 (useBoothDetail 훅)
   const {
     boothData,
     nickname,
@@ -29,9 +31,16 @@ export default function BoothDetail() {
     handleLoginSuccess,
     commentCount,
   } = useBoothDetail(boothId);
-  
 
-  // 부스 데이터가 없는 경우 로딩 처리
+  // 북마크 상태 관리 (useBookmark 훅)
+  const { like, toggleBookmark } = useBookmark({
+    id: boothId,
+    queryKey: "boothDetail",
+    bookmarkFn: boothBookmark,
+    bookmarkCancelFn: cancelBoothBookmark,
+    initialBookmarkState: boothData?.bookmark ?? false,
+  });
+
   if (!boothData) {
     return <div className="text-white">Loading...</div>;
   }
@@ -45,7 +54,9 @@ export default function BoothDetail() {
           {boothData.images && boothData.images.length > 0 ? (
             <BoothCarousel
               images={boothData.images}
-              handleIndex={(index) => console.log("Current image index:", index)}
+              handleIndex={(index) =>
+                console.log("Current image index:", index)
+              }
             />
           ) : (
             <img
@@ -65,12 +76,34 @@ export default function BoothDetail() {
 
         <div className="text-white w-full space-y-1">
           <div className="flex items-center justify-between w-full">
-            {/* 부스 이름 */}
-            <h1 className="text-3xl text-main font-cafe24">{boothData.name}</h1>
+            <div className="flex items-center space-x-2">
+              {/* 부스 이름 */}
+              <h1 className="text-3xl text-main font-cafe24">
+                {boothData.name}
+              </h1>
+
+              {/* 북마크 */}
+              <div onClick={toggleBookmark} className="cursor-pointer">
+                {like ? (
+                  <img
+                    src={bookmark_filled}
+                    alt="favorites"
+                    className="w-9 h-9"
+                  />
+                ) : (
+                  <img
+                    src={bookmark_empty}
+                    alt="bookmark"
+                    className="w-9 h-9"
+                  />
+                )}
+              </div>
+            </div>
 
             <div className="flex items-center space-x-2 mr-1">
-              {/* 좋아요 버튼 */}
+              {/* 좋아요 */}
               <LikingBooth boothId={Number(boothId)} />
+
               {/* 댓글 개수 */}
               <div className="relative w-6 h-6">
                 <img src={comment} className="w-full h-full" alt="comment" />
@@ -103,14 +136,10 @@ export default function BoothDetail() {
         {/* 댓글 분리선 */}
         <div className="w-full my-4">
           <div className="relative w-full flex items-center">
-            {/* 왼쪽 원형 */}
             <div className="w-4 h-4 bg-white rounded-full"></div>
-            {/* 가로선 */}
             <div className="flex-grow h-[2px] bg-white"></div>
-            {/* 오른쪽 원형 */}
             <div className="w-4 h-4 bg-white rounded-full"></div>
           </div>
-          {/* 댓글 텍스트 */}
           <div className="mt-2 text-left">
             <span className="text-white text-[15px] font-normal font-['Pretendard']">
               댓글

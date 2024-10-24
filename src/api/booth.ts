@@ -34,7 +34,7 @@ export async function addBoothComment(boothId: number, content: string) {
   }
 }
 
-export async function deleteComment(boothId: number, commentId: number) {
+export async function deleteComment(boothId: any, commentId: any) {
   try {
     const result = await api.delete(`booths/${boothId}/comments/${commentId}`);
     return result;
@@ -60,7 +60,7 @@ export async function popularBooth() {
   return result.data;
 }
 
-export async function likeBooth(boothId: number) {
+export async function likeBooth(boothId: any) {
   try {
     const result = await api.post(`/booths/${boothId}/likes`);
     return result.data;
@@ -69,13 +69,23 @@ export async function likeBooth(boothId: number) {
   }
 }
 
-export async function cancelLikeBooth(boothId: number) {
+export async function cancelLikeBooth(boothId: any) {
   try {
     const result = await api.delete(`booths/${boothId}/likes`);
     return result.data;
   } catch (error: any) {
     console.error("댓글을 삭제할 수 없습니다 : ", error);
   }
+}
+
+export async function boothBookmark(boothId: any) {
+  const result = await api.post(`bookmarks/booths/${boothId}`);
+  return result;
+}
+
+export async function cancelBoothBookmark(boothId: any) {
+  const result = await api.delete(`bookmarks/booths/${boothId}`);
+  return result;
 }
 
 export async function favoritesBooths() {

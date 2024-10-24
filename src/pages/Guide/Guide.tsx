@@ -18,7 +18,7 @@ import { formatDateToYYYYMMDD } from '@/utils/dateStr';
 import RegisterButton from '@/components/admin/registerButton';
 import { checkAdminToken } from '@/utils/tokenHandler';
 import DeleteModal from '@/components/common/Modal/DeleteModal';
-import { deletePartners } from '@/api/admin';
+import { deleteMaps, deletePartners } from '@/api/admin';
 
 export default function Guide() {
   const [clicked, setClicked] = useState(true);
@@ -27,8 +27,6 @@ export default function Guide() {
   // 모달 상태와 선택된 아이템 ID 상태 관리
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<number | null>(null);
-
-  console.log('curIndex', curIndex);
 
   const navigate = useNavigate();
   const clickedStyle =
@@ -48,6 +46,8 @@ export default function Guide() {
     },
   });
 
+  console.log(clicked);
+
   const mapInfo = useQuery({
     queryKey: ['maps', curIndex],
     queryFn: () => getZones(curIndex.toString()),
@@ -58,8 +58,6 @@ export default function Guide() {
     setSelectedId(id);
     setOpen(true);
   };
-
-  console.log(data);
 
   const images = [backGate, square, stadium];
 
@@ -127,9 +125,10 @@ export default function Guide() {
           <div className="mb-16">
             <GuideCarousel images={images} handleIndex={handleIndex} />
           </div>
+          <RegisterButton path={'map'} />
           <div className="w-full bg-map rounded-xl border border-[#0F0] flex flex-col">
             {mapInfo.data?.data.map((item: any, index: any) => (
-              <div className="px-3" key={item.id}>
+              <div className="px-3 relative" key={item.id}>
                 <div
                   className={`gap-3 flex justify-start px-2 py-3 border-b border-[#0F0] ${
                     index === mapInfo.data?.data.length - 1 ? 'border-b-0' : ''
@@ -138,13 +137,23 @@ export default function Guide() {
                   <div>
                     <img src={love} alt="description" />
                   </div>
+
                   <div className="flex flex-col justify-center items-start">
                     <h1 className="text-sm text-white">{item.name}</h1>
-                    <span className="text-[10px] text-white">
+
+                    <span className="text-[10px] text-white overflow-y-hidden">
                       {item.description}
                     </span>
                   </div>
                 </div>
+                {checkAdminToken() ? (
+                  <div
+                    onClick={(e) => handleDeleteClick(item.id, e)}
+                    className="absolute top-2 right-3"
+                  >
+                    <img src={trashCan} alt="delete" />
+                  </div>
+                ) : null}
               </div>
             ))}
           </div>
@@ -158,6 +167,15 @@ export default function Guide() {
         queryKey={'guide'}
         queryKeyOptions={clicked}
         deleteFn={deletePartners}
+      />
+      {/* 모달 컴포넌트 */}
+      <DeleteModal
+        isOpen={open}
+        id={selectedId}
+        setIsOpen={setOpen}
+        queryKey={'maps'}
+        queryKeyOptions={selectedId}
+        deleteFn={deleteMaps}
       />
     </div>
   );

@@ -20,7 +20,7 @@ import RegisterMap from './pages/AdminPage/RegisterMap';
 import RegisterBooth from './pages/AdminPage/RegisterBooth';
 import ViewFeedback from './pages/AdminPage/ViewFeedback';
 import RegisterContents from './pages/AdminPage/RegisterContents';
-import { checkAdminLoader } from './utils/tokenHandler';
+import { checkAdminLoader, checkAuthLoader } from './utils/tokenHandler';
 
 const router = createBrowserRouter([
   {
@@ -68,6 +68,7 @@ const router = createBrowserRouter([
       {
         path: '/my-page',
         element: <MyPage />,
+        loader: checkAuthLoader,
       },
       {
         path: '/my-page/favorites',

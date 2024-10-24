@@ -20,13 +20,18 @@ export default function DeleteModal({
       deleteFn(id);
     },
     onSuccess: () => {
-      queryClient.setQueryData(
-        [queryKeyOptions !== null ? [queryKey, queryKeyOptions] : queryKey],
-        (oldData: any) => {
-          if (!oldData) return oldData;
-          return oldData.filter((item: any) => item.id !== id);
-        },
-      );
+      const key =
+        queryKeyOptions === false ? `${queryKey},${queryKeyOptions}` : queryKey;
+
+      console.log(typeof key, key);
+
+      queryClient.setQueryData([key], async (oldData: any) => {
+        console.log(oldData);
+        if (!oldData) {
+          return null;
+        }
+        return oldData.filter((item: any) => item.id !== id);
+      });
       setIsOpen(false);
     },
     onError: (error) => {

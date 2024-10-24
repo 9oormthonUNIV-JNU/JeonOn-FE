@@ -25,7 +25,11 @@ export default function GuideCarousel({ images, handleIndex }: any) {
             <SwiperSlide key={i}>
               <div>
                 <div className="w-full h-80 rounded-3xl mb-5">
-                  <img className="w-full h-full" src={img} alt={`image-${i}`} />
+                  <img
+                    className="w-full h-full object-cover"
+                    src={img}
+                    alt={`image-${i}`}
+                  />
                 </div>
               </div>
             </SwiperSlide>

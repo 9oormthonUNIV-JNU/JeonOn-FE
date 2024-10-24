@@ -19,3 +19,9 @@ export async function deletePartners(partnerId: any) {
   const result = await api.delete(`/admins/partners/${partnerId}`);
   return result;
 }
+
+//지도 삭제 api
+export async function deleteMaps(zoneId: any) {
+  const result = await api.delete(`/admins/zones/${zoneId}`);
+  return result;
+}

@@ -1,6 +1,7 @@
 import React from "react";
 import { useSearchParams } from "react-router-dom";
-import { useBoothDetail } from "@/hook/useBoothDetail"; // 커스텀 훅 가져오기
+import { useBoothDetail } from "@/hook/useBoothDetail";
+// import { useBookmark } from "@/hook/useBookmark";
 import SignInModal from "@/components/common/Modal/SignInModal";
 import time from "@/../public/assets/svgs/time_white.svg";
 import location from "@/../public/assets/svgs/location_white.svg";
@@ -28,6 +29,7 @@ export default function BoothDetail() {
     handleLoginSuccess,
     commentCount,
   } = useBoothDetail(boothId);
+  
 
   // 부스 데이터가 없는 경우 로딩 처리
   if (!boothData) {
@@ -61,7 +63,6 @@ export default function BoothDetail() {
           </div>
         )}
 
-        {/* 부스 정보 */}
         <div className="text-white w-full space-y-1">
           <div className="flex items-center justify-between w-full">
             {/* 부스 이름 */}

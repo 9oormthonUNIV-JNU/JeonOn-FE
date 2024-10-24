@@ -18,8 +18,9 @@ import {
   SelectItem,
   SelectContent,
 } from "@/components/ui/select";
-import { CustomDatePicker } from "@/components/common/DatePicker/CustomDatePicker";
 import { postBooth } from "@/api/booth";
+import { CustomDatePicker } from "@/components/common/DatePicker/CustomDatePicker";
+import { useNavigate } from "react-router-dom";
 
 type BoothCategoryType = {
   type: string;
@@ -42,46 +43,71 @@ type BoothPeriodType = {
 const boothPeriod: BoothPeriodType[] = [
   { type: "주/야간", period: "alltime" },
   { type: "주간", period: "daytime" },
-  { type: "야간", period: "alltime" },
+  { type: "야간", period: "nighttime" },
 ];
 
 const RegisterBooth = () => {
-  const [name, setName] = useState<string>();
-  const [location, setLocation] = useState<string>();
-  const [index, setIndex] = useState<number>();
+  const nav = useNavigate();
+
+  const [name, setName] = useState<string>("");
+  const [location, setLocation] = useState<string>("");
+  const [index, setIndex] = useState<string>("");
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
-  const [startTime, setStartTime] = useState<Date | null>(null);
-  const [endTime, setEndTime] = useState<Date | null>(null);
+  const [startTime, setStartTime] = useState<string>("");
+  const [endTime, setEndTime] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedPeriod, setSelectedPeriod] = useState<string | null>(null);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [images, setImages] = useState<File[]>([]);
 
   const imgRef = useRef<HTMLInputElement>(null);
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const selectedFiles = Array.from(e.target.files);
+
+      if (images.length + selectedFiles.length > 5) {
+        alert("이미지는 최대 5장까지 업로드할 수 있습니다.");
+        return;
+      }
+
+      setImages((prevImages) => [...prevImages, ...selectedFiles]);
+    }
+  };
+
+  const handleImageRemove = (index: number) => {
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+
+    if (imgRef.current) {
+      imgRef.current.value = "";
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const images = imgRef.current?.files
-      ? Array.from(imgRef.current.files)
-      : [];
-
-    // 날짜와 시간 분리
     const formatDate = (date: Date | null) =>
       date ? date.toISOString().split("T")[0] : "";
 
-    const formatTime = (date: Date | null) =>
-      date ? date.toTimeString().split(" ")[0] : "";
+    const formatTime = (time: string) => `${time}:00`;
+
+    const boothIndex = parseInt(index, 10);
+
+    if (isNaN(boothIndex)) {
+      alert("부스 번호를 숫자로 입력해주세요.");
+      return;
+    }
 
     const data = {
       name,
       location,
-      index,
+      index: boothIndex,
       start_date: formatDate(startDate),
       end_date: formatDate(endDate),
-      start_time: formatTime(startDate),
-      end_time: formatTime(endDate),
+      start_time: formatTime(startTime),
+      end_time: formatTime(endTime),
       description,
       category: selectedCategory,
       period: selectedPeriod,
@@ -97,7 +123,7 @@ const RegisterBooth = () => {
   };
 
   return (
-    <div className="w-screen h-screen flex flex-col">
+    <div className="w-screen min-h-screen h-full flex flex-col">
       <div className="flex justify-center items-center">
         <h1 className="text-main text-4xl font-cafe24">부스</h1>
       </div>
@@ -133,18 +159,18 @@ const RegisterBooth = () => {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="font-pretendard text-black text-sm">
-                  <SelectItem value="후문거리">후문거리</SelectItem>
-                  <SelectItem value="518 광장">518 광장</SelectItem>
+                  <SelectItem value="backgate-street">후문거리</SelectItem>
+                  <SelectItem value="square-518">518 광장</SelectItem>
                 </SelectContent>
               </Select>
               <Input
                 required
                 placeholder="부스 번호 (n번 부스)"
-                id="booth_location"
+                inputMode="numeric"
                 type="text"
-                onChange={(e) => setIndex(Number(e.target.value))}
+                onChange={(e) => setIndex(e.target.value)}
                 value={index}
-                className="bg-white text-black"
+                className="bg-white text-black w-40"
               />
             </div>
           </div>
@@ -154,15 +180,31 @@ const RegisterBooth = () => {
             </Label>
             <div className="flex flex-row gap-3 items-center">
               <CustomDatePicker
-                time={true}
                 selectedDate={startDate}
                 onChange={(date) => setStartDate(date)}
               />{" "}
               ~{" "}
               <CustomDatePicker
-                time={true}
                 selectedDate={endDate}
                 onChange={(date) => setEndDate(date)}
+              />
+            </div>
+            <div className="flex flex-row gap-3 items-center">
+              <Input
+                required
+                type="time"
+                className="bg-white text-black w-40"
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+              />{" "}
+              ~
+              <Input
+                required
+                type="time"
+                className="bg-white text-black w-40"
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
+                step="60"
               />
             </div>
           </div>
@@ -188,9 +230,30 @@ const RegisterBooth = () => {
                 id="booth_image"
                 type="file"
                 accept="image/*"
-                className="bg-white"
+                multiple
+                onChange={handleImageChange}
+                className="bg-white text-black"
+                ref={imgRef}
               />
               <img src={photo} alt="photo" className="absolute top-2 right-2" />
+            </div>
+            <div className="flex flex-wrap gap-2 mt-2">
+              {images.map((image, index) => (
+                <div key={index} className="relative">
+                  <img
+                    src={URL.createObjectURL(image)}
+                    alt={`preview-${index}`}
+                    className="w-20 h-20 object-cover rounded-md"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleImageRemove(index)}
+                    className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
           <div className="flex flex-col mx-10 gap-2">
@@ -199,7 +262,7 @@ const RegisterBooth = () => {
             </Label>
             <div className="flex flex-row gap-2 overflow-x-auto whitespace-nowrap max-w-full">
               {boothCategory.map((category) => {
-                const isSelected = selectedCategory === category.type;
+                const isSelected = selectedCategory === category.category;
                 const categoryClasses = `${
                   isSelected
                     ? "bg-[#6EFA6E] text-black border-[#6EFA6E]"
@@ -207,15 +270,16 @@ const RegisterBooth = () => {
                 } border text-xs w-16 h-7 flex shrink-0`;
                 return (
                   <FilledBtn
+                    type="button"
                     className={categoryClasses}
-                    onClick={() => setSelectedCategory(category.type)}
+                    onClick={() => setSelectedCategory(category.category)}
                   >
                     {category.type}
                   </FilledBtn>
                 );
               })}
               {boothPeriod.map((period) => {
-                const isSelected = selectedPeriod === period.type;
+                const isSelected = selectedPeriod === period.period;
                 const periodClasses = `${
                   isSelected
                     ? "bg-[#6EFA6E] text-black border-[#6EFA6E]"
@@ -223,8 +287,9 @@ const RegisterBooth = () => {
                 } border text-xs w-16 h-7 flex shrink-0`;
                 return (
                   <FilledBtn
+                    type="button"
                     className={periodClasses}
-                    onClick={() => setSelectedPeriod(period.type)}
+                    onClick={() => setSelectedPeriod(period.period)}
                   >
                     {period.type}
                   </FilledBtn>
@@ -232,7 +297,7 @@ const RegisterBooth = () => {
               })}
             </div>
           </div>
-          <div className="flex justify-end mt-5 mx-10">
+          <div className="flex justify-end mt-5 mb-10 mx-10">
             <button
               className="relative text-main font-pretendard text-base px-8 py-2 bg-black rounded-full border border-main hover:bg-main hover:border-main hover:text-black"
               type="submit"
@@ -250,7 +315,10 @@ const RegisterBooth = () => {
               <div className="pt-5">
                 <button
                   className="text-main bg-black px-8 py-2 rounded-full border border-main hover:bg-main hover:border-main hover:text-black"
-                  onClick={() => setOpenModal(false)}
+                  onClick={() => {
+                    setOpenModal(false);
+                    nav("/booth");
+                  }}
                 >
                   돌아가기
                 </button>

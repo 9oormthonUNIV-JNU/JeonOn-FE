@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import favorites from '@/../public/assets/svgs/favorites.svg';
-import bookmark from '@/../public/assets/svgs/bookmark.svg';
+import bookmark from '@/../public/assets/svgs/bookmark_empty.svg';
 import love from '@/../public/svgs/love.svg';
 import trashCan from '@/../public/svgs/delete.svg';
 

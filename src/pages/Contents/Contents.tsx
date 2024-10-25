@@ -1,5 +1,5 @@
 import favorites from '@/../public/assets/svgs/favorites.svg';
-import bookmark from '@/../public/assets/svgs/bookmark.svg';
+import bookmark from '@/../public/assets/svgs/bookmark_empty.svg';
 import trashCan from '@/../public/svgs/delete.svg';
 
 import { getContents } from '@/api/contents';

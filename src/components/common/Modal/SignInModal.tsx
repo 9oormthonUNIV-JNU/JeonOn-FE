@@ -9,9 +9,10 @@ import { login } from '@/api/login';
 interface SignInModalProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  onLoginSuccess?: () => void;
 }
 
-export default function SignInModal({ isOpen, setIsOpen }: SignInModalProps) {
+export default function SignInModal({ isOpen, setIsOpen, onLoginSuccess }: SignInModalProps) {
   const [nickname, setNickname] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
@@ -25,6 +26,9 @@ export default function SignInModal({ isOpen, setIsOpen }: SignInModalProps) {
     },
     onSuccess: () => {
       setIsOpen(false); // 로그인 성공 시 모달 닫기
+      if (onLoginSuccess) {
+        onLoginSuccess(); // 로그인 성공 시 콜백 실행
+      }
     },
     onError: (error) => {
       alert(error.message); // 로그인 실패 시 경고
@@ -53,6 +57,7 @@ export default function SignInModal({ isOpen, setIsOpen }: SignInModalProps) {
               닉네임
             </Label>
             <Input
+              required
               id="nickname"
               type="text"
               placeholder="닉네임"
@@ -68,6 +73,7 @@ export default function SignInModal({ isOpen, setIsOpen }: SignInModalProps) {
               비밀번호
             </Label>
             <Input
+              required
               id="password"
               type="password"
               placeholder="비밀번호"

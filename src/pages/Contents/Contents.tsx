@@ -1,5 +1,5 @@
 import favorites from '@/../public/assets/svgs/favorites.svg';
-import bookmark from '@/../public/assets/svgs/bookmark.svg';
+import bookmark from '@/../public/assets/svgs/bookmark_empty.svg';
 import { getContents } from '@/api/contents';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';

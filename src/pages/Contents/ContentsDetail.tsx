@@ -1,4 +1,4 @@
-import bookmark from '@/../public/assets/svgs/guide/bookmark.svg';
+ import bookmark from '@/../public/assets/svgs/guide/bookmark.svg';
 import favorites from '@/../public/assets/svgs/guide/favorites.svg';
 import divideLine from '@/../public/images/divideLine.png';
 

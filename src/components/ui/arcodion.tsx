@@ -3,19 +3,28 @@ import location_black from "@/../public/assets/svgs/location_black.svg";
 import location_white from "@/../public/assets/svgs/location_white.svg";
 import { useState, useRef, useEffect } from "react";
 import { EventType } from "@/constants/events";
+import down_arrow from "@/../public/assets/svgs/down_arrow.svg";
 
-const Now = ({ nowActive }: { nowActive: boolean }) => {
+const Now = ({
+  nowActive,
+  isNow,
+}: {
+  nowActive?: boolean;
+  isNow?: boolean;
+}) => {
   return (
     <div
-      className={`flex mr-1 justify-center font-pretendard items-center bg-main font-black text-black rounded-3xl w-12 h-7
-        ${nowActive ? "visible" : "invisible"}`}
+      className={`flex mr-1 justify-center font-pretendard items-center font-black text-black rounded-3xl w-12 h-7
+        ${nowActive ? "visible" : "invisible"} ${
+        isNow ? "bg-main" : "bg-slate-300"
+      }`}
     >
       NOW
     </div>
   );
 };
 
-const EventDetils = ({
+const EventDetails = ({
   event,
   nowActive,
   isTopSection,
@@ -25,9 +34,9 @@ const EventDetils = ({
   isTopSection: boolean;
 }) => {
   return (
-    <>
-      <div className="flex items-center gap-1.5 backdrop:w-full">
-        <Now nowActive={nowActive} />
+    <div className="flex w-full">
+      <div className="flex flex-row items-center gap-1.5 justify-start">
+        <Now nowActive={nowActive} isNow={true} />
         <span className="truncate">
           {new Date(event.start).toLocaleTimeString([], {
             hour: "2-digit",
@@ -43,7 +52,7 @@ const EventDetils = ({
         </span>
         <span className="truncate">{event.content}</span>
       </div>
-      <div className="flex gap-1.5 ml-auto mr-2">
+      <div className="flex items-center gap-1.5 ml-auto mr-2">
         <img
           src={
             isTopSection
@@ -55,7 +64,7 @@ const EventDetils = ({
         />
         <span className="truncate">{event.location}</span>
       </div>
-    </>
+    </div>
   );
 };
 
@@ -116,19 +125,20 @@ const Arcodion: React.FC<ArcodionProps> = ({ events }) => {
       {!open ? (
         <div
           onClick={handleInteraction}
-          className="flex items-center w-full h-12 bg-white rounded-3xl py-2.5 px-3 gap-1"
+          className="flex flex-row justify-between items-center w-full h-14 bg-white rounded-3xl py-2.5 px-3 gap-1"
         >
           {currentEvent ? (
-            <EventDetils
+            <EventDetails
               event={currentEvent}
               nowActive={true}
               isTopSection={true}
             />
           ) : (
-            <div className="ml-2 font-pretendard text-gray-400 text-xs">
-              진행 중인 이벤트가 없습니다.
-            </div>
+            <Now isNow={false} nowActive={true} />
           )}
+          <div className="mr-1">
+            <img src={down_arrow} />
+          </div>
         </div>
       ) : (
         <div className="flex flex-col gap-5 items-start w-full h-72 bg-white rounded-3xl overflow-y-auto overflow-hidden">
@@ -140,7 +150,7 @@ const Arcodion: React.FC<ArcodionProps> = ({ events }) => {
               } `;
               return (
                 <div className={nowClasses} key={event.order}>
-                  <EventDetils
+                  <EventDetails
                     event={event}
                     nowActive={nowActive}
                     isTopSection={false}

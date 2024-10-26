@@ -1,3 +1,7 @@
+import aespa from "@/../public/images/special-guest/aespa.jpg";
+import newjeans from "@/../public/images/special-guest/newjeans.jpg"
+
+
 export type EventType = {
   order: number;
   start: string;
@@ -16,6 +20,7 @@ export const events: EventType[] = [
     end: "2024-11-05T13:00:00",
     content: "에스파",
     location: "대운동장",
+    img: "/images/special-guest/aespa.jpg",
     special: true,
   },
   {
@@ -24,6 +29,7 @@ export const events: EventType[] = [
     end: "2024-11-05T14:00:00",
     content: "뉴진스",
     location: "대운동장",
+    img: newjeans,
     special: true,
   },
   {

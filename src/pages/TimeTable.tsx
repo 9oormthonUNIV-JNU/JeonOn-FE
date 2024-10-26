@@ -61,7 +61,7 @@ export default function TimeTable() {
         </div>
         <Arcodion events={filteredEvents} />
       </div>
-      <div className="">
+      <div className="flex flex-col">
         <div className="font-pretendard text-white font-xl flex justify-center mb-3">
           SPECIAL GUEST
         </div>

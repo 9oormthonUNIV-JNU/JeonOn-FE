@@ -79,16 +79,16 @@ const EmblaCarousel: React.FC<EmblaCarouselProps> = ({ slides }) => {
   }, [emblaApi, setTweenNodes, setTweenFactor, tweenScale]);
 
   return (
-    <div className="embla w-full">
-      <div className="embla__viewport overflow-hidden" ref={emblaRef}>
+    <div className="embla w-full justify-center flex-col">
+      <div className="embla__viewport overflow-hidden w-full" ref={emblaRef}>
         <div className="embla__container flex">
           {slides.map((event) => (
             <div
-              className="embla__slide flex-shrink-0 w-[55%] pl-4"
+              className="embla__slide flex-shrink-0 w-[55%]"
               key={event.order}
             >
-              <div className="embla__slide__number flex justify-center items-center bg-gray-200 h-48 rounded-lg text-4xl">
-                {event.img}
+              <div className="embla__slide__number flex justify-center items-center h-52 overflow-hidden rounded-[5px]">
+                <img src={event.img} className="w-full h-full" />
               </div>
             </div>
           ))}

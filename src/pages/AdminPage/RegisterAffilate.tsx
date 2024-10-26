@@ -33,6 +33,10 @@ const RegisterAffiliate = () => {
 
       if (images.length + selectedFiles.length > 3) {
         alert("이미지는 최대 3장까지 업로드할 수 있습니다.");
+
+        if (imgRef.current) {
+          imgRef.current.value = "";
+        }
         return;
       }
 
@@ -162,7 +166,7 @@ const RegisterAffiliate = () => {
                 <button
                   type="button"
                   onClick={() => handleImageRemove(index)}
-                  className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
+                  className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center shadow-md"
                 >
                   ×
                 </button>

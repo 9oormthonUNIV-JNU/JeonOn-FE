@@ -24,12 +24,8 @@ export default function GuideCarousel({ images, handleIndex }: any) {
           imageArray.map((img: string, i: number) => (
             <SwiperSlide key={i}>
               <div>
-                <div className="w-full h-80 rounded-3xl mb-5">
-                  <img
-                    className="w-full h-full object-cover"
-                    src={img}
-                    alt={`image-${i}`}
-                  />
+                <div className="mb-5">
+                  <img src={img} alt={`image-${i}`} />
                 </div>
               </div>
             </SwiperSlide>

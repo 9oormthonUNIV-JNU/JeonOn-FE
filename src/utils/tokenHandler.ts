@@ -37,6 +37,7 @@ export function checkAuthLoader() {
 
   if (!token) {
     alert('로그인이 필요합니다!');
+
     return redirect('/');
   }
   return null;

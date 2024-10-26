@@ -46,8 +46,6 @@ export default function Guide() {
     },
   });
 
-  console.log(clicked);
-
   const mapInfo = useQuery({
     queryKey: ['maps', curIndex],
     queryFn: () => getZones(curIndex.toString()),
@@ -102,7 +100,7 @@ export default function Guide() {
                   </div>
                 </div>
                 <div>
-                  <span className="text-xs font-normal text-white">
+                  <span className="text-xs font-normal text-white overflow-y-hidden">
                     {item.description}
                   </span>
                 </div>

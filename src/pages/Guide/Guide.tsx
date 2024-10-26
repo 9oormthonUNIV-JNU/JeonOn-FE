@@ -46,8 +46,6 @@ export default function Guide() {
     },
   });
 
-  console.log(clicked);
-
   const mapInfo = useQuery({
     queryKey: ['maps', curIndex],
     queryFn: () => getZones(curIndex.toString()),

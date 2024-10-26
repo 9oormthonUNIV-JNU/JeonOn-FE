@@ -78,6 +78,7 @@ export default function Feedback() {
       console.log(result);
       setOpenModal((v) => !v);
     } catch (error) {
+      alert(error);
       console.error(error);
     }
   };

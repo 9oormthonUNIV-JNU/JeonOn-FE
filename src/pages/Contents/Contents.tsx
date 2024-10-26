@@ -66,7 +66,7 @@ export default function Contents() {
               </div>
             </div>
             <div className="max-h-8 overflow-hidden">
-              <span className="text-xs font-normal text-white">
+              <span className="text-xs font-normal text-white overflow-y-hidden">
                 {item.description}
               </span>
             </div>

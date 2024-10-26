@@ -70,6 +70,10 @@ const RegisterBooth = () => {
 
       if (images.length + selectedFiles.length > 5) {
         alert("이미지는 최대 5장까지 업로드할 수 있습니다.");
+
+        if (imgRef.current) {
+          imgRef.current.value = "";
+        }
         return;
       }
 
@@ -159,8 +163,8 @@ const RegisterBooth = () => {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="font-pretendard text-black text-sm">
-                  <SelectItem value="backgate-street">후문거리</SelectItem>
                   <SelectItem value="square-518">518 광장</SelectItem>
+                  <SelectItem value="backgate-street">후문</SelectItem>
                 </SelectContent>
               </Select>
               <Input
@@ -248,7 +252,7 @@ const RegisterBooth = () => {
                   <button
                     type="button"
                     onClick={() => handleImageRemove(index)}
-                    className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
+                    className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center shadow-md"
                   >
                     ×
                   </button>

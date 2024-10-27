@@ -30,6 +30,11 @@ const RegisterMap = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!location) {
+      alert("위치를 선택해주세요.");
+      return;
+    }
+
     const data = {
       name: title,
       location,

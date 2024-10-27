@@ -97,6 +97,24 @@ const RegisterBooth = () => {
       return;
     }
 
+    if (!startDate || !endDate) {
+      alert("부스 시작일과 종료일을 선택해주세요.");
+      return;
+    }
+
+    if (startDate > endDate) {
+      alert("부스 시작일은 종료일보다 빠르거나 같아야 합니다.");
+      return;
+    }
+
+    const start = new Date(`1970-01-01T${startTime}:00`);
+    const end = new Date(`1970-01-01T${endTime}:00`);
+
+    if (start > end) {
+      alert("부스 운영 시작 시간은 종료 시간보다 빠르거나 같아야 합니다.");
+      return;
+    }
+
     if (!selectedCategory) {
       alert("카테고리를 선택해주세요.");
       return;

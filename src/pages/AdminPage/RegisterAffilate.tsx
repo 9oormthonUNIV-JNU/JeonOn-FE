@@ -59,6 +59,11 @@ const RegisterAffiliate = () => {
       return;
     }
 
+    if (startDate > endDate) {
+      alert("제휴 기간의 시작일은 종료일보다 빠르거나 같아야 합니다.");
+      return;
+    }
+
     const data = {
       name,
       location,

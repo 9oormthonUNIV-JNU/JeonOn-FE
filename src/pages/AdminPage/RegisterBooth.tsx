@@ -92,6 +92,20 @@ const RegisterBooth = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!location) {
+      alert("위치를 선택해주세요.");
+      return;
+    }
+
+    if (!selectedCategory) {
+      alert("카테고리를 선택해주세요.");
+      return;
+    }
+    if (!selectedPeriod) {
+      alert("운영 시간을 선택해주세요.");
+      return;
+    }
+
     const formatDate = (date: Date | null) =>
       date ? date.toISOString().split("T")[0] : "";
 

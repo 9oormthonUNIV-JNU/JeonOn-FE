@@ -11,18 +11,15 @@ const Now = ({
 }: {
   nowActive?: boolean;
   isNow?: boolean;
-}) => {
-  return (
-    <div
-      className={`flex mr-0.5 justify-center font-pretendard items-center font-black text-black text-xs rounded-3xl w-10 h-7 flex-shrink-0
-        ${nowActive ? "visible" : "invisible"} ${
-        isNow ? "bg-main" : "bg-slate-300"
-      }`}
-    >
-      NOW
-    </div>
-  );
-};
+}) => (
+  <div
+    className={`flex mr-0.5 justify-center font-pretendard items-center font-black text-black text-xs rounded-3xl w-10 h-7 flex-shrink-0 ${
+      nowActive ? "visible" : "invisible"
+    } ${isNow ? "bg-main" : "bg-slate-300"}`}
+  >
+    NOW
+  </div>
+);
 
 const EventDetails = ({
   event,
@@ -32,49 +29,47 @@ const EventDetails = ({
   event: EventType;
   nowActive: boolean;
   isTopSection: boolean;
-}) => {
-  return (
-    <div className="grid grid-cols-[75%_25%] w-full">
-      <div className="flex flex-row items-center gap-1.5 justify-start">
-        <Now nowActive={nowActive} isNow={true} />
-        <span className="truncate">
-          {new Date(event.start).toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-          })}
-          ~
-          {new Date(event.end).toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false,
-          })}
-        </span>
-        <span className="truncate">{event.content}</span>
-      </div>
-      <div className="flex items-center gap-1.5 ml-auto mr-2">
-        <img
-          src={
-            isTopSection
-              ? location_black
-              : nowActive
-              ? location_white
-              : location_black
-          }
-        />
-        <span className="truncate">{event.location}</span>
-      </div>
+}) => (
+  <div className="grid grid-cols-[75%_25%] w-full">
+    <div className="flex flex-row items-center gap-1.5 justify-start">
+      <Now nowActive={nowActive} isNow={true} />
+      <span className="truncate">
+        {new Date(event.start).toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        })}
+        ~
+        {new Date(event.end).toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        })}
+      </span>
+      <span className="truncate">{event.content}</span>
     </div>
-  );
-};
+    <div className="flex items-center gap-1.5 ml-auto mr-2">
+      <img
+        src={
+          isTopSection
+            ? location_black
+            : nowActive
+            ? location_white
+            : location_black
+        }
+      />
+      <span className="truncate">{event.location}</span>
+    </div>
+  </div>
+);
 
 type ArcodionProps = {
   events: EventType[];
 };
 
 const Arcodion: React.FC<ArcodionProps> = ({ events }) => {
-  const [open, setOpen] = useState<boolean>(false);
-  const [currentTime, setCurrentTime] = useState<Date>();
+  const [open, setOpen] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
   const arcodionRef = useRef<HTMLDivElement | null>(null);
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -86,9 +81,7 @@ const Arcodion: React.FC<ArcodionProps> = ({ events }) => {
     }
   };
 
-  const handleInteraction = () => {
-    setOpen(!open);
-  };
+  const handleInteraction = () => setOpen((prev) => !prev);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -98,19 +91,38 @@ const Arcodion: React.FC<ArcodionProps> = ({ events }) => {
   }, []);
 
   useEffect(() => {
-    const updateCurrentTime = () => {
-      // 배포 시 변경 필요
-      setCurrentTime(new Date("2024-11-05T16:55:00"));
+    const updateTime = () => {
+      const now = new Date();
+      console.log(`Current Time Updated: ${now.toLocaleTimeString()}`); // 콘솔에 시간 출력
+      setCurrentTime(now);
     };
-    updateCurrentTime();
 
-    // 1분마다 업데이트
-    const intervalId = setInterval(updateCurrentTime, 60000);
-    return () => clearInterval(intervalId);
+    // 첫 렌더링 시 즉시 시간 출력
+    updateTime();
+
+    const scheduleUpdate = () => {
+      const now = new Date();
+      const msUntilNextMinute =
+        (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
+
+      console.log(`[Scheduled]: Next update in ${msUntilNextMinute}ms`); // 스케줄 정보 출력
+
+      const timeoutId = setTimeout(() => {
+        updateTime(); // 첫 00초 업데이트
+        const intervalId = setInterval(updateTime, 60000); // 이후 1분마다 업데이트
+
+        // Cleanup 함수에서 interval 정리
+        return () => clearInterval(intervalId);
+      }, msUntilNextMinute);
+
+      return () => clearTimeout(timeoutId);
+    };
+
+    const cancelTimeout = scheduleUpdate();
+    return cancelTimeout;
   }, []);
 
   const isCurrentEvent = (start: string, end: string) => {
-    if (!currentTime) return false;
     const startTime = new Date(start);
     const endTime = new Date(end);
     return currentTime >= startTime && currentTime < endTime;

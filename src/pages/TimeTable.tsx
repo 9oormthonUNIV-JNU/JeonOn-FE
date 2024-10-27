@@ -2,7 +2,6 @@ import { useState } from "react";
 import { events } from "@/constants/events";
 import Arcodion from "@/components/ui/arcodion";
 import Carousel from "@/components/ui/carousel";
-import { sep } from "path";
 
 const dates = [
   { date: 5, day: "TUE" },

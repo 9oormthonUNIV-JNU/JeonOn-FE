@@ -18,6 +18,10 @@ export default function RegisterContents() {
     const formData = new FormData();
     const imgs = imgRef2.current?.files;
     if (imgs) {
+      if (imgs.length > 3) {
+        imgRef2.current.value = '';
+        return alert('이미지는 최대 3장입니다!');
+      }
       for (let i = 0; i < Math.min(3, imgs.length); i++) {
         formData.append('images', imgs[i]);
       }
@@ -40,6 +44,7 @@ export default function RegisterContents() {
         router('/contents');
       }
     } catch (error) {
+      alert(error);
       console.error(error);
     }
   };
@@ -62,6 +67,7 @@ export default function RegisterContents() {
             제목
           </Label>
           <Input
+            placeholder="콘텐츠 제목"
             required
             id="contents_title"
             type="text"
@@ -75,6 +81,7 @@ export default function RegisterContents() {
             콘텐츠 설명
           </Label>
           <Textarea
+            placeholder="콘텐츠에 대해 상세하게 설명해 주세요."
             required
             id="contents_detail"
             onChange={(e) => setDetail(e.target.value)}
@@ -99,6 +106,7 @@ export default function RegisterContents() {
             <img src={photo} alt="photo" className="absolute top-2 right-2" />
           </div>
         </div>
+
         <div className="flex flex-col mx-10 gap-2"></div>
         <div className="flex justify-end mt-5 mx-10">
           <button

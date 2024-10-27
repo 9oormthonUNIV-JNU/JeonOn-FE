@@ -16,15 +16,9 @@ export default function Home() {
             onClick={() => navigate('/guide')}
           >
             <h1 className="text-xl font-cafe24">안내</h1>
-            <span className="text-xs text-[] font-normal">
+            <span className="text-xs text-C1 font-normal">
               지도와 제휴업체를 한 눈에 볼 수 있어요!
             </span>
-          </div>
-          <div
-            className="w-full h-14 bg-main-guide rounded-[20px] flex justify-center items-center text-[#0F0] text-xl shadow-2xl border border-[#0F0] font-cafe24"
-            onClick={() => navigate('/contents')}
-          >
-            콘텐츠
           </div>
           <div
             className="w-full h-14 bg-main-guide rounded-[20px] flex justify-center items-center text-[#0F0] text-xl shadow-2xl border border-[#0F0] font-cafe24"
@@ -32,6 +26,13 @@ export default function Home() {
           >
             타임테이블
           </div>
+          <div
+            className="w-full h-14 bg-main-guide rounded-[20px] flex justify-center items-center text-[#0F0] text-xl shadow-2xl border border-[#0F0] font-cafe24"
+            onClick={() => navigate('/contents')}
+          >
+            콘텐츠
+          </div>
+
           <div
             className="w-full h-14 bg-main-guide rounded-[20px] flex justify-center items-center text-[#0F0] text-xl shadow-2xl border border-[#0F0] font-cafe24"
             onClick={() => navigate('/booth')}

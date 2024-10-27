@@ -16,6 +16,9 @@ import {
 import { formatDateToYYYYMMDD } from '@/utils/dateStr';
 
 import useBookmark from '@/hook/useBookmark';
+import { useState } from 'react';
+import SignInModal from '@/components/common/Modal/SignInModal';
+import { getAuthToken } from '@/utils/tokenHandler';
 
 // type TPartnersDetail = {
 //   name: string;
@@ -30,6 +33,7 @@ import useBookmark from '@/hook/useBookmark';
 
 export default function GuideDetail() {
   const { id } = useParams();
+  const [activeModal, setActiveModal] = useState(false);
 
   const { data } = useQuery({
     queryKey: ['partners-detail', id],
@@ -81,7 +85,15 @@ export default function GuideDetail() {
         </div>
         <div className="mb-1 flex justify-between items-center">
           <h1 className="text-[#0F0] text-3xl font-cafe24">{data?.name}</h1>
-          <div onClick={toggleBookmark}>
+          <div
+            onClick={() => {
+              if (getAuthToken() === null) {
+                setActiveModal(true);
+                return;
+              }
+              toggleBookmark();
+            }}
+          >
             {like ? (
               <img src={favorites} alt="favorites" />
             ) : (
@@ -117,6 +129,11 @@ export default function GuideDetail() {
           ))}
         </div>
       </div>
+      {/* 로그인 모달 */}
+      <SignInModal
+        isOpen={activeModal}
+        setIsOpen={() => setActiveModal(false)}
+      />
     </div>
   );
 }

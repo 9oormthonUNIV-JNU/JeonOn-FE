@@ -1,4 +1,4 @@
- import bookmark from '@/../public/assets/svgs/guide/bookmark.svg';
+import bookmark from '@/../public/assets/svgs/guide/bookmark.svg';
 import favorites from '@/../public/assets/svgs/guide/favorites.svg';
 import divideLine from '@/../public/images/divideLine.png';
 
@@ -7,17 +7,19 @@ import {
   contentsBookmarkCancel,
   getContentsDetail,
 } from '@/api/contents';
+import SignInModal from '@/components/common/Modal/SignInModal';
 
 import GuideCarousel from '@/components/guide/GuideCarousel';
 import useBookmark from '@/hook/useBookmark';
 import { formatDateToYYYYMMDD } from '@/utils/dateStr';
+import { getAuthToken } from '@/utils/tokenHandler';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 export default function ContentsDetail() {
   const { id } = useParams();
-  // const [like, setLike] = useState(false);
+  const [activeModal, setActiveModal] = useState(false);
 
   const { data } = useQuery({
     queryKey: ['contents', id],
@@ -26,10 +28,10 @@ export default function ContentsDetail() {
 
   const { like, toggleBookmark } = useBookmark({
     id,
-    queryKey: 'contents', // 예시 쿼리 키
-    bookmarkFn: contentsBookmark, // 북마크 추가 API 함수
-    bookmarkCancelFn: contentsBookmarkCancel, // 북마크 취소 API 함수
-    initialBookmarkState: data?.bookmark ?? false, // 초기 상태 설정
+    queryKey: 'contents',
+    bookmarkFn: contentsBookmark,
+    bookmarkCancelFn: contentsBookmarkCancel,
+    initialBookmarkState: data?.bookmark ?? false,
   });
 
   // const queryClient = useQueryClient();
@@ -64,7 +66,15 @@ export default function ContentsDetail() {
       <div className="px-6">
         <div className="mb-1 flex justify-between items-center">
           <h1 className="text-white text-3xl font-cafe24">{data?.title}</h1>
-          <div onClick={toggleBookmark}>
+          <div
+            onClick={() => {
+              if (getAuthToken() === null) {
+                setActiveModal(true);
+                return;
+              }
+              toggleBookmark();
+            }}
+          >
             {like ? (
               <img src={favorites} alt="favorites" />
             ) : (
@@ -89,6 +99,11 @@ export default function ContentsDetail() {
           ))}
         </div>
       </div>
+      {/* 로그인 모달 */}
+      <SignInModal
+        isOpen={activeModal}
+        setIsOpen={() => setActiveModal(false)}
+      />
     </div>
   );
 }

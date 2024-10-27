@@ -51,9 +51,13 @@ const RegisterAffiliate = () => {
       imgRef.current.value = "";
     }
   };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!startDate || !endDate) {
+      alert("제휴 기간의 시작일과 종료일을 선택해주세요.");
+      return;
+    }
 
     const data = {
       name,

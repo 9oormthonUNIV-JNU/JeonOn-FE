@@ -65,7 +65,7 @@ const RegisterMap = () => {
           <Select required value={location} onValueChange={setLocation}>
             <SelectTrigger className="font-pretendard bg-white text-black w-36 text-sm">
               {" "}
-              <SelectValue />
+              <SelectValue placeholder="위치" />
             </SelectTrigger>
             <SelectContent className="font-pretendard text-black text-sm">
               <SelectItem value="stadium">대운동장</SelectItem>
@@ -79,6 +79,7 @@ const RegisterMap = () => {
             지도 설명 제목
           </Label>
           <Input
+            placeholder="지도별 위치 제목"
             required
             id="map_title"
             type="text"
@@ -89,10 +90,10 @@ const RegisterMap = () => {
         </div>
         <div className="flex flex-col mx-10 gap-2">
           <Label htmlFor="map_description" className="flex justify-start">
-            내용
+            내용 (선택)
           </Label>
           <Textarea
-            required
+            placeholder="지도별 위치에 대해서 상세하게 설명해주세요."
             id="map_description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}

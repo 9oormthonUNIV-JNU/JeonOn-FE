@@ -91,6 +91,7 @@ const RegisterAffiliate = () => {
             매장명
           </Label>
           <Input
+            placeholder="매장명"
             required
             id="affiliate_name"
             type="text"
@@ -104,6 +105,7 @@ const RegisterAffiliate = () => {
             매장 위치(선택)
           </Label>
           <Input
+            placeholder="매장 위치 설명"
             id="affiliate_location"
             type="text"
             onChange={(e) => setLocation(e.target.value)}
@@ -132,6 +134,7 @@ const RegisterAffiliate = () => {
             내용
           </Label>
           <Textarea
+            placeholder="제휴 내용을 상세하게 설명해주세요."
             required
             id="affiliate_description"
             value={description}

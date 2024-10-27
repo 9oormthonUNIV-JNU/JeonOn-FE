@@ -144,6 +144,7 @@ const RegisterBooth = () => {
               부스명
             </Label>
             <Input
+              placeholder="부스명"
               required
               id="booth_name"
               type="text"
@@ -160,7 +161,7 @@ const RegisterBooth = () => {
               <Select required value={location} onValueChange={setLocation}>
                 <SelectTrigger className="font-pretendard bg-white text-black w-36 text-sm">
                   {" "}
-                  <SelectValue />
+                  <SelectValue placeholder="위치" />
                 </SelectTrigger>
                 <SelectContent className="font-pretendard text-black text-sm">
                   <SelectItem value="square-518">518 광장</SelectItem>
@@ -195,6 +196,7 @@ const RegisterBooth = () => {
             </div>
             <div className="flex flex-row gap-3 items-center">
               <Input
+                placeholder="00:00"
                 required
                 type="time"
                 className="bg-white text-black w-40"

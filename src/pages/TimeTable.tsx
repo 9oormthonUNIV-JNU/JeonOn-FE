@@ -2,6 +2,7 @@ import { useState } from "react";
 import { events } from "@/constants/events";
 import Arcodion from "@/components/ui/arcodion";
 import Carousel from "@/components/ui/carousel";
+import { sep } from "path";
 
 const dates = [
   { date: 5, day: "TUE" },
@@ -20,6 +21,8 @@ export default function TimeTable() {
     const eventDate = new Date(event.start).getDate();
     return eventDate === selectedDate;
   });
+
+  const specialEvents = filteredEvents.filter((event) => event.special);
 
   return (
     <div className="h-full w-full min-h-screen flex flex-col font-pretendard">
@@ -65,7 +68,7 @@ export default function TimeTable() {
         <div className="font-pretendard text-white font-xl flex justify-center mb-3">
           SPECIAL GUEST
         </div>
-        <Carousel />
+        <Carousel slides={specialEvents} />
       </div>
     </div>
   );

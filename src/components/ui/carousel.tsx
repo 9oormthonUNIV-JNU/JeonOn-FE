@@ -1,19 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { EmblaCarouselType } from "embla-carousel";
-import { EventType, events } from "@/constants/events";
+import { EventType } from "@/constants/events";
 import location_white from "@/../public/assets/svgs/location_white.svg";
 import clock from "@/../public/assets/svgs/clock.svg";
 
 const TWEEN_FACTOR_BASE = 0.52;
-
-// Special guest carousel wrapper component
-const SpecialGuestCarousel = () => {
-  // special이 true인 이벤트들만 필터링
-  const specialEvents = events.filter((event) => event.special);
-
-  return <EmblaCarousel slides={specialEvents} />;
-};
 
 type EmblaCarouselProps = {
   slides: EventType[];
@@ -22,7 +14,7 @@ type EmblaCarouselProps = {
 const numberWithinRange = (number: number, min: number, max: number): number =>
   Math.min(Math.max(number, min), max);
 
-const EmblaCarousel: React.FC<EmblaCarouselProps> = ({ slides }) => {
+const Carousel: React.FC<EmblaCarouselProps> = ({ slides }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
   const tweenFactor = useRef(0);
   const tweenNodes = useRef<HTMLElement[]>([]);
@@ -133,4 +125,4 @@ const EmblaCarousel: React.FC<EmblaCarouselProps> = ({ slides }) => {
   );
 };
 
-export default SpecialGuestCarousel;
+export default Carousel;

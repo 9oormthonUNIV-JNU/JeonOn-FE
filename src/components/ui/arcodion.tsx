@@ -14,7 +14,7 @@ const Now = ({
 }) => {
   return (
     <div
-      className={`flex mr-1 justify-center font-pretendard items-center font-black text-black rounded-3xl w-12 h-7
+      className={`flex mr-0.5 justify-center font-pretendard items-center font-black text-black text-xs rounded-3xl w-10 h-7 flex-shrink-0
         ${nowActive ? "visible" : "invisible"} ${
         isNow ? "bg-main" : "bg-slate-300"
       }`}
@@ -34,7 +34,7 @@ const EventDetails = ({
   isTopSection: boolean;
 }) => {
   return (
-    <div className="flex w-full">
+    <div className="grid grid-cols-[75%_25%] w-full">
       <div className="flex flex-row items-center gap-1.5 justify-start">
         <Now nowActive={nowActive} isNow={true} />
         <span className="truncate">
@@ -100,7 +100,7 @@ const Arcodion: React.FC<ArcodionProps> = ({ events }) => {
   useEffect(() => {
     const updateCurrentTime = () => {
       // 배포 시 변경 필요
-      setCurrentTime(new Date("2024-11-05T12:00:00"));
+      setCurrentTime(new Date("2024-11-05T16:55:00"));
     };
     updateCurrentTime();
 
@@ -125,7 +125,7 @@ const Arcodion: React.FC<ArcodionProps> = ({ events }) => {
       {!open ? (
         <div
           onClick={handleInteraction}
-          className="flex flex-row justify-between items-center w-full h-14 bg-white rounded-3xl py-2.5 px-3 gap-1"
+          className="flex flex-row justify-between items-center w-full h-14 bg-white rounded-3xl py-2 px-2.5 gap-1"
         >
           {currentEvent ? (
             <EventDetails
@@ -145,7 +145,7 @@ const Arcodion: React.FC<ArcodionProps> = ({ events }) => {
           <div className="flex flex-col w-full h-full py-2 px-2">
             {events.map((event) => {
               const nowActive = isCurrentEvent(event.start, event.end);
-              const nowClasses = `rounded-3xl gap-2 w-full h-12 flex flex-row items-center py-2.5 px-3 ${
+              const nowClasses = `rounded-3xl gap-2 w-full h-12 flex flex-row items-center py-2.5 px-2.5 ${
                 nowActive ? "bg-black text-white" : "bg-none text-black"
               } `;
               return (

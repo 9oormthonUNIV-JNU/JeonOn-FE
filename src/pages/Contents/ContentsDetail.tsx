@@ -1,12 +1,15 @@
 import bookmark from '@/../public/assets/svgs/guide/bookmark.svg';
 import favorites from '@/../public/assets/svgs/guide/favorites.svg';
 import divideLine from '@/../public/images/divideLine.png';
+import trashCan from '@/../public/svgs/bigDelete.svg';
+import { deleteContents } from '@/api/admin';
 
 import {
   contentsBookmark,
   contentsBookmarkCancel,
   getContentsDetail,
 } from '@/api/contents';
+import DeleteModal from '@/components/common/Modal/DeleteModal';
 import SignInModal from '@/components/common/Modal/SignInModal';
 
 import GuideCarousel from '@/components/guide/GuideCarousel';
@@ -21,9 +24,12 @@ export default function ContentsDetail() {
   const { id } = useParams();
   const [activeModal, setActiveModal] = useState(false);
 
+  const [deletModalOpen, setDeleteModalOpen] = useState(false);
+
   const { data } = useQuery({
     queryKey: ['contents', id],
     queryFn: () => getContentsDetail(id),
+    staleTime: 0,
   });
 
   const { like, toggleBookmark } = useBookmark({
@@ -33,6 +39,10 @@ export default function ContentsDetail() {
     bookmarkCancelFn: contentsBookmarkCancel,
     initialBookmarkState: data?.bookmark ?? false,
   });
+
+  const handleDeleteClick = () => {
+    setDeleteModalOpen(true);
+  };
 
   // const queryClient = useQueryClient();
 
@@ -90,8 +100,14 @@ export default function ContentsDetail() {
 
         <GuideCarousel images={data?.images} />
 
+        <div
+          className="flex justify-end items-end mb-2"
+          onClick={() => handleDeleteClick()}
+        >
+          <img src={trashCan} alt="delete-icon" />
+        </div>
         <div className="mb-4">
-          <img src={divideLine} alt="divide-line" />
+          <img src={divideLine} alt="d/ivide-line" />
         </div>
         <div className="text-white">
           {data?.description?.split('.').map((sentence, index) => (
@@ -99,6 +115,14 @@ export default function ContentsDetail() {
           ))}
         </div>
       </div>
+      {/* 삭제 모달 컴포넌트 */}
+      <DeleteModal
+        isOpen={deletModalOpen}
+        id={id}
+        setIsOpen={setDeleteModalOpen}
+        queryKey={'contents'}
+        deleteFn={deleteContents}
+      />
       {/* 로그인 모달 */}
       <SignInModal
         isOpen={activeModal}

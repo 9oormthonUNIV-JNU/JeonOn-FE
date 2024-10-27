@@ -6,11 +6,11 @@ export default function Home() {
   const navigate = useNavigate();
   return (
     <div className="flex flex-col justify-center items-center">
-      <div className="bg-[url('/images/mainBackground.png')] h-full">
+      <div className="bg-[url('/images/mainBackground.png')] h-full bg-contain bg-center">
         <div className="mb-16">
           <img src={homeMain} alt="home" />
         </div>
-        <div className="px-10 flex flex-col justify-center items-center gap-3 pb-5 mb-40">
+        <div className="px-10 flex flex-col justify-center items-center gap-3 pb-5 mb-24">
           <div
             className="w-full h-14 bg-main-guide rounded-[20px] flex flex-col justify-center items-center text-[#0F0] shadow-2xl border border-[#0F0]"
             onClick={() => navigate('/guide')}
@@ -52,7 +52,6 @@ export default function Home() {
             피드백
           </div>
         </div>
-
         <Footer />
         <div className="h-2"></div>
       </div>

@@ -1,5 +1,6 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import cancel from "@/../public/assets/svgs/cancel-black.svg";
 import empty_box from "@/../public/assets/svgs/empty-box.svg";
 import check_box from "@/../public/assets/svgs/check-box.svg";
@@ -16,7 +17,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useMutation } from "@tanstack/react-query";
+import { getProfile } from "@/api/user";
+import { isLoggedIn } from "@/api/login";
 
 interface TimeCapsuleModalProps {
   isOpen: boolean;
@@ -34,20 +36,7 @@ export default function TimeCapsuleModal({
   setIsOpen,
   onSendComplete,
 }: TimeCapsuleModalProps) {
-  const getNickname = () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (token) {
-        const parsedToken = JSON.parse(token);
-        return parsedToken.nickname || "Guest";
-      }
-    } catch (error) {
-      console.error("Token parsing error:", error);
-    }
-    return "Guest";
-  };
-
-  const [nickname] = useState(getNickname());
+  const [nickname, setNickname] = useState<string>("Guest");
 
   const [formData, setFormData] = useState({
     mailAddress: "",
@@ -56,24 +45,46 @@ export default function TimeCapsuleModal({
     images: [] as File[],
   });
 
-  // 타임캡슐을 전송하는 뮤테이션
-  const sendMutation = useMutation({
-    mutationFn: async (data: {
-      mailAddress: string;
-      nickname: string;
-      content: string;
-      isPublic: boolean;
-      images: File[];
-    }) => {
+  // 사용자 프로필 데이터 fetching
+  const {
+    data: profileData,
+    isSuccess,
+    isError: profileError,
+  } = useQuery({
+    queryKey: ["profile"],
+    queryFn: async () => {
+      if (!isLoggedIn()) throw new Error("User not logged in");
+      const result = await getProfile();
+      return result;
+    },
+    enabled: isLoggedIn() !== false, // 로그인 상태에서만 쿼리 실행
+    refetchOnWindowFocus: false, // 창 포커스 시 재요청 방지
+  });
+
+  useEffect(() => {
+    if (isSuccess && profileData?.nickname) {
+      setNickname(profileData.nickname);
+    }
+    if(!isOpen){
+      resetForm();
+    }
+  }, [isSuccess, profileData, isOpen]);
+
+  // 타임캡슐을 전송하는 함수
+  const sendTimeCapsule = async (data: {
+    mailAddress: string;
+    content: string;
+    isPublic: boolean;
+    images: File[];
+  }) => {
+    try {
+      // createTimeCapsule 함수 대신 직접 axios 요청을 보냅니다.
       await createTimeCapsule(
         data.mailAddress,
         data.content,
         data.isPublic,
         data.images
       );
-    },
-    onSuccess: () => {
-      alert("타임캡슐 작성이 완료되었습니다.");
       setIsOpen(false);
       onSendComplete(
         formData.mailAddress,
@@ -82,12 +93,11 @@ export default function TimeCapsuleModal({
         formData.images
       );
       resetForm();
-    },
-    onError: (error) => {
+    } catch (error) {
       alert("타임캡슐 작성에 실패했습니다.");
       console.error(error);
-    },
-  });
+    }
+  };
 
   const resetForm = () => {
     setFormData({
@@ -101,7 +111,28 @@ export default function TimeCapsuleModal({
   // 폼 제출 핸들러
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await sendMutation.mutate({ ...formData, nickname });
+
+    // 내용이 비어 있으면 폼 제출을 막음
+    if (!formData.mailAddress.trim() || !formData.content.trim()) {
+      alert("이메일과 내용을 모두 입력해야 합니다.");
+      return;
+    }
+
+    try {
+      await sendTimeCapsule({ ...formData });
+
+      setIsOpen(false);
+      onSendComplete(
+        formData.mailAddress,
+        formData.content,
+        formData.isPublic,
+        formData.images
+      );
+      resetForm();
+    } catch (error) {
+      console.error("타임캡슐 전송 오류:", error);
+      alert("타임캡슐 작성에 실패했습니다.");
+    }
   };
 
   const handleInputChange = (
@@ -114,6 +145,11 @@ export default function TimeCapsuleModal({
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const files = Array.from(e.target.files);
+
+    if (formData.images.length + files.length > 3) {
+      alert("이미지는 최대 3장까지 업로드할 수 있습니다.");
+      return;
+    }
       setFormData((prev) => ({ ...prev, images: files }));
     }
   };
@@ -122,7 +158,7 @@ export default function TimeCapsuleModal({
     <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
       <DialogContent className="w-[90%] md:w-[80%] max-w-[600px] mx-auto rounded-xl">
         <DialogHeader>
-          <DialogTitle className="pt-4">타임캡슐 작성</DialogTitle>
+          <DialogTitle className="pt-4">타임캡슐</DialogTitle>
         </DialogHeader>
 
         {/* 타임캡슐 작성 폼 */}
@@ -197,11 +233,15 @@ export default function TimeCapsuleModal({
               />
               <div className="flex items-center bg-white border border-gray-300 rounded p-2">
                 <div>
-                  <span>
-                    {formData.images.length > 0
-                      ? `${formData.images.length}개의 이미지 선택됨`
-                      : ""}
-                  </span>
+                  {formData.images.length > 0 ? (
+                    <ul>
+                      {formData.images.map((image, index) => (
+                        <li key={index}>{image.name}</li> // 각 이미지 파일의 이름 렌더링
+                      ))}
+                    </ul>
+                  ) : (
+                    ""
+                  )}
                 </div>
                 <img src={imgIcon} alt="img" className="ml-auto w-6 h-6" />
               </div>
@@ -227,14 +267,9 @@ export default function TimeCapsuleModal({
             </div>
           </div>
 
-          <DialogClose asChild>
-            <button
-              type="submit"
-              className="absolute bottom-4 right-4 px-4 py-2"
-            >
-              <img src={send} alt="send" />
-            </button>
-          </DialogClose>
+          <button type="submit" className="absolute bottom-4 right-2 py-2">
+            <img src={send} alt="send" />
+          </button>
         </form>
       </DialogContent>
     </Dialog>

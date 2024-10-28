@@ -11,10 +11,12 @@ function RQProvider({ children }: Props) {
     new QueryClient({
       defaultOptions: {
         // react-query 전역 설정
+
         queries: {
           refetchOnWindowFocus: false,
           retryOnMount: true,
           refetchOnReconnect: false,
+          staleTime: 30000,
         },
       },
     }),

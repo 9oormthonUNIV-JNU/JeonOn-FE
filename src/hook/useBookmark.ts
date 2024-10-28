@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { getAuthToken } from '@/utils/tokenHandler';
 
 export default function useBookmark({
   id,

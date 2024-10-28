@@ -2,8 +2,8 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import cancel from "@/../public/assets/svgs/cancel-black.svg";
-import empty_box from "@/../public/assets/svgs/empty-box.svg";
-import check_box from "@/../public/assets/svgs/check-box.svg";
+import empty_box from "@/../public/images/empty_box.png";
+import check_box from "@/../public/images/check_box.png";
 import send from "@/../public/assets/svgs/send.svg";
 import imgIcon from "@/../public/assets/svgs/img.svg";
 import { createTimeCapsule } from "@/api/timecapsule";
@@ -164,7 +164,7 @@ export default function TimeCapsuleModal({
         {/* 타임캡슐 작성 폼 */}
         <form onSubmit={handleSubmit}>
           {/* 닉네임 표시 */}
-          <div className="flex flex-col justify-center gap-3 mb-5">
+          <div className="flex flex-col justify-center gap-2 mb-5">
             <Label htmlFor="nickname" className="text-black text-sm">
               닉네임
             </Label>
@@ -178,24 +178,25 @@ export default function TimeCapsuleModal({
           </div>
 
           {/* 이메일 입력 */}
-          <div className="flex flex-col justify-center gap-3 mb-5">
+          <div className="flex flex-col justify-center gap-2 mb-5">
             <Label htmlFor="mailAddress" className="text-black text-sm">
               받는 사람 메일
             </Label>
             <Input
               required
               value={formData.mailAddress}
+              placeholder="타임캡슐을 받을 메일을 정확하게 입력해주세요."
               type="email"
               name="mailAddress"
               id="mailAddress"
-              className="bg-white"
+              className="bg-white text-xs"
               onChange={handleInputChange}
             />
           </div>
 
           {/* 내용 입력 */}
           <div className="relative mb-5">
-            <Label htmlFor="content" className="text-black text-sm">
+            <Label htmlFor="content" className="text-black text-">
               작성란
             </Label>
             <Textarea
@@ -204,7 +205,7 @@ export default function TimeCapsuleModal({
               id="content"
               name="content"
               placeholder="지금을 기록해보세요."
-              className="bg-white min-h-[120px] max-h-[240px]"
+              className="bg-white min-h-[120px] max-h-[240px] mt-2 text-xs"
               onChange={handleInputChange}
             />
             <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-[-20%] flex items-center text-black text-[8px] font-black font-['NanumSquare Neo'] whitespace-nowrap">
@@ -217,8 +218,8 @@ export default function TimeCapsuleModal({
 
           {/* 이미지 업로드 */}
           <div className="flex flex-col">
-            <Label htmlFor="photo" className="text-black text-sm">
-              이미지 업로드
+            <Label htmlFor="photo" className="text-black text-sm mb-2">
+              이미지 첨부(3장 제한)
             </Label>
             <div className="relative">
               <input
@@ -253,7 +254,7 @@ export default function TimeCapsuleModal({
             <img
               src={formData.isPublic ? check_box : empty_box}
               alt={"공개 또는 비공개"}
-              className="h-[5%] w-[5%] mt-3 mr-2 cursor-pointer"
+              className="h-3 w-3 mt-3 mr-2 cursor-pointer object-cover max-h-full max-w-full"
               onClick={() =>
                 setFormData((prev) => ({ ...prev, isPublic: !prev.isPublic }))
               }
@@ -263,7 +264,7 @@ export default function TimeCapsuleModal({
 
           <div className="flex justify-center items-center mb-12">
             <div className="relative flex items-center text-s mt-3">
-              <p>오늘을 기억하고 추억을 선물하세요</p>
+              <p>오늘을 기억하고, 추억을 선물하세요</p>
             </div>
           </div>
 

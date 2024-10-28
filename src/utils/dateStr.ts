@@ -4,26 +4,32 @@ export function formatDateToYYYYMMDD(dateStr: string) {
 
   const formattedDate =
     date.getFullYear() +
-    '-' +
-    String(date.getMonth() + 1).padStart(2, '0') +
-    '-' +
-    String(date.getDate()).padStart(2, '0');
+    "-" +
+    String(date.getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(date.getDate()).padStart(2, "0");
 
   return formattedDate;
 }
 
 export function formatDateToMMDDhhmm(dateStr: string) {
-  // Date 객체로 변환
   const date = new Date(dateStr);
 
-  // 월, 일 부분 (MM-DD)
+  const kstOffset = 9 * 60;
+  const utcOffset = date.getTimezoneOffset();
+  const kstDate = new Date(date.getTime() + (kstOffset - utcOffset) * 60000);
+
+  const utcDate = new Date(kstDate.getTime() - 9 * 60 * 60000);
+
   const formattedDate =
-    String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
+    String(utcDate.getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(utcDate.getDate()).padStart(2, "0");
 
-  // 시간 부분 (hh:mm)
   const formattedTime =
-    String(date.getHours()).padStart(2, '0') + ':' + String(date.getMinutes()).padStart(2, '0');
+    String(utcDate.getHours()).padStart(2, "0") +
+    ":" +
+    String(utcDate.getMinutes()).padStart(2, "0");
 
-  // 날짜와 시간 결합
   return `${formattedDate} ${formattedTime}`;
 }

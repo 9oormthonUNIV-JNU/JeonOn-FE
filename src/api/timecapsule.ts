@@ -3,9 +3,9 @@ import { isLoggedIn } from "./login";
 
 // 타임캡슐 생성 함수 (localStorage에 저장)
 export async function createTimeCapsule(
-  mailAddress: string,
+  mail_address: string,
   content: string,
-  isPublic: boolean,
+  is_public: boolean,
   images: File[]
 ) {
   try {
@@ -13,9 +13,9 @@ export async function createTimeCapsule(
     const requestBlob = new Blob(
       [
         JSON.stringify({
-          mailAddress,
+          mail_address,
           content,
-          isPublic,
+          is_public,
           images,
         }),
       ],
@@ -40,18 +40,28 @@ export async function createTimeCapsule(
 }
 
 // 타임캡슐 공개글 조회 함수
-export const getPublicTimeCapsules = async () => {
+export async function getPublicTimeCapsules(){
   try {
     const response = await api.get("timecapsules");
-    return response.data;
+    return response.data.data.timecapsules;
   } catch (error) {
     console.error("타임캡슐 조회 중 오류 발생:", error);
     throw error;
   }
 };
 
+export async function getMyTimeCapsules(){
+  try {
+    const response = await api.get("timecapsules");
+    return response.data.data.my_timecapsules;
+  } catch (error) {
+    console.error("타임캡슐 조회 중 오류 발생:", error);
+    throw error;
+  }
+}
+
 // 타임캡슐 삭제 함수
-export const deleteTimeCapsule = async (timeCapsuleId: number) => {
+export async function deleteMyCapsule(timeCapsuleId: number){
   try {
     const response = await api.delete(`timecapsules/${timeCapsuleId}`);
     return response.data;

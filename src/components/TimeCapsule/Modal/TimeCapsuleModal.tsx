@@ -24,9 +24,9 @@ interface TimeCapsuleModalProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   onSendComplete: (
-    mailAddress: string,
+    mail_address: string,
     content: string,
-    isPublic: boolean,
+    is_public: boolean,
     images: File[]
   ) => void;
 }

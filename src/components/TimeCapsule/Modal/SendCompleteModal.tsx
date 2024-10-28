@@ -4,12 +4,19 @@ import { Dialog, DialogContent, DialogTitle, DialogClose } from "@/components/ui
 interface SendCompleteModalProps {
   isOpen: boolean;
   setIsOpen: () => void;
+  onConfirm: () => void;
 }
 
 export default function SendCompleteModal({
   isOpen,
   setIsOpen,
+  onConfirm,
 }: SendCompleteModalProps) {
+  const handleConfirm = () => {
+    onConfirm();
+    setIsOpen();
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && setIsOpen()}>
       <DialogContent className="flex flex-col items-center justify-center w-[80%] max-w-[600px] mx-auto rounded-xl">
@@ -28,7 +35,7 @@ export default function SendCompleteModal({
         <DialogClose asChild>
           <button
             className="px-4 py-2 bg-black text-white rounded-lg text-xs hover:bg-blue-600"
-            onClick={() => setIsOpen()}
+            onClick={handleConfirm}
           >
             네
           </button>

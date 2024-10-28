@@ -137,8 +137,20 @@ export default function Guide() {
         </div>
       ) : (
         <div className="px-5">
-          <div className="mb-16">
+          <div className="mb-12">
             <GuideCarousel images={images} handleIndex={handleIndex} />
+          </div>
+          <div className="flex justify-center items-center gap-1 mb-6">
+            <div>
+              <img src={love} alt="love" />
+            </div>
+            <h1 className="text-white text-xl">
+              {curIndex === 1
+                ? '대운동장'
+                : curIndex === 2
+                ? '5·18 광장'
+                : '후문 거리'}
+            </h1>
           </div>
           <RegisterButton path={'map'} />
           <div className="w-full bg-map rounded-xl border border-[#0F0] flex flex-col mb-5">

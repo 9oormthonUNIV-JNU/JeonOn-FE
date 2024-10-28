@@ -66,15 +66,15 @@ const CapsuleComment: React.FC<CapsuleCommentProps> = ({
                 <div className="flex space-x-4">
                   {capsule.images.map((image, index) => (
                     <div
-                    key={index}
-                    className="w-14 h-14 rounded-[15px] bg-[#d9d9d9] overflow-hidden"
-                  >
-                    <ZoomableImage
-                      src={image}
-                      alt={`img${index + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
+                      key={index}
+                      className="w-14 h-14 rounded-[15px] bg-[#d9d9d9] overflow-hidden"
+                    >
+                      <ZoomableImage
+                        src={image}
+                        alt={`img${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
                   ))}
                 </div>
               )}
@@ -122,15 +122,15 @@ const CapsuleComment: React.FC<CapsuleCommentProps> = ({
               <div className="flex space-x-4">
                 {capsule.images.map((image, index) => (
                   <div
-                  key={index}
-                  className="w-14 h-[58px] rounded-[15px] overflow-hidden bg-[#d9d9d9]"
-                >
-                  <ZoomableImage
-                    src={image}
-                    alt={`img${index + 1}`}
-                    className="w-full h-full object-cover" // 기존 스타일을 유지
-                  />
-                </div>
+                    key={index}
+                    className="w-14 h-[58px] rounded-[15px] overflow-hidden bg-[#d9d9d9]"
+                  >
+                    <ZoomableImage
+                      src={image}
+                      alt={`img${index + 1}`}
+                      className="w-full h-full object-cover" // 기존 스타일을 유지
+                    />
+                  </div>
                 ))}
               </div>
             )}
@@ -145,7 +145,7 @@ const CapsuleComment: React.FC<CapsuleCommentProps> = ({
               <img
                 src={trashCan}
                 alt="Delete"
-                className="w-6 h-6 absolute top-2 right-2 cursor-pointer"
+                className="w-3 h-3 absolute top-2 right-3 cursor-pointer"
                 onClick={() =>
                   handleDeleteClick(capsule.id, () =>
                     deleteTimeCapsules(capsule.id)

@@ -30,6 +30,9 @@ export default function DeleteModal({
       await queryClient.invalidateQueries(queryKey);
 
       setIsOpen(false);
+      if (queryKey === 'maps') {
+        return navigate('/guide');
+      }
       navigate(`/${queryKey}`, { replace: true });
     },
 

@@ -14,7 +14,13 @@ export default function LikingBooth({ boothId }: LikingBoothProps) {
   const [hasLiked, setHasLiked] = useState<boolean>(false);
 
   // 부스 디테일 가져오기
-  const { data: boothData, isLoading, isSuccess, isError, error } = useQuery({
+  const {
+    data: boothData,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ["boothDetail", boothId],
     queryFn: async () => {
       const data = await boothDetail(boothId);
@@ -44,8 +50,11 @@ export default function LikingBooth({ boothId }: LikingBoothProps) {
       return liked ? cancelLikeBooth(boothId) : likeBooth(boothId);
     },
     onMutate: async (liked: boolean) => {
-      await queryClient.cancelQueries({ queryKey: ["boothDetail", boothId]});
-      const previousData = queryClient.getQueryData<any>(["boothDetail", boothId]);
+      await queryClient.cancelQueries({ queryKey: ["boothDetail", boothId] });
+      const previousData = queryClient.getQueryData<any>([
+        "boothDetail",
+        boothId,
+      ]);
       queryClient.setQueryData(["boothDetail", boothId], (oldData: any) => {
         return {
           ...oldData,
@@ -57,12 +66,15 @@ export default function LikingBooth({ boothId }: LikingBoothProps) {
     },
     onError: (error, _, context) => {
       if (context?.previousData) {
-        queryClient.setQueryData(["boothDetail", boothId], context.previousData);
+        queryClient.setQueryData(
+          ["boothDetail", boothId],
+          context.previousData
+        );
       }
       console.error("좋아요 처리 중 오류가 발생했습니다:", error);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["boothDetail", boothId]});
+      queryClient.invalidateQueries({ queryKey: ["boothDetail", boothId] });
     },
   });
 
@@ -83,7 +95,7 @@ export default function LikingBooth({ boothId }: LikingBoothProps) {
         className="cursor-pointer h-7 w-7 z-10"
       />
       {/* 좋아요 개수 */}
-      <span className="absolute left-[10.3px] flex items-center justify-center text-black text-sm z-20">
+      <span className="absolute left-1/2 transform -translate-x-1/2 text-[1.2vh] flex items-center justify-center text-black z-20 mb-[1px]">
         {likeCount}
       </span>
     </div>

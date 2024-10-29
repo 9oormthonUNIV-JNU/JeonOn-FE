@@ -4,7 +4,7 @@ import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import './styles.css';
 
-export default function GuideCarousel({ images, handleIndex }: any) {
+export default function GuideCarousel({ images, handleIndex, }: any) {
   const imageArray = Array.isArray(images) ? images : images?.split(',');
 
   return (
@@ -25,7 +25,7 @@ export default function GuideCarousel({ images, handleIndex }: any) {
             <SwiperSlide key={i}>
               <div>
                 <div className="mb-5">
-                  <img src={img} alt={`image-${i}`} />
+                  <img src={img} alt={`image-${i}`}/>
                 </div>
               </div>
             </SwiperSlide>

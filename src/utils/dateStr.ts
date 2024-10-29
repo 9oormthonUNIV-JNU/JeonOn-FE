@@ -32,4 +32,6 @@ export function formatDateToMMDDhhmm(dateStr: string) {
     String(utcDate.getMinutes()).padStart(2, "0");
 
   return `${formattedDate} ${formattedTime}`;
+
 }
+

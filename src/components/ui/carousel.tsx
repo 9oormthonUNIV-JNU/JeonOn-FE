@@ -80,7 +80,7 @@ const Carousel: React.FC<EmblaCarouselProps> = ({ slides }) => {
               key={event.order}
             >
               <div className="embla__slide__number flex justify-center items-center h-52 overflow-hidden rounded-[5px]">
-                <img src={event.img} className="w-full h-full" />
+                <img src={event.img} className="w-full h-full" alt=""/>
               </div>
             </div>
           ))}
@@ -93,11 +93,11 @@ const Carousel: React.FC<EmblaCarouselProps> = ({ slides }) => {
         </div>
         <div className="flex flex-col text-xs gap-2 font-pretendard text-white">
           <div className="flex flex-row justify-center gap-1">
-            <img src={location_white} />
+            <img src={location_white} alt=""/>
             <p>{slides[selectedIndex].location}</p>
           </div>
           <div className="flex flex-row justify-center gap-1">
-            <img src={clock} />
+            <img src={clock} alt=""/>
             <p>
               {new Date(slides[selectedIndex].start).getDate()}(
               {

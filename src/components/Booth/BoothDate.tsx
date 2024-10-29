@@ -24,7 +24,7 @@ export default function BoothDate({
   };
 
   return (
-    <div className="relative w-full max-w-[90vw] h-auto mx-auto mt-[-3rem]">
+    <div className="relative w-full max-w-[90vw] h-auto mx-auto mt-[-3rem] mb-3">
       {/* 숫자와 요일을 나란히 배치하는 부모 컨테이너 */}
       <div className="flex justify-center items-end gap-[20vw]">
         {dates.map((date) => (

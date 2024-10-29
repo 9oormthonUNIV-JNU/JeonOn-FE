@@ -129,6 +129,22 @@ export default function BoothCards({
     getBooths();
   }, [selectedCategories, selectedDate, selectedLocation]);
 
+  const formatLocation = (locationStr: string, boothIndex: number) => {
+    let locationText = "";
+  
+    // locationStr에 따라 해당하는 위치 이름을 설정
+    if (locationStr === "square-518") {
+      locationText = "5.18 광장";
+    } else if (locationStr === "backgate-street") {
+      locationText = "후문 거리";
+    } else {
+      locationText = "대운동장"; // 추가적인 위치가 있을 경우에 대비한 기본값
+    }
+  
+    // 부스 번호를 포함한 문장을 반환
+    return `${locationText} ${boothIndex}번 부스`;
+  };
+
   // 시간을 포맷하는 함수
   const formatTime = (timeStr: string) => {
     return timeStr.slice(0, 5); // 'HH:MM:SS'에서 초 부분을 제외한 'HH:MM' 형식으로 변환
@@ -155,7 +171,7 @@ export default function BoothCards({
 
   // 조건에 따라 렌더링
   return (
-    <div className="bg-black w-full flex flex-col items-center space-y-4">
+    <div className="bg-black w-full flex flex-col items-center space-y-4 mb-10 mt-5">
       {booths.length === 0 ? (
         <div className="mt-20 text-center text-white text-lg font-medium">
           조건에 해당하는 부스가 없습니다.
@@ -175,25 +191,23 @@ export default function BoothCards({
                 {booth.name}
               </CardTitle>
             </CardHeader>
-            <CardContent className="ml-6 text-[1.5vh] px-4 pb-4">
-              <div className="flex items-center space-x-1">
-                <img src={location} className="w-4" alt="location" />
-                <div className="text-black font-normal font-['NanumSquare Neo']">
-                  {booth.location}
-                </div>
-                <img src={time} className="w-6" alt="time" />
-                <div className="text-black font-normal font-['NanumSquare Neo']">
-                  {formatDateTime(
-                    booth.start_date,
-                    booth.end_date,
-                    booth.start_time,
-                    booth.end_time
-                  )}
-                </div>
-              </div>
+            <CardContent className="ml-6 text-[1.2vh] px-4 pb-4">
+            <div className="relative flex items-center space-x-1">
+  <img src={location} className="w-3" alt="location" />
+  <div className="text-black font-normal font-['NanumSquare Neo']">
+    {formatLocation(booth.location, booth.index)}
+  </div>
+
+  <div className="absolute grid left-28 grid-cols-[auto_1fr] gap-1 items-center">
+    <img src={time} className="w-4" alt="time" />
+    <div className="text-black font-normal font-['NanumSquare Neo']">
+      {formatDateTime(booth.start_date, booth.end_date, booth.start_time, booth.end_time)}
+    </div>
+  </div>
+</div>
             </CardContent>
             <div
-              className="top-2 right-2 absolute"
+              className="top-3 right-4 absolute"
               onClick={(e) => e.stopPropagation()} // 이벤트 버블링 방지
             >
               <LikingBooth boothId={booth.id} />

@@ -1,5 +1,6 @@
 import homeMain from '@/../public/images/mainHome.png';
 import Footer from '@/components/Home/Footer';
+import { checkAdminToken } from '@/utils/tokenHandler';
 import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
@@ -47,7 +48,13 @@ export default function Home() {
           </div>
           <div
             className="w-full h-14 bg-main-guide rounded-[20px] flex justify-center items-center text-[#0F0] text-xl shadow-2xl border border-[#0F0] font-cafe24"
-            onClick={() => navigate('/feedback')}
+            onClick={() => {
+              if (checkAdminToken()) {
+                return navigate('/admin-page/view-feedback');
+              } else {
+                navigate('/feedback');
+              }
+            }}
           >
             피드백
           </div>

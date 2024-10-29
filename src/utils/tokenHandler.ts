@@ -29,6 +29,7 @@ export function checkAdminLoader() {
   if (token !== import.meta.env.VITE_ADMIN_TOKEN) {
     return redirect('/');
   }
+
   return null;
 }
 

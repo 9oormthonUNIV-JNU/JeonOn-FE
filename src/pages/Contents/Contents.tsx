@@ -6,8 +6,6 @@ import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { formatDateToYYYYMMDD } from '@/utils/dateStr';
 
-import { useState } from 'react';
-
 import RegisterButton from '@/components/admin/registerButton';
 
 type TContent = {

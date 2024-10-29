@@ -56,7 +56,7 @@ export async function postBooth(data: BoothType) {
 
 export async function deleteBooth(boothId: number) {
   const result = await api.delete(`admins/booths/${boothId}`);
-  return result;
+  return result.data;
 }
 
 export async function boothsList(queryString: string = "") {

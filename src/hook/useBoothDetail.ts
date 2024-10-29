@@ -19,6 +19,7 @@ interface BoothDetailData {
   like_count: number;
   bookmark: boolean;
   description: string;
+  category: string;
   images: string[];
 }
 

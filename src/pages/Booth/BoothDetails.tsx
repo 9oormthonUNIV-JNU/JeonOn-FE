@@ -9,15 +9,27 @@ import bookmark_empty from "@/../public/assets/svgs/bookmark_empty.svg";
 import bookmark_filled from "@/../public/assets/svgs/bookmark_filled.svg";
 import BoothComments from "@/components/Booth/BoothComments";
 import NewBoothComment from "@/components/Booth/NewBoothComment";
-import BoothCarousel from "@/components/Booth/BoothCarousel";
 import LikingBooth from "@/components/Booth/LikingBooth";
 import { isLoggedIn } from "@/api/login";
 import { boothBookmark, cancelBoothBookmark } from "@/api/booth";
+import divideLine from '@/../public/images/divideLine.png';
+import GuideCarousel from '@/components/guide/GuideCarousel';
+
+type BoothCategoryType = {
+  type: string;
+  category: string;
+};
+
+const boothCategory: BoothCategoryType[] = [
+  { type: "음식", category: "food" },
+  { type: "체험", category: "experience" },
+  { type: "플리마켓", category: "flea-market" },
+  { type: "홍보", category: "promotion" },
+  { type: "기타", category: "etc" },
+];
 
 export default function BoothDetail() {
   const [searchParams] = useSearchParams();
-  const categories = searchParams.get("categories");
-
   const { id } = useParams();
 
   // 부스 정보, 상태 관리 (useBoothDetail 훅)
@@ -42,36 +54,25 @@ export default function BoothDetail() {
     initialBookmarkState: boothData?.bookmark ?? false,
   });
 
+  const mappedCategory = boothData
+  ? boothCategory.find((item) => item.category === boothData.category)?.type
+  : null;
+
   if (!boothData) {
     return <div className="text-white">Loading...</div>;
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-black p-5">
-      <h1 className="mb-4 text-main text-4xl font-cafe24">부스</h1>
-      <div className="flex flex-col items-start w-full max-w-[305px]">
+    <div className="flex flex-col items-center bg-black p-3 overflow-hidden">
+      <h1 className="mb-10 text-main text-4xl font-cafe24">부스</h1>
+      <div className="flex flex-col items-start w-full max-w-[90%]">
         {/* 부스 이미지 슬라이드 */}
-        <div className="w-full max-w-[305px] h-[303px] mb-3 bg-white rounded-[20px] border-2 border-white">
-          {boothData.images && boothData.images.length > 0 ? (
-            <BoothCarousel
-              images={boothData.images}
-              handleIndex={(index) =>
-                console.log("Current image index:", index)
-              }
-            />
-          ) : (
-            <img
-              src="https://via.placeholder.com/305x303"
-              alt="booth"
-              className="w-full h-auto object-contain"
-            />
-          )}
-        </div>
+        <GuideCarousel images={boothData?.images} />
 
         {/* 카테고리 정보 있을 때만 렌더링 */}
-        {categories && (
-          <div className="flex items-center justify-center w-[80px] h-[25px] mb-3 bg-[#00ff00] rounded-full">
-            <span className="text-black text-xs font-normal">{categories}</span>
+        {mappedCategory && (
+          <div className="flex items-center justify-center w-[80px] h-[30px] mb-1 bg-[#00ff00] rounded-full">
+            <span className="text-black text-sm">{mappedCategory}</span>
           </div>
         )}
 
@@ -79,9 +80,9 @@ export default function BoothDetail() {
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center space-x-2">
               {/* 부스 이름 */}
-              <h1 className="text-3xl text-main font-cafe24">
+              <div className="font-cafe24 text-3xl text-main">
                 {boothData.name}
-              </h1>
+              </div>
 
               {/* 북마크 */}
               <div onClick={toggleBookmark} className="cursor-pointer">
@@ -135,19 +136,9 @@ export default function BoothDetail() {
         </div>
 
         {/* 댓글 분리선 */}
-        <div className="w-full my-4">
-          <div className="relative w-full flex items-center">
-            <div className="w-4 h-4 bg-white rounded-full"></div>
-            <div className="flex-grow h-[2px] bg-white"></div>
-            <div className="w-4 h-4 bg-white rounded-full"></div>
-          </div>
-          <div className="mt-2 text-left">
-            <span className="text-white text-[15px] font-normal font-['Pretendard']">
-              댓글
-            </span>
-          </div>
+        <div className="mt-2 mb-4">
+          <img src={divideLine} alt="divide-line" />
         </div>
-      </div>
 
       {/* 작성된 댓글들 */}
       <BoothComments nickname={nickname} commentsUpdated={commentsUpdated} />
@@ -169,6 +160,7 @@ export default function BoothDetail() {
           onLoginSuccess={handleLoginSuccess}
         />
       )}
+      </div>
     </div>
   );
 }

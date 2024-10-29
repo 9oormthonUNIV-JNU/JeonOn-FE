@@ -112,7 +112,7 @@ export default function BoothDetail() {
                 {boothData.name}
               </div>
 
-              <div onClick={toggleBookmark} className="cursor-pointer">
+              <div onClick={toggleBookmark} className="cursor-pointer mt-1">
                 {like ? (
                   <img
                     src={bookmark_filled}

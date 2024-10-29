@@ -54,9 +54,7 @@ export default function Booth() {
         onCardSelect={handleCardSelect}
       />
 
-      {checkAdminToken() ? (
       <RegisterButton path={"booth"} />
-      ):(null)}
       
     </div>
   );

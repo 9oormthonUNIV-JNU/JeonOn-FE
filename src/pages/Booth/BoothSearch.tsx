@@ -54,17 +54,17 @@ export default function BoothSearch() {
       {/* 검색 입력창과 검색 아이콘 */}
       <div className="relative w-[85%] mt-10">
         <Input
-          className="h-10 w-full text-medium text-white font-normal font-['NanumSquare Neo'] rounded-[30px] border border-white border-2 pl-4 pr-12"
+          className="h-10 w-full text-medium text-white font-normal font-['NanumSquare Neo'] rounded-[30px] border border-white border-2 pl-4 pr-12 text-[16px]"
           placeholder="부스명을 입력해주세요."
           value={searchQuery}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setSearchQuery(e.target.value);
-          }} // 입력 값 변경 시 상태 업데이트
+          }}
           onKeyPress={(e: React.KeyboardEvent) => {
             if (e.key === "Enter") {
-              handleSearch(); // 엔터 키로 검색 수행
+              handleSearch()
             }
-          }} // Enter 키 감지
+          }}
         />
         <img
           src={searchWhite}

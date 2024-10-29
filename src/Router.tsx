@@ -71,10 +71,10 @@ const router = createBrowserRouter([
         path: '/booth/search',
         element: <BoothSearch />,
       },
-      // {
-      //   path: "/time-table",
-      //   element: <TimeTable />,
-      // },
+      {
+        path: '/time-table',
+        element: <TimeTable />,
+      },
       {
         path: '/my-page',
         element: <MyPage />,

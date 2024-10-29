@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import BoothCategory from "@/components/ui/booth-category";
-import BoothDate from "@/components/Booth/BoothDate";
-import BoothCards from "@/components/Booth/BoothCards";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import BoothCategory from '@/components/ui/booth-category';
+import BoothDate from '@/components/Booth/BoothDate';
+import BoothCards from '@/components/Booth/BoothCards';
 
 export default function Booth() {
   const navigate = useNavigate();
@@ -24,8 +24,8 @@ export default function Booth() {
   const handleCardSelect = (boothId: number) => {
     const categoryQuery =
       selectedCategories.length > 0
-        ? `&categories=${encodeURIComponent(selectedCategories.join(","))}`
-        : "";
+        ? `&categories=${encodeURIComponent(selectedCategories.join(','))}`
+        : '';
     navigate(`/booth/${boothId}${categoryQuery}`); // 카테고리가 없으면 쿼리에서 제외
   };
 

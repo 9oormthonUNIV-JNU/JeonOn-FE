@@ -140,7 +140,7 @@ export default function RegisterContents() {
                 <button
                   type="button"
                   onClick={() => handleImageRemove(index)}
-                  className="absolute top-0 right-0 bg-red-500 text-white rounded-full"
+                  className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center shadow-md"
                 >
                   ×
                 </button>

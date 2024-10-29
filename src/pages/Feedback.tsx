@@ -25,7 +25,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import SignInModal from '@/components/common/Modal/SignInModal';
-import { isLoggedIn } from '@/api/login';
+
 import { useNavigate } from 'react-router-dom';
 import { getAuthToken } from '@/utils/tokenHandler';
 
@@ -38,8 +38,30 @@ export default function Feedback() {
   const [activeModal, setActiveModal] = useState(true);
 
   const imgRef = useRef<HTMLInputElement>(null);
+  const [images, setImages] = useState<File[]>([]);
 
   const navigate = useNavigate();
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const selectedFiles = Array.from(e.target.files);
+
+      if (images.length + selectedFiles.length > 2) {
+        alert('이미지는 최대 2장까지 업로드할 수 있습니다.');
+        return;
+      }
+
+      setImages((prevImages) => [...prevImages, ...selectedFiles]);
+    }
+  };
+
+  const handleImageRemove = (index: number) => {
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+
+    if (imgRef.current) {
+      imgRef.current.value = '';
+    }
+  };
 
   useEffect(() => {
     const isUserLoggedIn = getAuthToken();
@@ -218,13 +240,32 @@ export default function Feedback() {
             <div className="relative">
               <Input
                 multiple
-                id="photo"
+                id="picture"
                 type="file"
                 accept="image/*"
                 className="bg-white"
+                onChange={handleImageChange}
                 ref={imgRef}
               />
               <img src={photo} alt="photo" className="absolute top-2 right-2" />
+            </div>
+            <div className="flex flex-wrap gap-2 mt-2">
+              {images.map((image, index) => (
+                <div key={index} className="relative">
+                  <img
+                    src={URL.createObjectURL(image)}
+                    alt={`preview-${index}`}
+                    className="w-20 h-20 object-cover rounded-md"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleImageRemove(index)}
+                    className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center shadow-md"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
         </div>

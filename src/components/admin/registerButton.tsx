@@ -6,11 +6,11 @@ export default function RegisterButton({ path }) {
   return (
     <div>
       {checkAdminToken() ? (
-        <div
-          className="px-5 flex justify-end items-end mb-8"
-          onClick={() => navigate(`/admin-page/register-${path}`)}
-        >
-          <button className="text-main bg-black px-8 py-2 rounded-full border border-main hover:bg-main hover:border-main hover:text-black">
+        <div className="px-5 flex justify-end items-end mb-8">
+          <button
+            className="text-main bg-black px-8 py-2 rounded-full border border-main hover:bg-main hover:border-main hover:text-black"
+            onClick={() => navigate(`/admin-page/register-${path}`)}
+          >
             등록하기
           </button>
         </div>

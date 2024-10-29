@@ -4,10 +4,10 @@ export function formatDateToYYYYMMDD(dateStr: string) {
 
   const formattedDate =
     date.getFullYear() +
-    '-' +
-    String(date.getMonth() + 1).padStart(2, '0') +
-    '-' +
-    String(date.getDate()).padStart(2, '0');
+    "-" +
+    String(date.getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(date.getDate()).padStart(2, "0");
 
   return formattedDate;
 }
@@ -32,4 +32,6 @@ export function formatDateToMMDDhhmm(dateStr: string) {
     String(utcDate.getMinutes()).padStart(2, "0");
 
   return `${formattedDate} ${formattedTime}`;
+
 }
+

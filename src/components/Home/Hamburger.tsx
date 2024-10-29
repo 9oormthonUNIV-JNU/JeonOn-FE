@@ -59,17 +59,18 @@ export default function Hamburger() {
             안내
           </DropdownMenuCheckboxItem>
           <DropdownMenuCheckboxItem
-            onClick={() => navigate('/contents')}
-            className="text-2xl flex justify-end items-center"
-          >
-            콘텐츠
-          </DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem
             onClick={() => navigate('/time-table')}
             className="text-2xl flex justify-end items-center"
           >
             타임테이블
           </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem
+            onClick={() => navigate('/contents')}
+            className="text-2xl flex justify-end items-center"
+          >
+            콘텐츠
+          </DropdownMenuCheckboxItem>
+
           <DropdownMenuCheckboxItem
             onClick={() => navigate('/booth')}
             className="text-2xl flex justify-end items-center"

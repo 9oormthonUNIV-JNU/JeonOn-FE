@@ -71,10 +71,10 @@ const router = createBrowserRouter([
         path: '/booth/search',
         element: <BoothSearch />,
       },
-      // {
-      //   path: "/time-table",
-      //   element: <TimeTable />,
-      // },
+      {
+        path: '/time-table',
+        element: <TimeTable />,
+      },
       {
         path: '/my-page',
         element: <MyPage />,
@@ -83,34 +83,42 @@ const router = createBrowserRouter([
       {
         path: '/my-page/favorites',
         element: <Favorites />,
+        loader: checkAuthLoader,
       },
       {
         path: '/my-page/favorites/announcement',
         element: <MyContents />,
+        loader: checkAuthLoader,
       },
       {
         path: '/my-page/favorites/affiliate',
         element: <Affiliation />,
+        loader: checkAuthLoader,
       },
       {
         path: '/my-page/favorites/booth',
         element: <MyBooth />,
+        loader: checkAuthLoader,
       },
       {
         path: '/admin-page/register-map',
         element: <RegisterMap />,
+        loader: checkAdminLoader,
       },
       {
         path: '/admin-page/register-affiliate',
         element: <RegisterAffiliate />,
+        loader: checkAdminLoader,
       },
       {
         path: '/admin-page/view-feedback',
         element: <ViewFeedback />,
+        loader: checkAdminLoader,
       },
       {
         path: '/admin-page/register-booth',
         element: <RegisterBooth />,
+        loader: checkAdminLoader,
       },
       {
         path: '/admin-page/register-contents',

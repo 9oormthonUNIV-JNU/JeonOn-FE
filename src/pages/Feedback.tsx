@@ -27,6 +27,7 @@ import {
 import SignInModal from '@/components/common/Modal/SignInModal';
 import { isLoggedIn } from '@/api/login';
 import { useNavigate } from 'react-router-dom';
+import { getAuthToken } from '@/utils/tokenHandler';
 
 export default function Feedback() {
   const [title, setTitle] = useState('');
@@ -41,7 +42,7 @@ export default function Feedback() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const isUserLoggedIn = isLoggedIn();
+    const isUserLoggedIn = getAuthToken();
     console.log(isUserLoggedIn);
     if (isUserLoggedIn || isUserLoggedIn === undefined) {
       setActiveModal(false);
@@ -52,8 +53,11 @@ export default function Feedback() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (feedbackType === '') {
+      return alert('피드백 유형을 선택해주세요!');
+    }
     //로그인 안했으면 모달창 띄우기
-    const isUserLoggedIn = isLoggedIn();
+    const isUserLoggedIn = getAuthToken();
     if (!isUserLoggedIn || undefined) {
       setActiveModal(true);
       return;

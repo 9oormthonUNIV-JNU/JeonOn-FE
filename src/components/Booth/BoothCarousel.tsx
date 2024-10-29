@@ -1,52 +1,81 @@
-// BoothDetail.tsx에서 보여지는 이미지들 캐러셀입니다.
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import { Pagination } from 'swiper/modules';
-import '../guide/styles.css';
+import React, { useRef } from "react";
+import left from "@/../public/assets/svgs/left.svg";
+import right from "@/../public/assets/svgs/right.svg";
+import "./BoothCarousel.css";
 
 interface BoothCarouselProps {
-  images: string[]; // 부스 이미지 배열
-  handleIndex: (index: number) => void; // 슬라이드 변경 시 호출할 함수
+  images: string[];
+  handleIndex: (index: number) => void;
 }
 
-export default function BoothCarousel({ images, handleIndex }: BoothCarouselProps) {
+export default function BoothCarousel({
+  images,
+  handleIndex,
+}: BoothCarouselProps) {
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  const scrollLeft = () => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({
+        left: -carouselRef.current.offsetWidth,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const scrollRight = () => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({
+        left: carouselRef.current.offsetWidth,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleScroll = () => {
+    if (carouselRef.current) {
+      const index = Math.round(
+        carouselRef.current.scrollLeft / carouselRef.current.offsetWidth
+      );
+      handleIndex(index);
+    }
+  };
+
   return (
-    <div>
-      <Swiper
-        slidesPerView={1}
-        pagination={{
-            clickable: true,  // 페이지네이션이 클릭 가능하도록 설정
-        }}
-        modules={[Pagination]}
-        className="mySwiper mb-10"
-        centeredSlides={true}
-        spaceBetween={10}
-        onSlideChange={(e) => {
-          handleIndex(e.realIndex + 1);
+    <div className="carousel-container">
+      <button className="left-arrow" onClick={scrollLeft}>
+        <img src={left} alt="left" className="h-4 w-4" />
+      </button>
+
+      <div
+        ref={carouselRef}
+        className="carousel-slide scrollbar-hide"
+        onScroll={handleScroll}
+        style={{
+          overflowX: "scroll",
+          display: "flex",
+          scrollSnapType: "x mandatory",
         }}
       >
-        {images && images.length > 0 ? (
-          images.map((img, i) => (
-            <SwiperSlide key={i}>
-              <div className="booth-slide">
-                <div className="w-full h-auto object-contain mb-5">
-                  <img className="w-full h-full object-cover" src={img} alt={`booth-${i}`} />
-                </div>
-              </div>
-            </SwiperSlide>
-          ))
-        ) : (
-          // 이미지가 없을 경우 빈 슬라이드 렌더링
-          <SwiperSlide>
-            <div className="booth-slide">
-              <div className="w-full h-80 rounded-3xl mb-5 bg-gray-100">
-                <p className="text-center text-lg">No images available</p>
-              </div>
-            </div>
-          </SwiperSlide>
-        )}
-      </Swiper>
+        {images.map((img, index) => (
+          <div
+            key={index}
+            className="carousel-item flex-shrink-0 w-full"
+            style={{ minWidth: "100%", scrollSnapAlign: "center" }}
+          >
+            <img
+              src={img}
+              alt={`carousel-${index}`}
+              className="carousel-image"
+              style={{ width: "336px", height: "336px", objectFit: "cover" }}
+            />
+          </div>
+        ))}
+      </div>
+
+      <button className="right-arrow" onClick={scrollRight}>
+        <img src={right} alt="right" className="h-4 w-4" />
+      </button>
     </div>
   );
 }

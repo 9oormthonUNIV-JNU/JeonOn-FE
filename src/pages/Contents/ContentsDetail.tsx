@@ -113,8 +113,8 @@ export default function ContentsDetail() {
           <img src={divideLine} alt="d/ivide-line" />
         </div>
         <div className="text-white">
-          {data?.description?.split('.').map((sentence, index) => (
-            <p key={index}>{sentence.trim()}.</p>
+          {data?.description?.split('|').map((sentence, index) => (
+            <p key={index}>{sentence.trim()}</p>
           ))}
         </div>
       </div>

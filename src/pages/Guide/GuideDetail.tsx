@@ -139,8 +139,8 @@ export default function GuideDetail() {
           <img src={divideLine} alt="divide-line" />
         </div>
         <div className="text-white text-base">
-          {data?.description?.split('.').map((sentence, index) => (
-            <p key={index}>{sentence.trim()}.</p>
+          {data?.description?.split('|').map((sentence, index) => (
+            <p key={index}>{sentence.trim()}</p>
           ))}
         </div>
       </div>

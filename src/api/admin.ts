@@ -25,3 +25,9 @@ export async function deleteMaps(zoneId: any) {
   const result = await api.delete(`/admins/zones/${zoneId}`);
   return result;
 }
+
+// 타임캡슐 삭제 api
+export async function deleteTimeCapsules(capsuleId: any){
+  const result = await api.delete(`/admins/timecapsules/${capsuleId}`);
+  return result;
+}

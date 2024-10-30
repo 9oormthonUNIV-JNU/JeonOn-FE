@@ -29,103 +29,103 @@ const router = createBrowserRouter([
     path: '/',
     id: 'root',
     errorElement: <NotFound />,
-    element: <Layout />,
-    children: [
-      {
-        path: '',
-        element: <Home />,
-      },
-      {
-        path: '/time-capsule',
-        element: <TimeCapsule />,
-      },
-      {
-        path: '/feedback',
-        element: <Feedback />,
-      },
-      {
-        path: '/guide',
-        element: <Guide />,
-      },
-      {
-        path: '/guide/:id',
-        element: <GuideDetail />,
-      },
-      {
-        path: '/contents',
-        element: <Contents />,
-      },
-      {
-        path: '/contents/:id',
-        element: <ContentsDetail />,
-      },
-      {
-        path: '/booth',
-        element: <Booth />,
-      },
-      {
-        path: '/booth/:id',
-        element: <BoothDetail />,
-      },
-      {
-        path: '/booth/search',
-        element: <BoothSearch />,
-      },
-      {
-        path: '/time-table',
-        element: <TimeTable />,
-      },
-      {
-        path: '/my-page',
-        element: <MyPage />,
-        loader: checkAuthLoader,
-      },
-      {
-        path: '/my-page/favorites',
-        element: <Favorites />,
-        loader: checkAuthLoader,
-      },
-      {
-        path: '/my-page/favorites/announcement',
-        element: <MyContents />,
-        loader: checkAuthLoader,
-      },
-      {
-        path: '/my-page/favorites/affiliate',
-        element: <Affiliation />,
-        loader: checkAuthLoader,
-      },
-      {
-        path: '/my-page/favorites/booth',
-        element: <MyBooth />,
-        loader: checkAuthLoader,
-      },
-      {
-        path: '/admin-page/register-map',
-        element: <RegisterMap />,
-        loader: checkAdminLoader,
-      },
-      {
-        path: '/admin-page/register-affiliate',
-        element: <RegisterAffiliate />,
-        loader: checkAdminLoader,
-      },
-      {
-        path: '/admin-page/view-feedback',
-        element: <ViewFeedback />,
-        loader: checkAdminLoader,
-      },
-      {
-        path: '/admin-page/register-booth',
-        element: <RegisterBooth />,
-        loader: checkAdminLoader,
-      },
-      {
-        path: '/admin-page/register-contents',
-        element: <RegisterContents />,
-        loader: checkAdminLoader,
-      },
-    ],
+    element: <Home />,
+    // children: [
+    //   {
+    //     path: '',
+    //     element: <Home />,
+    //   },
+    //   {
+    //     path: '/time-capsule',
+    //     element: <TimeCapsule />,
+    //   },
+    //   {
+    //     path: '/feedback',
+    //     element: <Feedback />,
+    //   },
+    //   {
+    //     path: '/guide',
+    //     element: <Guide />,
+    //   },
+    //   {
+    //     path: '/guide/:id',
+    //     element: <GuideDetail />,
+    //   },
+    //   {
+    //     path: '/contents',
+    //     element: <Contents />,
+    //   },
+    //   {
+    //     path: '/contents/:id',
+    //     element: <ContentsDetail />,
+    //   },
+    //   {
+    //     path: '/booth',
+    //     element: <Booth />,
+    //   },
+    //   {
+    //     path: '/booth/:id',
+    //     element: <BoothDetail />,
+    //   },
+    //   {
+    //     path: '/booth/search',
+    //     element: <BoothSearch />,
+    //   },
+    //   {
+    //     path: '/time-table',
+    //     element: <TimeTable />,
+    //   },
+    //   {
+    //     path: '/my-page',
+    //     element: <MyPage />,
+    //     loader: checkAuthLoader,
+    //   },
+    //   {
+    //     path: '/my-page/favorites',
+    //     element: <Favorites />,
+    //     loader: checkAuthLoader,
+    //   },
+    //   {
+    //     path: '/my-page/favorites/announcement',
+    //     element: <MyContents />,
+    //     loader: checkAuthLoader,
+    //   },
+    //   {
+    //     path: '/my-page/favorites/affiliate',
+    //     element: <Affiliation />,
+    //     loader: checkAuthLoader,
+    //   },
+    //   {
+    //     path: '/my-page/favorites/booth',
+    //     element: <MyBooth />,
+    //     loader: checkAuthLoader,
+    //   },
+    //   {
+    //     path: '/admin-page/register-map',
+    //     element: <RegisterMap />,
+    //     loader: checkAdminLoader,
+    //   },
+    //   {
+    //     path: '/admin-page/register-affiliate',
+    //     element: <RegisterAffiliate />,
+    //     loader: checkAdminLoader,
+    //   },
+    //   {
+    //     path: '/admin-page/view-feedback',
+    //     element: <ViewFeedback />,
+    //     loader: checkAdminLoader,
+    //   },
+    //   {
+    //     path: '/admin-page/register-booth',
+    //     element: <RegisterBooth />,
+    //     loader: checkAdminLoader,
+    //   },
+    //   {
+    //     path: '/admin-page/register-contents',
+    //     element: <RegisterContents />,
+    //     loader: checkAdminLoader,
+    //   },
+    // ],
   },
 ]);
 

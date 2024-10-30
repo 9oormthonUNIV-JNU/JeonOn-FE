@@ -1,6 +1,8 @@
 import homeMain from '@/../public/images/mainHome.png';
 import Footer from '@/components/Home/Footer';
 
+import '../../public/assets/fonts/Font.css';
+
 export default function Home() {
   return (
     <div className="flex flex-col justify-center items-center">

@@ -15,7 +15,7 @@ import SignInModal from '@/components/common/Modal/SignInModal';
 import GuideCarousel from '@/components/guide/GuideCarousel';
 import useBookmark from '@/hook/useBookmark';
 import { formatDateToYYYYMMDD } from '@/utils/dateStr';
-import { getAuthToken } from '@/utils/tokenHandler';
+import { checkAdminToken, getAuthToken } from '@/utils/tokenHandler';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -100,19 +100,20 @@ export default function ContentsDetail() {
 
         <GuideCarousel images={data?.images} />
 
-        <div
-          className="flex justify-end items-end mb-2"
-          onClick={() => handleDeleteClick()}
-        >
-          <img src={trashCan} alt="delete-icon" />
-        </div>
+        {checkAdminToken() ? (
+          <div
+            className="flex justify-end items-end mb-2"
+            onClick={() => handleDeleteClick()}
+          >
+            <img src={trashCan} alt="delete-icon" />
+          </div>
+        ) : null}
+
         <div className="mb-4">
           <img src={divideLine} alt="d/ivide-line" />
         </div>
-        <div className="text-white">
-          {data?.description?.split('.').map((sentence, index) => (
-            <p key={index}>{sentence.trim()}.</p>
-          ))}
+        <div className="text-white whitespace-pre-wrap">
+          {data?.description}
         </div>
       </div>
       {/* 삭제 모달 컴포넌트 */}

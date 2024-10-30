@@ -84,7 +84,13 @@ export default function Hamburger() {
             타임캡슐
           </DropdownMenuCheckboxItem>
           <DropdownMenuCheckboxItem
-            onClick={() => navigate('/feedback')}
+            onClick={() => {
+              if (checkAdminToken()) {
+                return navigate('/admin-page/view-feedback');
+              } else {
+                navigate('/feedback');
+              }
+            }}
             className="text-2xl flex justify-end items-center"
           >
             피드백

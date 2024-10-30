@@ -3,7 +3,7 @@ import router from './Router';
 import RQProvider from './components/ReactQueryProvider';
 import LoadingScreen from './components/LoadingScreen';
 import { Analytics } from '@vercel/analytics/react';
-import '@/../public/assets/fonts/Font.css';
+import '@/../public/assets/fonts/font.css';
 // import { useEffect } from 'react';
 
 function App() {

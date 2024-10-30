@@ -121,7 +121,7 @@ export default function Guide() {
                     )}
                   </div>
                 </div>
-                <div>
+                <div className="max-h-8 overflow-hidden">
                   <span className="text-xs font-normal text-white overflow-y-hidden">
                     {item.description}
                   </span>
@@ -165,10 +165,10 @@ export default function Guide() {
                     <img src={love} alt="description" />
                   </div>
 
-                  <div className="flex flex-col justify-center items-start">
+                  <div className="flex flex-col justify-center items-start max-h-8 overflow-hidden">
                     <h1 className="text-sm text-white">{item.name}</h1>
 
-                    <span className="text-[10px] text-white overflow-y-hidden">
+                    <span className="text-[10px] text-white overflow-y-hidden whitespace-pre-wrap">
                       {item.description}
                     </span>
                   </div>

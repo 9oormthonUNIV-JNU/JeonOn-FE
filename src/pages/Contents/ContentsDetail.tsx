@@ -112,10 +112,8 @@ export default function ContentsDetail() {
         <div className="mb-4">
           <img src={divideLine} alt="d/ivide-line" />
         </div>
-        <div className="text-white">
-          {data?.description?.split('|').map((sentence, index) => (
-            <p key={index}>{sentence.trim()}</p>
-          ))}
+        <div className="text-white whitespace-pre-wrap">
+          {data?.description}
         </div>
       </div>
       {/* 삭제 모달 컴포넌트 */}

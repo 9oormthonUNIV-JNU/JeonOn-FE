@@ -5,6 +5,7 @@ import LoadingScreen from './components/LoadingScreen';
 import { Analytics } from '@vercel/analytics/react';
 import '@/../public/assets/fonts/font.css';
 // import { useEffect } from 'react';
+//pr 날림
 
 function App() {
   // const googleTranslateElementInit = () => {

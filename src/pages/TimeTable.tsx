@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { events } from "@/constants/events";
-import Arcodion from "@/components/ui/arcodion";
-import Carousel from "@/components/ui/carousel";
+import { useState } from 'react';
+import { events } from '@/constants/events';
+import Arcodion from '@/components/ui/arcodion';
+import Carousel from '@/components/ui/carousel';
 
 const dates = [
-  { date: 5, day: "TUE" },
-  { date: 6, day: "WED" },
-  { date: 7, day: "THU" },
+  { date: 5, day: 'TUE' },
+  { date: 6, day: 'WED' },
+  { date: 7, day: 'THU' },
 ];
 
 export default function TimeTable() {
@@ -32,15 +32,15 @@ export default function TimeTable() {
         {dates.map((item) => {
           const isSelected = selectedDate === item.date;
           const circleClasses = `flex flex-col justify-center rounded-full ${
-            isSelected ? "w-16 h-16 bg-main" : "w-12 h-12 bg-white"
+            isSelected ? 'w-16 h-16 bg-main' : 'w-12 h-12 bg-white'
           }`;
 
           const dateClasses = `block font-bold leading-none ${
-            isSelected ? "text-4xl" : "text-2xl"
+            isSelected ? 'text-4xl' : 'text-2xl'
           }`;
 
           const dayClasses = `block font-normal ${
-            isSelected ? "text-sm" : "text-xs"
+            isSelected ? 'text-sm' : 'text-xs'
           }`;
 
           return (

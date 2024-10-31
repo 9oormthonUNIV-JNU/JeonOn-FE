@@ -24,13 +24,12 @@ const Now = ({
 const EventDetails = ({
   event,
   nowActive,
-  isTopSection,
 }: {
   event: EventType;
   nowActive: boolean;
   isTopSection: boolean;
 }) => (
-  <div className="grid grid-cols-[75%_25%] w-full">
+  <div className="flex w-full">
     <div className="flex flex-row items-center gap-1.5 justify-start">
       <Now nowActive={nowActive} isNow={true} />
       <span className="truncate">
@@ -47,18 +46,6 @@ const EventDetails = ({
         })}
       </span>
       <span className="truncate">{event.content}</span>
-    </div>
-    <div className="flex items-center gap-1.5 ml-auto mr-2">
-      <img
-        src={
-          isTopSection
-            ? location_black
-            : nowActive
-            ? location_white
-            : location_black
-        }
-      />
-      <span className="truncate">{event.location}</span>
     </div>
   </div>
 );

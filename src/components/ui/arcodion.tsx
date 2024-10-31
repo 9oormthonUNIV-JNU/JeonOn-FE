@@ -22,14 +22,15 @@ const Now = ({
 const EventDetails = ({
   event,
   nowActive,
+  isNow,
 }: {
   event: EventType;
   nowActive: boolean;
-  isTopSection: boolean;
+  isNow: boolean;
 }) => (
   <div className="flex w-full">
     <div className="flex flex-row items-center gap-1.5 justify-start">
-      <Now nowActive={nowActive} isNow={true} />
+      <Now nowActive={nowActive} isNow={isNow} />
       <span className="truncate">
         {new Date(event.start).toLocaleTimeString([], {
           hour: "2-digit",
@@ -117,6 +118,8 @@ const Arcodion: React.FC<ArcodionProps> = ({ events }) => {
     isCurrentEvent(event.start, event.end)
   );
 
+  const firstEvent = events[0];
+
   return (
     <div ref={arcodionRef} className="font-pretendard text-xs">
       {!open ? (
@@ -125,13 +128,9 @@ const Arcodion: React.FC<ArcodionProps> = ({ events }) => {
           className="flex flex-row justify-between items-center w-full h-14 bg-white rounded-3xl py-2 px-2.5 gap-1"
         >
           {currentEvent ? (
-            <EventDetails
-              event={currentEvent}
-              nowActive={true}
-              isTopSection={true}
-            />
+            <EventDetails event={currentEvent} nowActive={true} isNow={true} />
           ) : (
-            <Now isNow={false} nowActive={true} />
+            <EventDetails event={firstEvent} nowActive={true} isNow={false} />
           )}
           <div className="mr-1">
             <img src={down_arrow} />
@@ -147,11 +146,7 @@ const Arcodion: React.FC<ArcodionProps> = ({ events }) => {
               } `;
               return (
                 <div className={nowClasses} key={event.order}>
-                  <EventDetails
-                    event={event}
-                    nowActive={nowActive}
-                    isTopSection={false}
-                  />
+                  <EventDetails event={event} nowActive={nowActive} />
                 </div>
               );
             })}

@@ -1,6 +1,4 @@
 import "@/../public/assets/fonts/font.css";
-import location_black from "@/../public/assets/svgs/location_black.svg";
-import location_white from "@/../public/assets/svgs/location_white.svg";
 import { useState, useRef, useEffect } from "react";
 import { EventType } from "@/constants/events";
 import down_arrow from "@/../public/assets/svgs/down_arrow.svg";
@@ -13,7 +11,7 @@ const Now = ({
   isNow?: boolean;
 }) => (
   <div
-    className={`flex mr-0.5 justify-center font-pretendard items-center font-black text-black text-xs rounded-3xl w-10 h-7 flex-shrink-0 ${
+    className={`flex mr-0.5 justify-center font-pretendard items-center font-black text-black text-xs rounded-3xl w-11 h-7 flex-shrink-0 ${
       nowActive ? "visible" : "invisible"
     } ${isNow ? "bg-main" : "bg-slate-300"}`}
   >

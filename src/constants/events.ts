@@ -1,3 +1,14 @@
+import 김나영 from "@/../public/images/special-guest/김나영.png"
+import 로이킴 from "@/../public/images/special-guest/로이킴.png"
+import 마크툽 from "@/../public/images/special-guest/마크툽.png"
+import 미미로즈 from "@/../public/images/special-guest/미미로즈.png"
+import 범진 from "@/../public/images/special-guest/범진.png"
+import 비와이 from "@/../public/images/special-guest/비와이.png"
+import 윤토벤 from "@/../public/images/special-guest/윤토벤.png"
+import 청하 from "@/../public/images/special-guest/청하.png"
+import 하하스컬 from "@/../public/images/special-guest/하하스컬.png"
+import 한요한 from "@/../public/images/special-guest/한요한.png"
+
 export type EventType = {
   order: number;
   start: string;
@@ -65,6 +76,7 @@ export const events: EventType[] = [
     content: "로이킴",
     location: "대운동장",
     special: true,
+    img: 로이킴
   },
   {
     order: 8,
@@ -73,6 +85,7 @@ export const events: EventType[] = [
     content: "윤토벤",
     location: "대운동장",
     special: true,
+    img: 윤토벤
   },
   {
     order: 9,
@@ -81,6 +94,7 @@ export const events: EventType[] = [
     content: "하하&스컬",
     location: "대운동장",
     special: true,
+    img: 하하스컬
   },
 
   // 2024-11-06 Events
@@ -147,6 +161,7 @@ export const events: EventType[] = [
     content: "미미로즈",
     location: "대운동장",
     special: true, 
+    img: 미미로즈
   },
   {
     order: 18,
@@ -155,6 +170,7 @@ export const events: EventType[] = [
     content: "마크툽",
     location: "대운동장",
     special: true,
+    img: 마크툽
   },
   {
     order: 19,
@@ -163,6 +179,7 @@ export const events: EventType[] = [
     content: "한요한",
     location: "대운동장",
     special: true,
+    img: 한요한
   },
   {
     order: 20,
@@ -171,6 +188,7 @@ export const events: EventType[] = [
     content: "김나영",
     location: "대운동장",
     special: true,
+    img: 김나영
   },
 
   // 2024-11-07 Events
@@ -220,7 +238,8 @@ export const events: EventType[] = [
     end: "2024-11-07T20:30:00",
     content: "범진",
     location: "대운동장",
-    special: true
+    special: true,
+    img: 범진
   },
   {
     order: 27,
@@ -228,7 +247,7 @@ export const events: EventType[] = [
     end: "2024-11-07T21:10:00",
     content: "내가 제일 잘나가",
     location: "대운동장",
-    special: true
+    special: false,
   },
   {
     order: 28,
@@ -236,7 +255,8 @@ export const events: EventType[] = [
     end: "2024-11-07T21:35:00",
     content: "청하",
     location: "대운동장",
-    special: true
+    special: true,
+    img: 청하
   },
   {
     order: 29,
@@ -244,6 +264,7 @@ export const events: EventType[] = [
     end: "2024-11-07T22:30:00",
     content: "비와이",
     location: "대운동장",
-    special: true
+    special: true,
+    img: 비와이
   },
 ];

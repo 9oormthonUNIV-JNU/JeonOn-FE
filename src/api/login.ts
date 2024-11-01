@@ -2,10 +2,7 @@ import { api } from '@/utils/customAxios';
 import { getToken } from '@/utils/tokenHandler';
 
 // 로그인 및 회원가입 요청
-export const login = async (
-  nickname: string,
-  password: string,
-): Promise<{ token: string }> => {
+export const login = async (nickname: string, password: string) => {
   try {
     // 백엔드 연결 후 주석 해제
     const response = await api.post('/login', {

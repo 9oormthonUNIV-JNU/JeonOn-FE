@@ -146,7 +146,11 @@ const Arcodion: React.FC<ArcodionProps> = ({ events }) => {
               } `;
               return (
                 <div className={nowClasses} key={event.order}>
-                  <EventDetails event={event} nowActive={nowActive} />
+                  <EventDetails
+                    event={event}
+                    nowActive={nowActive}
+                    isNow={false}
+                  />
                 </div>
               );
             })}

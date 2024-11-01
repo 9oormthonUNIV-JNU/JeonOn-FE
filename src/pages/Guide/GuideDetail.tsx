@@ -19,7 +19,7 @@ import { formatDateToYYYYMMDD } from '@/utils/dateStr';
 import useBookmark from '@/hook/useBookmark';
 import { useState } from 'react';
 import SignInModal from '@/components/common/Modal/SignInModal';
-import { getAuthToken } from '@/utils/tokenHandler';
+import { checkAdminToken, getAuthToken } from '@/utils/tokenHandler';
 import DeleteModal from '@/components/common/Modal/DeleteModal';
 import { deletePartners } from '@/api/admin';
 
@@ -128,12 +128,14 @@ export default function GuideDetail() {
           </span>
         </div>
 
-        <div
-          className="flex justify-end items-end mb-2"
-          onClick={() => handleDeleteClick()}
-        >
-          <img src={trashCan} alt="delete-icon" />
-        </div>
+        {checkAdminToken() ? (
+          <div
+            className="flex justify-end items-end mb-2"
+            onClick={() => handleDeleteClick()}
+          >
+            <img src={trashCan} alt="delete-icon" />
+          </div>
+        ) : null}
 
         <div className="mb-3">
           <img src={divideLine} alt="divide-line" />

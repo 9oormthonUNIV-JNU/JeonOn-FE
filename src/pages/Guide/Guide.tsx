@@ -63,7 +63,7 @@ export default function Guide() {
   const { data } = useQuery({
     queryKey: ['guide', clicked],
     queryFn: async () => {
-      if (clicked) return await getZones('');
+      if (clicked) return null;
       if (!clicked) return await getPartners();
     },
   });

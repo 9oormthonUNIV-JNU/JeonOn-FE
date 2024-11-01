@@ -14,7 +14,7 @@ function RQProvider({ children }: Props) {
           refetchOnWindowFocus: false,
           retryOnMount: true,
           refetchOnReconnect: false,
-          staleTime: 10000,
+          // staleTime: 10000,
         },
       },
     }),

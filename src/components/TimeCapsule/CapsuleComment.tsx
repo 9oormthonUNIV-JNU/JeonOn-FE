@@ -5,7 +5,7 @@ import { deleteTimeCapsules } from "@/api/admin";
 import DeleteModal from "../common/Modal/DeleteModal";
 import trashCan from "@/../public/svgs/delete.svg";
 import { formatDateToMMDDhhmm } from "@/utils/dateStr";
-import ZoomableImage from "../common/ZoomableImage";
+import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog";
 
 interface Capsule {
   id: number;
@@ -31,6 +31,7 @@ const CapsuleComment: React.FC<CapsuleCommentProps> = ({
     null
   );
   const [deleteFn, setDeleteFn] = useState<() => void>(() => {});
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const handleDeleteClick = (capsuleId: number, deleteFunction: () => void) => {
     setSelectedCapsuleId(capsuleId);
@@ -41,12 +42,15 @@ const CapsuleComment: React.FC<CapsuleCommentProps> = ({
     setDeleteModalOpen(true);
   };
 
+  const sortedMyCapsules = [...myCapsules].sort((a, b) => b.id - a.id);
+  const sortedPublicCapsules = [...publicCapsules].sort((a, b) => b.id - a.id);
+
   return (
     <div className="w-[95%]">
       {/* My Capsules */}
-      {myCapsules.length > 0 && (
+      {sortedMyCapsules.length > 0 && (
         <div className="mt-4">
-          {myCapsules.map((capsule) => (
+          {sortedMyCapsules.map((capsule) => (
             <div
               key={capsule.id}
               className="mb-4 relative rounded-[20px] border border-[#00ff00] p-4 flex flex-col space-y-2"
@@ -67,9 +71,10 @@ const CapsuleComment: React.FC<CapsuleCommentProps> = ({
                   {capsule.images.map((image, index) => (
                     <div
                       key={index}
-                      className="w-14 h-14 rounded-[15px] bg-[#d9d9d9] overflow-hidden"
+                      className="w-14 h-14 rounded-[15px] bg-[#d9d9d9] overflow-hidden cursor-pointer"
+                      onClick={() => setSelectedImage(image)}
                     >
-                      <ZoomableImage
+                      <img
                         src={image}
                         alt={`img${index + 1}`}
                         className="w-full h-full object-cover"
@@ -102,10 +107,10 @@ const CapsuleComment: React.FC<CapsuleCommentProps> = ({
 
       {/* Public Capsules */}
       <div className="mt-4">
-        {publicCapsules.map((capsule) => (
+        {sortedPublicCapsules.map((capsule) => (
           <div
             key={capsule.id}
-            className="relative rounded-[20px] border border-[#00ff00] p-4 flex flex-col space-y-2"
+            className="mb-4 relative rounded-[20px] border border-[#00ff00] p-4 flex flex-col space-y-2"
           >
             {/* 닉네임 */}
             <div className="text-[#00ff00] text-xs font-normal font-['neurimbo Gothic']">
@@ -123,12 +128,13 @@ const CapsuleComment: React.FC<CapsuleCommentProps> = ({
                 {capsule.images.map((image, index) => (
                   <div
                     key={index}
-                    className="w-14 h-[58px] rounded-[15px] overflow-hidden bg-[#d9d9d9]"
+                    className="w-14 h-[58px] rounded-[15px] overflow-hidden bg-[#d9d9d9] cursor-pointer"
+                    onClick={() => setSelectedImage(image)}
                   >
-                    <ZoomableImage
+                    <img
                       src={image}
                       alt={`img${index + 1}`}
-                      className="w-full h-full object-cover" // 기존 스타일을 유지
+                      className="w-full h-full object-cover"
                     />
                   </div>
                 ))}
@@ -162,9 +168,31 @@ const CapsuleComment: React.FC<CapsuleCommentProps> = ({
         isOpen={isDeleteModalOpen}
         id={selectedCapsuleId}
         setIsOpen={setDeleteModalOpen}
-        queryKey={"timecapsules"}
+        queryKey={"time-capsule"}
         deleteFn={deleteFn} // 동적으로 설정된 삭제 함수
       />
+
+      {/* 이미지 확대 Dialog */}
+      <Dialog
+        open={!!selectedImage}
+        onOpenChange={() => setSelectedImage(null)}
+      >
+        <DialogContent className="w-full max-w-72 h-auto max-h-[600px]">
+          <DialogClose asChild>
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-4 cursor-pointe"
+            />
+          </DialogClose>
+          {selectedImage && (
+            <img
+              src={selectedImage}
+              alt="Selected"
+              className="w-full h-auto object-contain"
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

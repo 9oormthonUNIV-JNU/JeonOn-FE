@@ -4,6 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { FilledBtn } from "@/components/common/Button/filled-btn";
 import { useState, useRef } from "react";
 import photo from "@/../public/assets/svgs/photo.svg";
+import clock from "@/../public/assets/svgs/date_clock.svg";
 import {
   Dialog,
   DialogClose,
@@ -21,6 +22,7 @@ import {
 import { postBooth } from "@/api/booth";
 import { CustomDatePicker } from "@/components/common/DatePicker/CustomDatePicker";
 import { useNavigate } from "react-router-dom";
+import "@/components/common/DatePicker/CustomDatePicker.css";
 
 type BoothCategoryType = {
   type: string;
@@ -227,23 +229,33 @@ const RegisterBooth = () => {
               />
             </div>
             <div className="flex flex-row gap-3 items-center">
-              <Input
-                placeholder="00:00"
-                required
-                type="time"
-                className="bg-white text-black w-40"
-                value={startTime}
-                onChange={(e) => setStartTime(e.target.value)}
-              />{" "}
+              <div className="relative flex-grow">
+                <Input
+                  required
+                  type="time"
+                  className="bg-white text-black w-full"
+                  value={startTime}
+                  onChange={(e) => setStartTime(e.target.value)}
+                />
+                <img
+                  src={clock}
+                  className="absolute top-1/2 right-2 transform -translate-y-1/2 w-5 h-5 pointer-events-none"
+                />
+              </div>
               ~
-              <Input
-                required
-                type="time"
-                className="bg-white text-black w-40"
-                value={endTime}
-                onChange={(e) => setEndTime(e.target.value)}
-                step="60"
-              />
+              <div className="relative flex-grow">
+                <Input
+                  required
+                  type="time"
+                  className="bg-white text-black w-full"
+                  value={endTime}
+                  onChange={(e) => setEndTime(e.target.value)}
+                />
+                <img
+                  src={clock}
+                  className="absolute top-1/2 right-2 transform -translate-y-1/2 w-5 h-5 pointer-events-none"
+                />
+              </div>
             </div>
           </div>
           <div className="flex flex-col mx-10 gap-2">

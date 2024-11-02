@@ -1,6 +1,4 @@
 import "@/../public/assets/fonts/font.css";
-import location_black from "@/../public/assets/svgs/location_black.svg";
-import location_white from "@/../public/assets/svgs/location_white.svg";
 import { useState, useRef, useEffect } from "react";
 import { EventType } from "@/constants/events";
 import down_arrow from "@/../public/assets/svgs/down_arrow.svg";
@@ -13,7 +11,7 @@ const Now = ({
   isNow?: boolean;
 }) => (
   <div
-    className={`flex mr-0.5 justify-center font-pretendard items-center font-black text-black text-xs rounded-3xl w-10 h-7 flex-shrink-0 ${
+    className={`flex mr-0.5 justify-center font-pretendard items-center font-black text-black text-xs rounded-3xl w-11 h-7 flex-shrink-0 ${
       nowActive ? "visible" : "invisible"
     } ${isNow ? "bg-main" : "bg-slate-300"}`}
   >
@@ -24,15 +22,15 @@ const Now = ({
 const EventDetails = ({
   event,
   nowActive,
-  isTopSection,
+  isNow,
 }: {
   event: EventType;
   nowActive: boolean;
-  isTopSection: boolean;
+  isNow: boolean;
 }) => (
-  <div className="grid grid-cols-[75%_25%] w-full">
+  <div className="flex w-full">
     <div className="flex flex-row items-center gap-1.5 justify-start">
-      <Now nowActive={nowActive} isNow={true} />
+      <Now nowActive={nowActive} isNow={isNow} />
       <span className="truncate">
         {new Date(event.start).toLocaleTimeString([], {
           hour: "2-digit",
@@ -47,18 +45,6 @@ const EventDetails = ({
         })}
       </span>
       <span className="truncate">{event.content}</span>
-    </div>
-    <div className="flex items-center gap-1.5 ml-auto mr-2">
-      <img
-        src={
-          isTopSection
-            ? location_black
-            : nowActive
-            ? location_white
-            : location_black
-        }
-      />
-      <span className="truncate">{event.location}</span>
     </div>
   </div>
 );
@@ -132,6 +118,8 @@ const Arcodion: React.FC<ArcodionProps> = ({ events }) => {
     isCurrentEvent(event.start, event.end)
   );
 
+  const firstEvent = events[0];
+
   return (
     <div ref={arcodionRef} className="font-pretendard text-xs">
       {!open ? (
@@ -140,13 +128,9 @@ const Arcodion: React.FC<ArcodionProps> = ({ events }) => {
           className="flex flex-row justify-between items-center w-full h-14 bg-white rounded-3xl py-2 px-2.5 gap-1"
         >
           {currentEvent ? (
-            <EventDetails
-              event={currentEvent}
-              nowActive={true}
-              isTopSection={true}
-            />
+            <EventDetails event={currentEvent} nowActive={true} isNow={true} />
           ) : (
-            <Now isNow={false} nowActive={true} />
+            <EventDetails event={firstEvent} nowActive={true} isNow={false} />
           )}
           <div className="mr-1">
             <img src={down_arrow} />
@@ -165,7 +149,7 @@ const Arcodion: React.FC<ArcodionProps> = ({ events }) => {
                   <EventDetails
                     event={event}
                     nowActive={nowActive}
-                    isTopSection={false}
+                    isNow={false}
                   />
                 </div>
               );

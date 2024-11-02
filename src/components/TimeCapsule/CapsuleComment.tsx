@@ -42,12 +42,15 @@ const CapsuleComment: React.FC<CapsuleCommentProps> = ({
     setDeleteModalOpen(true);
   };
 
+  const sortedMyCapsules = [...myCapsules].sort((a, b) => b.id - a.id);
+  const sortedPublicCapsules = [...publicCapsules].sort((a, b) => b.id - a.id);
+
   return (
     <div className="w-[95%]">
       {/* My Capsules */}
-      {myCapsules.length > 0 && (
+      {sortedMyCapsules.length > 0 && (
         <div className="mt-4">
-          {myCapsules.map((capsule) => (
+          {sortedMyCapsules.map((capsule) => (
             <div
               key={capsule.id}
               className="mb-4 relative rounded-[20px] border border-[#00ff00] p-4 flex flex-col space-y-2"
@@ -104,10 +107,10 @@ const CapsuleComment: React.FC<CapsuleCommentProps> = ({
 
       {/* Public Capsules */}
       <div className="mt-4">
-        {publicCapsules.map((capsule) => (
+        {sortedPublicCapsules.map((capsule) => (
           <div
             key={capsule.id}
-            className="relative rounded-[20px] border border-[#00ff00] p-4 flex flex-col space-y-2"
+            className="mb-4 relative rounded-[20px] border border-[#00ff00] p-4 flex flex-col space-y-2"
           >
             {/* 닉네임 */}
             <div className="text-[#00ff00] text-xs font-normal font-['neurimbo Gothic']">
@@ -174,7 +177,7 @@ const CapsuleComment: React.FC<CapsuleCommentProps> = ({
         open={!!selectedImage}
         onOpenChange={() => setSelectedImage(null)}
       >
-        <DialogContent className="w-full max-w-72">
+        <DialogContent className="w-full max-w-72 h-auto max-h-[600px]">
           <DialogClose asChild>
             <button
               onClick={() => setSelectedImage(null)}

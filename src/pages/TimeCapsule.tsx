@@ -106,15 +106,15 @@ export default function TimeCapsule() {
         <div className="flex justify-end w-full">
           <FilledBtn
             onClick={handleRegisterClick}
-            className="text-s px-7 mt-3 mr-3 mb-3"
+            className="relative text-main font-pretendard text-base px-8 py-2 bg-black rounded-full border border-main hover:bg-main hover:border-main hover:text-black"
           >
             등록하기
           </FilledBtn>
         </div>
       </div>
 
-      <div className="px-8 bg-black text-white flex items-center text-[10px] font-['NanumSquare Neo'] whitespace-nowrap">
-        <img src={cancel} alt="cancel" className="mr-1" />
+      <div className="bg-black text-white flex items-center justify-center px-4 text-[11px] font-pretendard break-words">
+        <img src={cancel} alt="cancel" className="mr-1.5" />
         <p>비방, 욕설 등 부적절한 글은 작성이 제한되며, 삭제될 수 있습니다.</p>
       </div>
 

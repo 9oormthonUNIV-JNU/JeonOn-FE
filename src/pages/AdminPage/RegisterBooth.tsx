@@ -229,7 +229,7 @@ const RegisterBooth = () => {
               />
             </div>
             <div className="flex flex-row gap-3 items-center">
-              <div className="relative flex-grow">
+              <div className="relative flex-grow max-w-52">
                 <Input
                   required
                   type="time"
@@ -243,7 +243,7 @@ const RegisterBooth = () => {
                 />
               </div>
               ~
-              <div className="relative flex-grow">
+              <div className="relative flex-grow max-w-52">
                 <Input
                   required
                   type="time"
@@ -268,7 +268,7 @@ const RegisterBooth = () => {
               id="booth_description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="bg-white min-h-56 max-h-64 text-black"
+              className="bg-white min-h-56 max-h-64 text-black resize-none"
             />
           </div>
           <div className="flex flex-col mx-10 gap-2">

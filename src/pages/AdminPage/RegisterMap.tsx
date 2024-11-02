@@ -102,7 +102,7 @@ const RegisterMap = () => {
             id="map_description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="bg-white min-h-56 max-h-64 text-black"
+            className="bg-white min-h-56 max-h-64 text-black resize-none"
           />
         </div>
         <div className="flex justify-end mt-5 mx-10">

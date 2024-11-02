@@ -49,7 +49,7 @@ const FeedbackItem: React.FC<{
     >
       <div className="flex flex-row gap-3">
         <div className="rounded-full shrink-0 bg-black w-6 h-6 flex justify-center items-center">
-          <div className="text-main text-base font-extrabold">
+          <div className="text-main text-xs font-extrabold justify-center items-center flex">
             {feedback.id}
           </div>
         </div>
@@ -153,7 +153,7 @@ const ViewFeedback = () => {
         </div>
       </div>
       <div className="flex flex-col justify-center mx-8">
-        <div className="flex flex-row gap-3 mb-5 justify-center">
+        <div className="flex flex-row gap-2 mb-5 justify-center">
           {feedbackOptions.map((option) => (
             <FilledBtn
               key={option.category}

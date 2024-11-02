@@ -1,13 +1,13 @@
-import 김나영 from "@/../public/images/special-guest/김나영.png"
-import 로이킴 from "@/../public/images/special-guest/로이킴.png"
-import 마크툽 from "@/../public/images/special-guest/마크툽.png"
-import 미미로즈 from "@/../public/images/special-guest/미미로즈.png"
-import 범진 from "@/../public/images/special-guest/범진.png"
-import 비와이 from "@/../public/images/special-guest/비와이.png"
-import 윤토벤 from "@/../public/images/special-guest/윤토벤.png"
-import 청하 from "@/../public/images/special-guest/청하.png"
-import 하하스컬 from "@/../public/images/special-guest/하하스컬.png"
-import 한요한 from "@/../public/images/special-guest/한요한.png"
+import kimNayeong from "@/../public/images/special-guest/kimNayeong.png";
+import royKim from "@/../public/images/special-guest/royKim.png";
+import marktub from "@/../public/images/special-guest/marktub.png";
+import mimirose from "@/../public/images/special-guest/mimirose.png";
+import bumjin from "@/../public/images/special-guest/bumjin.png";
+import bewhy from "@/../public/images/special-guest/bewhy.png";
+import yountoven from "@/../public/images/special-guest/yountoven.png";
+import chungha from "@/../public/images/special-guest/chungha.png";
+import hahaskull from "@/../public/images/special-guest/hahaskull.png";
+import hanyohan from "@/../public/images/special-guest/hanyohan.png";
 
 export type EventType = {
   order: number;
@@ -43,7 +43,7 @@ export const events: EventType[] = [
     end: "2024-11-05T18:20:00",
     content: "미올",
     location: "대운동장",
-    special: false
+    special: false,
   },
   {
     order: 4,
@@ -76,7 +76,7 @@ export const events: EventType[] = [
     content: "로이킴",
     location: "대운동장",
     special: true,
-    img: 로이킴
+    img: royKim,
   },
   {
     order: 8,
@@ -85,7 +85,7 @@ export const events: EventType[] = [
     content: "윤토벤",
     location: "대운동장",
     special: true,
-    img: 윤토벤
+    img: yountoven,
   },
   {
     order: 9,
@@ -94,7 +94,7 @@ export const events: EventType[] = [
     content: "하하&스컬",
     location: "대운동장",
     special: true,
-    img: 하하스컬
+    img: hahaskull,
   },
 
   // 2024-11-06 Events
@@ -144,7 +144,7 @@ export const events: EventType[] = [
     end: "2024-11-06T18:55:00",
     content: "동아리 퀴즈",
     location: "대운동장",
-    special: false, 
+    special: false,
   },
   {
     order: 16,
@@ -160,8 +160,8 @@ export const events: EventType[] = [
     end: "2024-11-06T20:00:00",
     content: "미미로즈",
     location: "대운동장",
-    special: true, 
-    img: 미미로즈
+    special: true,
+    img: mimirose,
   },
   {
     order: 18,
@@ -170,7 +170,7 @@ export const events: EventType[] = [
     content: "마크툽",
     location: "대운동장",
     special: true,
-    img: 마크툽
+    img: marktub,
   },
   {
     order: 19,
@@ -179,7 +179,7 @@ export const events: EventType[] = [
     content: "한요한",
     location: "대운동장",
     special: true,
-    img: 한요한
+    img: hanyohan,
   },
   {
     order: 20,
@@ -188,7 +188,7 @@ export const events: EventType[] = [
     content: "김나영",
     location: "대운동장",
     special: true,
-    img: 김나영
+    img: kimNayeong,
   },
 
   // 2024-11-07 Events
@@ -214,7 +214,7 @@ export const events: EventType[] = [
     end: "2024-11-07T17:20:00",
     content: "뉴에라",
     location: "대운동장",
-    special: false
+    special: false,
   },
   {
     order: 24,
@@ -222,7 +222,7 @@ export const events: EventType[] = [
     end: "2024-11-07T17:30:00",
     content: "동아리 퀴즈",
     location: "대운동장",
-    special: false
+    special: false,
   },
   {
     order: 25,
@@ -230,7 +230,7 @@ export const events: EventType[] = [
     end: "2024-11-07T19:30:00",
     content: "CUB 대학가요제",
     location: "대운동장",
-    special: false
+    special: false,
   },
   {
     order: 26,
@@ -239,7 +239,7 @@ export const events: EventType[] = [
     content: "범진",
     location: "대운동장",
     special: true,
-    img: 범진
+    img: bumjin,
   },
   {
     order: 27,
@@ -256,7 +256,7 @@ export const events: EventType[] = [
     content: "청하",
     location: "대운동장",
     special: true,
-    img: 청하
+    img: chungha,
   },
   {
     order: 29,
@@ -265,6 +265,6 @@ export const events: EventType[] = [
     content: "비와이",
     location: "대운동장",
     special: true,
-    img: 비와이
+    img: bewhy,
   },
 ];

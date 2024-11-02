@@ -169,7 +169,7 @@ const ViewFeedback = () => {
             </FilledBtn>
           ))}
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2.5 mb-10">
           {feedbacks.map((feedback) => (
             <FeedbackItem
               key={feedback.id}
@@ -194,7 +194,7 @@ const ViewFeedback = () => {
         open={!!selectedImage}
         onOpenChange={() => setSelectedImage(null)}
       >
-        <DialogContent className="w-full max-w-96 p-4">
+        <DialogContent className="w-full max-w-72">
           <DialogClose asChild>
             <button
               onClick={() => setSelectedImage(null)}

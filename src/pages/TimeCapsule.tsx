@@ -79,71 +79,73 @@ export default function TimeCapsule() {
 
   return (
     <div className="bg-black flex flex-col items-center min-h-screen p-4 md:p-10 lg:p-20">
-  <div className="flex flex-col items-center mb-5 w-full max-w-xl">
-    <h1 className="text-main text-4xl font-cafe24">타임캡슐</h1>
-    <div className="flex justify-center items-center mt-3 mb-5 w-full relative">
-      <div className="text-white text-center font-gmarket-sans text-[3.5vw] md:text-[2.5vw] lg:text-[15px] font-thin leading-[20px]">
-        지금 이 순간을 기록해보세요!
-      </div>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <img src={feedbackInfo} alt="feedbackInfo" className="ml-2 w-5 h-5" />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent
-          className="w-auto h-auto rounded-full mr-7"
-        >
-          <div className="px-3 text-[1.2vh]">
-            기록하신 타임캡슐은 축제가 끝나는 날(8일) 메일로 전송됩니다.
+      <div className="flex flex-col items-center mb-5 w-full max-w-xl">
+        <h1 className="text-main text-4xl font-cafe24">타임캡슐</h1>
+        <div className="flex justify-center items-center mt-3 mb-5 w-full relative">
+          <div className="text-white text-center font-pretendard text-xs md:text-[2.5vw] lg:text-[15px] font-thin leading-[20px]">
+            지금 이 순간을 기록해보세요!
           </div>
-        </DropdownMenuContent>
-      </DropdownMenu>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <img
+                src={feedbackInfo}
+                alt="feedbackInfo"
+                className="ml-2 w-5 h-5"
+              />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="flex w-screen items-center justify-center h-auto bg-black border-none">
+              <div className="flex bg-white rounded-full px-3 py-1 text-[2.5vw] font-pretendard">
+                기록하신 타임캡슐은 축제가 끝나는 날(8일) 메일로 전송됩니다.
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        <JarImgControll isFilled={isFilled} />
+
+        <div className="flex justify-end w-full">
+          <FilledBtn
+            onClick={handleRegisterClick}
+            className="text-s px-7 mt-3 mr-3 mb-3"
+          >
+            등록하기
+          </FilledBtn>
+        </div>
+      </div>
+
+      <div className="px-8 bg-black text-white flex items-center text-[10px] font-['NanumSquare Neo'] whitespace-nowrap">
+        <img src={cancel} alt="cancel" className="mr-1" />
+        <p>비방, 욕설 등 부적절한 글은 작성이 제한되며, 삭제될 수 있습니다.</p>
+      </div>
+
+      {publicCapsules.length === 0 && myCapsules.length === 0 ? (
+        <p className="text-[#00ff00] mt-10 text-xs text-center">
+          아직 등록된 타임캡슐이 없습니다.
+        </p>
+      ) : (
+        <CapsuleComment
+          publicCapsules={publicCapsules}
+          myCapsules={myCapsules}
+          fetchCapsules={fetchCapsules}
+        />
+      )}
+
+      <SignInModal
+        isOpen={activeModal === "signIn"}
+        setIsOpen={() => setActiveModal(null)}
+      />
+
+      <TimeCapsuleModal
+        isOpen={activeModal === "timeCapsule"}
+        setIsOpen={() => setActiveModal(null)}
+        onSendComplete={handleSendComplete}
+      />
+
+      <SendCompleteModal
+        isOpen={activeModal === "sendComplete"}
+        setIsOpen={() => setActiveModal(null)}
+        onConfirm={handleImgChange}
+      />
     </div>
-
-    <JarImgControll isFilled={isFilled} />
-
-    <div className="flex justify-end w-full">
-      <FilledBtn
-        onClick={handleRegisterClick}
-        className="text-s px-7 mt-3 mr-3 mb-3"
-      >
-        등록하기
-      </FilledBtn>
-    </div>
-  </div>
-
-  <div className="px-8 bg-black text-white flex items-center text-[10px] font-['NanumSquare Neo'] whitespace-nowrap">
-    <img src={cancel} alt="cancel" className="mr-1" />
-    <p>비방, 욕설 등 부적절한 글은 작성이 제한되며, 삭제될 수 있습니다.</p>
-  </div>
-
-  {publicCapsules.length === 0 && myCapsules.length === 0 ? (
-    <p className="text-[#00ff00] mt-10 text-xs text-center">
-      아직 등록된 타임캡슐이 없습니다.
-    </p>
-  ) : (
-    <CapsuleComment
-      publicCapsules={publicCapsules}
-      myCapsules={myCapsules}
-      fetchCapsules={fetchCapsules}
-    />
-  )}
-
-  <SignInModal
-    isOpen={activeModal === "signIn"}
-    setIsOpen={() => setActiveModal(null)}
-  />
-
-  <TimeCapsuleModal
-    isOpen={activeModal === "timeCapsule"}
-    setIsOpen={() => setActiveModal(null)}
-    onSendComplete={handleSendComplete}
-  />
-
-  <SendCompleteModal
-    isOpen={activeModal === "sendComplete"}
-    setIsOpen={() => setActiveModal(null)}
-    onConfirm={handleImgChange}
-  />
-</div>
   );
 }

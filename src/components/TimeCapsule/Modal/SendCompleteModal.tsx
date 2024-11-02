@@ -1,5 +1,9 @@
-
-import { Dialog, DialogContent, DialogTitle, DialogClose } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogClose,
+} from "@/components/ui/dialog";
 
 interface SendCompleteModalProps {
   isOpen: boolean;
@@ -19,15 +23,15 @@ export default function SendCompleteModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && setIsOpen()}>
-      <DialogContent className="flex flex-col items-center justify-center w-[80%] max-w-[600px] mx-auto rounded-xl">
+      <DialogContent className="flex flex-col items-center justify-center w-[80%] max-w-[600px] mx-auto rounded-xl font-pretendard">
         <DialogTitle className="mb-4 text-center text-lg font-bold">
           추억 등록 완료!
         </DialogTitle>
 
-        <div className="text-center text-xs mb-3">
+        <div className="text-center text-sm mb-3">
           오늘 시점으로 한 달 후 메일로 보내드릴게요.
           <br />
-          <span className="block mt-2 font-normal">
+          <span className="block mt-2 text-sm text-main">
             <span className="font-cafe24">"전대미문"</span>
             에서 행복한 추억 가득 채워보세요!
           </span>
@@ -35,7 +39,7 @@ export default function SendCompleteModal({
 
         <DialogClose asChild>
           <button
-            className="px-10 py-1 bg-white text-black rounded-full border border-2 border-black text-sm hover:bg-blue-600"
+            className="px-10 py-1 bg-white text-black rounded-full border-2 border-black text-sm relative font-pretendard hover:bg-main hover:border-main hover:text-black"
             onClick={handleConfirm}
           >
             네

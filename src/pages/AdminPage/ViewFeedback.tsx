@@ -49,7 +49,7 @@ const FeedbackItem: React.FC<{
     >
       <div className="flex flex-row gap-3">
         <div className="rounded-full shrink-0 bg-black w-6 h-6 flex justify-center items-center">
-          <div className="text-main text-base font-extrabold">
+          <div className="text-main text-xs font-extrabold justify-center items-center flex">
             {feedback.id}
           </div>
         </div>
@@ -153,7 +153,7 @@ const ViewFeedback = () => {
         </div>
       </div>
       <div className="flex flex-col justify-center mx-8">
-        <div className="flex flex-row gap-3 mb-5 justify-center">
+        <div className="flex flex-row gap-2 mb-5 justify-center">
           {feedbackOptions.map((option) => (
             <FilledBtn
               key={option.category}
@@ -169,7 +169,7 @@ const ViewFeedback = () => {
             </FilledBtn>
           ))}
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2.5 mb-10">
           {feedbacks.map((feedback) => (
             <FeedbackItem
               key={feedback.id}
@@ -194,7 +194,7 @@ const ViewFeedback = () => {
         open={!!selectedImage}
         onOpenChange={() => setSelectedImage(null)}
       >
-        <DialogContent className="w-full max-w-96 p-4">
+        <DialogContent className="w-full max-w-72">
           <DialogClose asChild>
             <button
               onClick={() => setSelectedImage(null)}

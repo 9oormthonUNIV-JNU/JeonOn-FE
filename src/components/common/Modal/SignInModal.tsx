@@ -12,83 +12,93 @@ interface SignInModalProps {
   onLoginSuccess?: () => void;
 }
 
-export default function SignInModal({ isOpen, setIsOpen, onLoginSuccess }: SignInModalProps) {
+export default function SignInModal({
+  isOpen,
+  setIsOpen,
+  onLoginSuccess,
+}: SignInModalProps) {
   const [nickname, setNickname] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState(false);
 
   // 로그인 요청 처리
   const loginMutation = useMutation<{ token: string }, Error, void>({
     mutationFn: async () => {
       const response = await login(nickname, password);
-      console.log('로그인 응답:', response); // 응답 확인을 위한 로그 추가
-
       return response;
     },
     onSuccess: () => {
-      setIsOpen(false); // 로그인 성공 시 모달 닫기
+      setIsOpen(false);
       if (onLoginSuccess) {
-        onLoginSuccess(); // 로그인 성공 시 콜백 실행
+        onLoginSuccess();
       }
     },
     onError: (error) => {
-      alert(error.message); // 로그인 실패 시 경고
+      alert(error.message);
     },
   });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    loginMutation.mutate(); // 로그인 요청
+    loginMutation.mutate();
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
       <DialogContent className="flex flex-col items-center justify-center w-[80%] max-w-[600px] mx-auto rounded-xl">
-        <DialogTitle className="mb-4 text-center text-xs">
-          '전대미문'을 더 재미있게 즐겨보세요!
+        <DialogTitle className="mb-4 mt-6 text-center text-xs">
+          <span className="font-cafe24 text-main text-sm">'전대미문'</span>을 더
+          재미있게 즐겨보세요!
         </DialogTitle>
 
         <form
           onSubmit={handleSubmit}
           className="w-full flex flex-col items-center"
         >
-          {/* 닉네임 입력 */}
           <div className="w-full flex flex-col items-center">
             <Label htmlFor="nickname" className="sr-only">
               닉네임
             </Label>
             <Input
+              minLength={2}
+              maxLength={20}
               required
               id="nickname"
               type="text"
               placeholder="닉네임"
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
-              className="mb-2 block w-[80%] max-w-xs p-2 border border-gray-300 text-xs rounded-full"
+              className="mb-2 block w-[90%] max-w-xs p-2 border border-gray-500 text-xs rounded-full"
             />
           </div>
 
-          {/* 비밀번호 입력 */}
-          <div className="w-full flex flex-col items-center mb-4">
+          <div className="w-full flex flex-col items-center mb-2">
             <Label htmlFor="password" className="sr-only">
               비밀번호
             </Label>
             <Input
+              minLength={8}
+              maxLength={16}
               required
               id="password"
               type="password"
               placeholder="비밀번호"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="block w-[80%] max-w-xs p-2 border border-gray-300 text-xs rounded-full"
+              className="block w-[90%] max-w-xs p-2 border border-gray-500 text-xs rounded-full"
             />
           </div>
+          {error ? (
+            <span className="text-[10px] text-[#F92D2D]">
+              중복된 닉네임입니다.
+            </span>
+          ) : null}
 
-          {/* 제출 버튼 */}
           <button
             type="submit"
-            className="mt-3 w-[50%] max-w-[150px] py-1.5 bg-black text-white rounded-lg text-xs hover:bg-blue-600"
+            className="mt-5 w-[35%] max-w-[150px] py-1.5 bg-white text-black border border-black rounded-lg text-xs hover:bg-black hover:text-white"
           >
-            로그인
+            사용하기
           </button>
         </form>
       </DialogContent>

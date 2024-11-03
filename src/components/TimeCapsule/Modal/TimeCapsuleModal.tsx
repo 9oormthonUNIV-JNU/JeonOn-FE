@@ -39,6 +39,7 @@ export default function TimeCapsuleModal({
 }: TimeCapsuleModalProps) {
   const [nickname, setNickname] = useState<string>("Guest");
   const [buttonImage, setButtonImage] = useState(send);
+  const [emailError, setEmailError] = useState<string | null>(null); // 이메일 오류 상태 추가
 
   const [formData, setFormData] = useState({
     mailAddress: "",
@@ -46,6 +47,18 @@ export default function TimeCapsuleModal({
     isPublic: true,
     images: [] as File[],
   });
+
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+  // 이메일 유효성 검사 함수
+  const validateEmail = (email: string) => {
+    if (!emailRegex.test(email)) {
+      setEmailError("이메일을 올바르게 입력해주세요.");
+      return false;
+    }
+    setEmailError(null); // 오류가 없으면 메시지를 제거
+    return true;
+  };
 
   // 사용자 프로필 데이터 fetching
   const {
@@ -110,6 +123,7 @@ export default function TimeCapsuleModal({
       isPublic: true,
       images: [],
     });
+    setEmailError(null); // 오류 메시지 초기화
   };
 
   // 폼 제출 핸들러
@@ -119,6 +133,11 @@ export default function TimeCapsuleModal({
     // 내용이 비어 있으면 폼 제출을 막음
     if (!formData.mailAddress.trim() || !formData.content.trim()) {
       alert("이메일과 내용을 모두 입력해야 합니다.");
+      return;
+    }
+
+    if (!validateEmail(formData.mailAddress)) {
+      alert("이메일을 올바르게 입력해주세요."); // 유효하지 않은 경우 경고
       return;
     }
 
@@ -139,6 +158,11 @@ export default function TimeCapsuleModal({
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // 이메일 입력 시 유효성 검사 실행
+    if (name === "mailAddress") {
+      validateEmail(value);
+    }
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {

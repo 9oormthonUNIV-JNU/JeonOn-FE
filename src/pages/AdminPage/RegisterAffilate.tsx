@@ -160,7 +160,7 @@ const RegisterAffiliate = () => {
             <Input
               id="affiliate_image"
               type="file"
-              accept="image/*"
+              accept=".jpeg,.jpg,.png"
               multiple
               onChange={handleImageChange}
               className="bg-white text-black"

@@ -156,8 +156,18 @@ export default function TimeCapsuleModal({
         alert("이미지는 최대 3장까지 업로드할 수 있습니다.");
         return;
       }
-      setFormData((prev) => ({ ...prev, images: files }));
+      setFormData((prev) => ({
+        ...prev,
+        images: [...prev.images, ...files],
+      }));
     }
+  };
+
+  const handleImageRemove = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      images: prev.images.filter((_, i) => i !== index),
+    }));
   };
 
   return (
@@ -243,7 +253,21 @@ export default function TimeCapsuleModal({
                   {formData.images.length > 0 ? (
                     <ul>
                       {formData.images.map((image, index) => (
-                        <li key={index}>{image.name}</li> // 각 이미지 파일의 이름 렌더링
+                        <li key={index}>
+                          {image.name}
+                          <button
+                            type="button"
+                            onClick={(
+                              e: React.MouseEvent<HTMLButtonElement>
+                            ) => {
+                              e.stopPropagation();
+                              handleImageRemove(index);
+                            }}
+                            className="ml-2 relative text-red-500 text-xs z-100 w-4"
+                          >
+                            X
+                          </button>
+                        </li>
                       ))}
                     </ul>
                   ) : (

@@ -4,7 +4,6 @@ import { getToken } from '@/utils/tokenHandler';
 // 로그인 및 회원가입 요청
 export const login = async (nickname: string, password: string) => {
   try {
-    // 백엔드 연결 후 주석 해제
     const response = await api.post('/login', {
       nickname,
       password,
@@ -14,7 +13,7 @@ export const login = async (nickname: string, password: string) => {
     return response.data;
   } catch (error) {
     // 에러 처리
-    throw new Error('로그인 요청 실패: ' + error);
+    console.log("에러 발생: ", error);
   }
 };
 

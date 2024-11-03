@@ -169,7 +169,7 @@ export default function BoothCards({
             className="relative w-[90vw] max-w-[90vw] bg-white rounded-[15px] shadow-md mt-5 mx-auto"
           >
             <CardHeader className="grid grid-cols-[auto_1fr] gap-2 items-center p-0.5">
-              <div className="mt-2 font-cafe24 ml-2 w-5 h-5 bg-black rounded-full flex items-center justify-center text-[#00ff00] text-bold pb-1 text-sm">
+              <div className="mt-2 font-cafe24 ml-2 w-5 h-5 bg-black rounded-full flex items-center justify-center text-[#00ff00] text-bold text-xs">
                 {booth.id}
               </div>
               <CardTitle className="text-black text-[2.5vh] font-medium font-['Pretendard']">

@@ -43,7 +43,7 @@ export default function NewBoothComment({
   };
 
   return (
-    <div className="mt-20 w-full flex flex-col items-center space-y-2">
+    <div className="mt-10 w-full flex flex-col items-center space-y-2">
       {/* 댓글 경고 문구 */}
       <div className="flex items-center text-white text-[1vh] font-black font-['NanumSquare Neo'] whitespace-nowrap mb-2">
         <img src={cancel} alt="cancel" className="mr-1 mb-0.5" />
@@ -59,7 +59,7 @@ export default function NewBoothComment({
           {nickname ? nickname : "Guest"}
         </div>
 
-        {/* 댓글 입력란 (Input 컴포넌트 사용) */}
+        {/* 댓글 입력란 */}
         <Input
           className="h-6 w-full text-black text-[10px] font-normal font-['NanumSquare Neo'] focus-visible:ring-0 focus-visible:border-transparent border-transparent"
           placeholder="댓글을 입력하세요."

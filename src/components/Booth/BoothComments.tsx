@@ -83,28 +83,28 @@ export default function BoothComments({
           className="relative w-full p-4 rounded-[15px] border border-2 border-white flex flex-col md:flex-row md:items-center"
         >
           {/* 닉네임 */}
-          <div className="text-[#e9e9e9]/90 text-[12px] font-normal font-['Pretendard'] md:w-1/4 md:text-left">
+          <div className="text-[#e9e9e9]/90 text-sm font-normal font-['Pretendard'] md:w-1/4 md:text-left">
             {comment.nickname}
           </div>
 
           {/* 댓글 내용 */}
-          <div className="text-white text-xs font-normal font-['Noto Sans KR'] w-full md:w-2/4 md:text-left mt-2 md:mt-0">
+          <div className="text-white text-sm font-normal font-['Noto Sans KR'] w-full md:w-2/4 md:text-left mt-2 md:mt-0">
             {comment.content}
           </div>
 
           {/* 댓글 시간 */}
-          <div className="absolute right-2 bottom-1 text-[#e8e8e8]/90 text-[1vh] font-normal font-['Pretendard'] md:w-1/4 md:text-right mt-2 md:mt-0">
+          <div className="absolute right-2 bottom-1 text-[#e8e8e8]/90 text-xs font-normal font-['Pretendard'] md:w-1/4 md:text-right mt-2 md:mt-0">
             {formatDateToMMDDhhmm(comment.created_at)}
           </div>
 
           {/* 삭제 버튼: 현재 로그인된 사용자와 댓글 작성자의 닉네임이 같을 때만 렌더링 */}
           {comment.nickname === nickname && (
-            <div className="absolute right-2 top-1 text-[#e8e8e8]/90 text-[1vh] font-normal font-['Pretendard'] md:w-1/4 md:text-right mt-2 md:mt-0">
+            <div className="absolute right-2 top-1 md:w-1/4 md:text-right mt-2 md:mt-0">
               <img
                 src={deleteIcon}
                 alt="delete"
                 onClick={() => handleDeleteComment(comment.id)} // 삭제 버튼 클릭 시 삭제 함수 호출
-                className="cursor-pointer"
+                className="cursor-pointer w-4 h-4"
               />
             </div>
           )}

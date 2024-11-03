@@ -92,7 +92,7 @@ export default function LikingBooth({ boothId }: LikingBoothProps) {
       <img
         src={hasLiked ? like_filled : like_empty}
         alt="like button"
-        className="cursor-pointer h-7 w-7 z-10"
+        className="cursor-pointer h-7 w-7"
       />
       {/* 좋아요 개수 */}
       <span className="absolute left-1/2 transform -translate-x-1/2 text-[1.2vh] flex items-center justify-center text-black z-20 mb-[1px]">

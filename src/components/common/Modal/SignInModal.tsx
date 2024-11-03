@@ -5,6 +5,7 @@ import { Label } from '@/components/ui/label';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { login } from '@/api/login';
+import { AxiosError } from 'axios';
 
 interface SignInModalProps {
   isOpen: boolean;
@@ -19,13 +20,14 @@ export default function SignInModal({
 }: SignInModalProps) {
   const [nickname, setNickname] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [error, setError] = useState(false);
+  const [error, setError] = useState('');
 
   // 로그인 요청 처리
   const loginMutation = useMutation<{ token: string }, Error, void>({
     mutationFn: async () => {
       const response = await login(nickname, password);
-      return response;
+      setError('');
+      return response.data;
     },
     onSuccess: () => {
       setIsOpen(false);
@@ -34,7 +36,18 @@ export default function SignInModal({
       }
     },
     onError: (error) => {
-      alert(error.message);
+      if (error instanceof AxiosError) {
+        if (Array.isArray(error.response?.data.error.message)) {
+          const messageWithoutField =
+            error.response?.data.error.message[0].split(':')[1];
+
+          setError(messageWithoutField);
+        } else {
+          if (error.response?.data.error.message === '중복된 사용자입니다.') {
+            setError('중복된 닉네임입니다.');
+          }
+        }
+      }
     },
   });
 
@@ -88,10 +101,8 @@ export default function SignInModal({
               className="block w-[90%] max-w-xs p-2 border border-gray-500 text-xs rounded-full"
             />
           </div>
-          {error ? (
-            <span className="text-[10px] text-[#F92D2D]">
-              중복된 닉네임입니다.
-            </span>
+          {error !== '' ? (
+            <span className="text-[10px] text-[#F92D2D]">{error}</span>
           ) : null}
 
           <button

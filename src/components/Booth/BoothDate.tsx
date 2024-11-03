@@ -33,7 +33,7 @@ export default function BoothDate({
             }}
           >
             <div
-              className={`absolute bottom-0 cursor-pointer font-['Pretendard'] transition-transform duration-300 ease-in-out ${
+              className={`absolute bottom-0 cursor-pointer font-cafe24 transition-transform duration-300 ease-in-out ${
                 selectedDate === date.number
                   ? "text-[#00ff00] text-[4.5rem] translate-y-[-15%] scale-110"
                   : "text-white text-[4rem] translate-y-0 scale-100"

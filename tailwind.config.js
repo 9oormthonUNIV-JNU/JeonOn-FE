@@ -13,6 +13,8 @@ export default {
       backgroundColor: {
         'main-guide': 'rgba(81, 251, 86, 0.08)',
         'list-box': 'rgba(0, 255, 0, 0.10)',
+        'intro-box': 'rgba(0, 255, 0, 0.08)',
+        'intro-span': 'rgba(0, 255, 0, 0.20)',
         map: 'rgba(0, 255, 0, 0.23)',
       },
       backgroundImage: {

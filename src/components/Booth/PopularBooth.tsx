@@ -89,7 +89,7 @@ export default function PopularBooth({ onCardSelect }: PopularBoothProps) {
             <div className="relative">
               <img src={bookmark} className="w-9 h-9" alt="bookmark" />
               <span className="absolute top-1/2 left-1/2 text-[#00ff00] text-[11px] font-bold transform -translate-x-1/2 -translate-y-1/2 pb-2">
-                {booth.ranking}
+                {booth.ranking}위
               </span>
             </div>
 

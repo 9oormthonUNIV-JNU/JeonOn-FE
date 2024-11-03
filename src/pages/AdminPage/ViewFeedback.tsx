@@ -10,7 +10,7 @@ type FeedbackOptionType = {
 
 const feedbackOptions: FeedbackOptionType[] = [
   { type: "축제준비위원회", category: "festival-committee" },
-  { type: "2024 대동제", category: "cnu-festival" },
+  { type: "2024 대동제", category: "jnu-festival" },
   { type: "축제사이트", category: "festival-site" },
 ];
 

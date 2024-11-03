@@ -35,14 +35,10 @@ export default function LikingBooth({ boothId }: LikingBoothProps) {
       setLikeCount(boothData.like_count);
       setHasLiked(boothData.like);
     }
-  }, [isSuccess, boothData]);
-
-  // 에러 처리
-  useEffect(() => {
     if (isError && error) {
       console.error("부스 정보를 불러오는 중 에러가 발생했습니다:", error);
     }
-  }, [isError, error]);
+  }, [isSuccess, boothData, isError, error]);
 
   // 좋아요 추가/취소 처리
   const likeMutation = useMutation({

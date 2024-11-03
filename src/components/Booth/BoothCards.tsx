@@ -4,6 +4,8 @@ import time from "@/../public/assets/svgs/time_black.svg";
 import location from "@/../public/assets/svgs/location_black.svg";
 import { boothsList } from "@/api/booth";
 import LikingBooth from "../Booth/LikingBooth.tsx";
+import { isLoggedIn } from "@/api/login.ts";
+import SignInModal from "../common/Modal/SignInModal.tsx";
 
 interface BoothCardsProps {
   selectedCategories: string[];
@@ -32,6 +34,7 @@ export default function BoothCards({
   onCardSelect,
 }: BoothCardsProps) {
   const [booths, setBooths] = useState<Booth[]>([]);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const createQueryString = () => {
     const categoryMapping: { [key: string]: string } = {
@@ -45,7 +48,6 @@ export default function BoothCards({
     const periodMapping: { [key: string]: string } = {
       주간: "daytime",
       야간: "nighttime",
-      "주/야간": "alltime",
     };
 
     const categories = selectedCategories
@@ -196,15 +198,23 @@ export default function BoothCards({
                 </div>
               </div>
             </CardContent>
+
             <div
               className="top-3 right-4 absolute"
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                if (!isLoggedIn()) {
+                  setShowLoginModal(true);
+                }
+                e.stopPropagation();
+              }}
             >
               <LikingBooth boothId={booth.id} />
             </div>
           </Card>
         ))
       )}
+
+      <SignInModal isOpen={showLoginModal} setIsOpen={setShowLoginModal} />
     </div>
   );
 }

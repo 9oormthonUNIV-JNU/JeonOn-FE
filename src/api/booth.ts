@@ -122,7 +122,12 @@ export async function popularBooth() {
 
 export async function likeBooth(boothId: any) {
   try {
-    const result = await api.post(`/booths/${boothId}/likes`);
+    const token = getAuthToken();
+    const result = await api.post(`/booths/${boothId}/likes`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+  });
     return result.data;
   } catch (error) {
     console.error("Error adding comment:", error);

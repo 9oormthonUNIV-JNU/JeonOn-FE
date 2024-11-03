@@ -74,6 +74,14 @@ export default function BoothDetail() {
     }
   };
 
+  const handleBookmarkClick = () => {
+    if (!isLoggedIn()) {
+      setShowLoginModal(true);
+    } else {
+      toggleBookmark();
+    }
+  };
+
   const mappedCategory = boothData
     ? boothCategory.find((item) => item.category === boothData.category)?.type
     : null;
@@ -131,27 +139,37 @@ export default function BoothDetail() {
           <div className="flex items-center justify-between w-full">
             {/* 부스 이름과 북마크 */}
             <div className="flex items-center space-x-2">
-              <div className="font-cafe24 text-3xl text-main">
+              <div className="font-cafe24 text-3xl text-main mt-1">
                 {boothData.name}
               </div>
-              <div onClick={toggleBookmark} className="cursor-pointer mt-1">
+              <div
+                onClick={handleBookmarkClick}
+                className="cursor-pointer"
+              >
                 {like ? (
                   <img
                     src={bookmark_filled}
                     alt="favorites"
-                    className="w-9 h-9"
+                    className="w-10 h-10"
                   />
                 ) : (
                   <img
                     src={bookmark_empty}
                     alt="bookmark"
-                    className="w-9 h-9"
+                    className="ml-1 w-8 h-8"
                   />
                 )}
               </div>
             </div>
 
-            <div className="flex items-center space-x-2 mr-1">
+            <div
+              className="flex items-center space-x-2 mr-1"
+              onClick={() => {
+                if (!isLoggedIn()) {
+                  setShowLoginModal(true); // 로그인 모달 열기
+                }
+              }}
+            >
               <LikingBooth boothId={Number(id)} />
             </div>
           </div>
@@ -176,17 +194,17 @@ export default function BoothDetail() {
           <div>{boothData.description}</div>
 
           {checkAdminToken() ? (
-          <div className="relative">
-            <div className="absolute right-2 top-1 md:w-1/4 md:text-right">
-              <img
-                src={deleteIcon}
-                alt="delete"
-                onClick={handleDeleteClick} // 삭제 버튼 클릭 시 삭제 함수 호출
-                className="cursor-pointer w-4 h-4"
-              />
+            <div className="relative">
+              <div className="absolute right-2 top-1 md:w-1/4 md:text-right">
+                <img
+                  src={deleteIcon}
+                  alt="delete"
+                  onClick={handleDeleteClick} // 삭제 버튼 클릭 시 삭제 함수 호출
+                  className="cursor-pointer w-4 h-4"
+                />
+              </div>
             </div>
-          </div>
-        ) : null}
+          ) : null}
         </div>
 
         {/* 댓글 분리선 */}

@@ -18,7 +18,9 @@ export default function Introduce() {
         <h1 className="text-center font-cafe24 text-main text-4xl mb-3">
           JeonOn
         </h1>
-        <h4 className="text-white text-sm text-center">팀 소개</h4>
+        <h4 className="text-white text-sm text-center font-pretendard">
+          팀 소개
+        </h4>
       </div>
       <div className="flex justify-center items-center mb-12">
         <img src={goormthon} alt="goormthon" />

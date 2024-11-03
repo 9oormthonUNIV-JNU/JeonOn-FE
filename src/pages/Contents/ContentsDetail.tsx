@@ -112,7 +112,7 @@ export default function ContentsDetail() {
         <div className="mb-4">
           <img src={divideLine} alt="d/ivide-line" />
         </div>
-        <div className="text-white whitespace-pre-wrap">
+        <div className="text-white whitespace-pre-wrap h-full font-pretendard">
           {data?.description}
         </div>
       </div>

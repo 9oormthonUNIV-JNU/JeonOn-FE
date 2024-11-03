@@ -37,8 +37,8 @@ export default function Affiliation() {
                   {item.bookmark && <img src={favorites} alt="favorites" />}
                 </div>
               </div>
-              <div>
-                <span className="text-xs font-normal text-white">
+              <div className="max-h-8 overflow-hidden">
+                <span className="text-xs font-normal text-white overflow-y-hidden">
                   {item.description}
                 </span>
               </div>

@@ -45,7 +45,7 @@ const RegisterMap = () => {
       await postMap(data);
       setOpenModal(true);
     } catch (error) {
-      console.error("Map registration failed", error);
+      // 에러
     }
   };
 
@@ -98,6 +98,7 @@ const RegisterMap = () => {
             내용 (선택)
           </Label>
           <Textarea
+            maxLength={1000}
             placeholder="지도별 위치에 대해서 상세하게 설명해주세요."
             id="map_description"
             value={description}

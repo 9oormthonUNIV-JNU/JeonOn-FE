@@ -29,10 +29,10 @@ export default function SendCompleteModal({
         </DialogTitle>
 
         <div className="text-center text-sm mb-3">
-          오늘 시점으로 한 달 후 메일로 보내드릴게요.
+          축제가 끝나는 날 8일에 메일로 보내드릴게요.
           <br />
-          <span className="block mt-2 text-sm text-main">
-            <span className="font-cafe24">"전대미문"</span>
+          <span className="block mt-2 text-sm text-black">
+            <span className="font-cafe24 text-main">전대미문</span>
             에서 행복한 추억 가득 채워보세요!
           </span>
         </div>

@@ -88,6 +88,7 @@ export default function TimeCapsuleModal({
         data.images
       );
 
+      setIsOpen(false);
       onSendComplete(
         formData.mailAddress,
         formData.content,
@@ -96,7 +97,6 @@ export default function TimeCapsuleModal({
       );
 
       resetForm();
-      setIsOpen(false);
     } catch (error) {
       alert("타임캡슐 작성에 실패했습니다.");
       console.error(error);
@@ -217,7 +217,7 @@ export default function TimeCapsuleModal({
               className="bg-white min-h-[120px] max-h-[240px] mt-2 text-xs resize-none pb-10"
               onChange={handleInputChange}
             />
-            <div className="absolute w-full left-1/2 transform -translate-x-1/2 bottom-1.5 flex justify-center items-center text-black text-[9px] font-black break-words">
+            <div className="absolute w-full left-1/2 transform -translate-x-1/2 bottom-1.5 flex justify-center items-center text-black text-[10px] font-black break-words">
               <img src={cancel} alt="cancel" className="mr-1 w-3" />
               <p>
                 비방, 욕설 등 부적절한 글은 작성이 제한되며, 삭제될 수 있습니다.

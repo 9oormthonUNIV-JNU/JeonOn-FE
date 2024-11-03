@@ -62,8 +62,8 @@ export default function TimeCapsule() {
 
   const handleSendComplete = async () => {
     try {
-      fetchCapsules();
       setActiveModal("sendComplete");
+      fetchCapsules();
     } catch (error) {
       console.error("Error creating time capsule:", error);
     }

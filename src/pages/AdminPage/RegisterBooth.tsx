@@ -4,6 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { FilledBtn } from "@/components/common/Button/filled-btn";
 import { useState, useRef } from "react";
 import photo from "@/../public/assets/svgs/photo.svg";
+import clock from "@/../public/assets/svgs/date_clock.svg";
 import {
   Dialog,
   DialogClose,
@@ -21,6 +22,7 @@ import {
 import { postBooth } from "@/api/booth";
 import { CustomDatePicker } from "@/components/common/DatePicker/CustomDatePicker";
 import { useNavigate } from "react-router-dom";
+import "@/components/common/DatePicker/CustomDatePicker.css";
 
 type BoothCategoryType = {
   type: string;
@@ -70,6 +72,10 @@ const RegisterBooth = () => {
 
       if (images.length + selectedFiles.length > 5) {
         alert("이미지는 최대 5장까지 업로드할 수 있습니다.");
+
+        if (imgRef.current) {
+          imgRef.current.value = "";
+        }
         return;
       }
 
@@ -87,6 +93,38 @@ const RegisterBooth = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!location) {
+      alert("위치를 선택해주세요.");
+      return;
+    }
+
+    if (!startDate || !endDate) {
+      alert("부스 시작일과 종료일을 선택해주세요.");
+      return;
+    }
+
+    if (startDate > endDate) {
+      alert("부스 시작일은 종료일보다 빠르거나 같아야 합니다.");
+      return;
+    }
+
+    const start = new Date(`1970-01-01T${startTime}:00`);
+    const end = new Date(`1970-01-01T${endTime}:00`);
+
+    if (start > end) {
+      alert("부스 운영 시작 시간은 종료 시간보다 빠르거나 같아야 합니다.");
+      return;
+    }
+
+    if (!selectedCategory) {
+      alert("카테고리를 선택해주세요.");
+      return;
+    }
+    if (!selectedPeriod) {
+      alert("운영 시간을 선택해주세요.");
+      return;
+    }
 
     const formatDate = (date: Date | null) =>
       date ? date.toISOString().split("T")[0] : "";
@@ -140,6 +178,7 @@ const RegisterBooth = () => {
               부스명
             </Label>
             <Input
+              placeholder="부스명"
               required
               id="booth_name"
               type="text"
@@ -156,11 +195,11 @@ const RegisterBooth = () => {
               <Select required value={location} onValueChange={setLocation}>
                 <SelectTrigger className="font-pretendard bg-white text-black w-36 text-sm">
                   {" "}
-                  <SelectValue />
+                  <SelectValue placeholder="위치" />
                 </SelectTrigger>
                 <SelectContent className="font-pretendard text-black text-sm">
-                  <SelectItem value="backgate-street">후문거리</SelectItem>
                   <SelectItem value="square-518">518 광장</SelectItem>
+                  <SelectItem value="backgate-street">후문</SelectItem>
                 </SelectContent>
               </Select>
               <Input
@@ -190,22 +229,33 @@ const RegisterBooth = () => {
               />
             </div>
             <div className="flex flex-row gap-3 items-center">
-              <Input
-                required
-                type="time"
-                className="bg-white text-black w-40"
-                value={startTime}
-                onChange={(e) => setStartTime(e.target.value)}
-              />{" "}
+              <div className="relative flex-grow max-w-52">
+                <Input
+                  required
+                  type="time"
+                  className="bg-white text-black w-full"
+                  value={startTime}
+                  onChange={(e) => setStartTime(e.target.value)}
+                />
+                <img
+                  src={clock}
+                  className="absolute top-1/2 right-2 transform -translate-y-1/2 w-5 h-5 pointer-events-none"
+                />
+              </div>
               ~
-              <Input
-                required
-                type="time"
-                className="bg-white text-black w-40"
-                value={endTime}
-                onChange={(e) => setEndTime(e.target.value)}
-                step="60"
-              />
+              <div className="relative flex-grow max-w-52">
+                <Input
+                  required
+                  type="time"
+                  className="bg-white text-black w-full"
+                  value={endTime}
+                  onChange={(e) => setEndTime(e.target.value)}
+                />
+                <img
+                  src={clock}
+                  className="absolute top-1/2 right-2 transform -translate-y-1/2 w-5 h-5 pointer-events-none"
+                />
+              </div>
             </div>
           </div>
           <div className="flex flex-col mx-10 gap-2">
@@ -218,7 +268,7 @@ const RegisterBooth = () => {
               id="booth_description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="bg-white min-h-56 max-h-64 text-black"
+              className="bg-white min-h-56 max-h-64 text-black resize-none"
             />
           </div>
           <div className="flex flex-col mx-10 gap-2">
@@ -248,7 +298,7 @@ const RegisterBooth = () => {
                   <button
                     type="button"
                     onClick={() => handleImageRemove(index)}
-                    className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1"
+                    className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center shadow-md"
                   >
                     ×
                   </button>

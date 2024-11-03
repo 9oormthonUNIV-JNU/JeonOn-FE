@@ -1,50 +1,41 @@
-// BoothDetail.tsx에서 보여지는 이미지들 캐러셀입니다.
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import { Pagination } from 'swiper/modules';
-import '../guide/styles.css';
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Pagination } from "swiper/modules";
 
-interface BoothCarouselProps {
-  images: string[]; // 부스 이미지 배열
-  handleIndex: (index: number) => void; // 슬라이드 변경 시 호출할 함수
-}
+export default function BoothCarousel({
+  images,
+  handleIndex,
+}: any) {
+  const imageArray = Array.isArray(images) ? images : images?.split(',');
 
-export default function BoothCarousel({ images, handleIndex }: BoothCarouselProps) {
   return (
     <div>
       <Swiper
         slidesPerView={1}
-        pagination={{
-            clickable: true,  // 페이지네이션이 클릭 가능하도록 설정
-        }}
+        pagination={true}
         modules={[Pagination]}
-        className="mySwiper mb-10"
+        className="mySwiper mb-5"
         centeredSlides={true}
         spaceBetween={10}
         onSlideChange={(e) => {
-          handleIndex(e.realIndex + 1);
+          handleIndex(e.realIndex);
         }}
       >
-        {images && images.length > 0 ? (
-          images.map((img, i) => (
+        {imageArray && imageArray.length > 0 ? (
+          imageArray.map((img: string, i: number) => (
             <SwiperSlide key={i}>
-              <div className="booth-slide">
-                <div className="w-full h-auto object-contain mb-5">
-                  <img className="w-full h-full object-cover" src={img} alt={`booth-${i}`} />
+              <div>
+                <div className="mb-5">
+                  <img src={img} alt={`image-${i}`}/>
                 </div>
               </div>
             </SwiperSlide>
           ))
         ) : (
-          // 이미지가 없을 경우 빈 슬라이드 렌더링
-          <SwiperSlide>
-            <div className="booth-slide">
-              <div className="w-full h-80 rounded-3xl mb-5 bg-gray-100">
-                <p className="text-center text-lg">No images available</p>
-              </div>
-            </div>
-          </SwiperSlide>
+          // images가 없을 경우 빈 슬라이드 렌더링
+          <SwiperSlide></SwiperSlide>
         )}
       </Swiper>
     </div>

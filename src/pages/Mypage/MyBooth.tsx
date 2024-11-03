@@ -7,35 +7,12 @@ import location from '@/../public/svgs/booth/location.svg';
 import clock from '@/../public/svgs/booth/clock.svg';
 
 export default function MyBooth() {
-  // const { data } = useQuery({
-  //   queryKey: ['booths-bookmark'],
-  //   queryFn: getBoothsBookmark,
-  // });
+  const { data: boothData } = useQuery({
+    queryKey: ['booths-bookmark'],
+    queryFn: getBoothsBookmark,
+  });
 
-  const data = [
-    {
-      id: 1,
-      name: '맛있는 타코야끼',
-      location: '5.18 광장',
-      index: 2,
-      start_date: '2024-11-05',
-      end_date: '2024-11-07',
-      start_time: '13:00:00',
-      end_time: '18:00:00',
-      bookmark: true,
-    },
-    {
-      id: 2,
-      name: '맛있는 피자',
-      location: '5.18 광장',
-      index: 30,
-      start_date: '2024-11-05',
-      end_date: '2024-11-07',
-      start_time: '13:00:00',
-      end_time: '18:00:00',
-      bookmark: true,
-    },
-  ];
+  console.log(boothData);
   const navigate = useNavigate();
 
   // 시간을 포맷하는 함수
@@ -57,7 +34,7 @@ export default function MyBooth() {
   return (
     <div className="h-screen">
       <div className="mb-8">
-        <h1 className="text-[#0F0] text-[35px] text-center font-bold font-cafe24">
+        <h1 className="text-[#0F0] text-[35px] text-center font-bold font-cafe24 mb-2">
           마이
         </h1>
         <h3 className="text-xl text-white text-center">즐겨찾기</h3>
@@ -67,41 +44,42 @@ export default function MyBooth() {
           <h2 className="text-xl text-white">부스</h2>
         </div>
         <div className="w-full flex flex-col gap-4">
-          {data?.map((item: any, index) => (
-            <div
-              className="w-full h-20 bg-list-box rounded-2xl p-3 border border-[#0F0]"
-              key={item.id}
-              onClick={() => navigate(`/booth/${item.id}`)}
-            >
-              <div className="flex justify-between items-center mb-2">
-                <div className="flex justify-start items-center gap-2">
-                  <div className="text-black bg-main w-5 h-5 rounded-full flex justify-center items-center font-extrabold">
-                    {index + 1}
+          {boothData &&
+            boothData.map((item: any, index) => (
+              <div
+                className="w-full h-20 bg-list-box rounded-2xl p-3 border border-[#0F0]"
+                key={item.id}
+                onClick={() => navigate(`/booth/${item.id}`)}
+              >
+                <div className="flex justify-between items-center mb-2">
+                  <div className="flex justify-start items-center gap-2">
+                    <div className="text-black bg-main w-5 h-5 rounded-full flex justify-center items-center font-extrabold">
+                      {index + 1}
+                    </div>
+                    <h3 className="text-main text-xl">{item.name}</h3>
                   </div>
-                  <h3 className="text-main text-xl">{item.name}</h3>
+                  <div>
+                    {item.bookmark && <img src={favorites} alt="favorites" />}
+                  </div>
                 </div>
-                <div>
-                  {item.bookmark && <img src={favorites} alt="favorites" />}
+                <div className="text-white pl-5 flex justify-start items-center gap-2 font-normal">
+                  <div className="flex justify-start items-center">
+                    <img src={location} alt="location" />
+                    <span className="text-[8px]">{item.location}</span>
+                  </div>
+                  <div className="flex justify-start items-center gap-1">
+                    <img src={clock} alt="clock" />
+                    <span className="text-[8px]">
+                      {formatDateTime(
+                        item.start_date,
+                        item.start_time,
+                        item.end_time,
+                      )}
+                    </span>
+                  </div>
                 </div>
               </div>
-              <div className="text-white pl-5 flex justify-start items-center gap-2 font-normal">
-                <div className="flex justify-start items-center">
-                  <img src={location} alt="location" />
-                  <span className="text-[8px]">{item.location}</span>
-                </div>
-                <div className="flex justify-start items-center gap-1">
-                  <img src={clock} alt="clock" />
-                  <span className="text-[8px]">
-                    {formatDateTime(
-                      item.start_date,
-                      item.start_time,
-                      item.end_time,
-                    )}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
     </div>

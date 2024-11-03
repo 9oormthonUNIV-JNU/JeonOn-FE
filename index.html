@@ -6,7 +6,10 @@
 
     <link rel="apple-touch-icon" href="icon512_maskable.png" sizes="152x152" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"
+    />
     <link rel="manifest" href="manifest.json" />
 
     <title>전대미문</title>
@@ -28,6 +31,20 @@
       }
     </style> -->
   </head>
+  <!-- Google tag (gtag.js) -->
+  <script
+    async
+    src="https://www.googletagmanager.com/gtag/js?id=G-PN7LBWVFXR"
+  ></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'G-PN7LBWVFXR');
+  </script>
   <body>
     <div id="root"></div>
 

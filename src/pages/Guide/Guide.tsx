@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import favorites from '@/../public/assets/svgs/favorites.svg';
 import bookmark from '@/../public/assets/svgs/bookmark_empty.svg';
 import love from '@/../public/svgs/love.svg';
@@ -8,7 +8,7 @@ import backGate from '@/../public/images/back-gate.png';
 import square from '@/../public/images/518-square.png';
 import stadium from '@/../public/images/stadium.png';
 
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import GuideCarousel from '@/components/guide/GuideCarousel';
 import { useQuery } from '@tanstack/react-query';
 import { getZones, getPartners } from '@/api/guide';
@@ -29,6 +29,8 @@ export default function Guide() {
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
   const navigate = useNavigate();
+  const location = useLocation();
+
   const clickedStyle =
     'text-xl text-[#0F0] border-b-2 border-[#0F0] h-12 px-2 flex justify-center items-center';
   const defaultStyle =
@@ -38,10 +40,30 @@ export default function Guide() {
     setCurIndex(index);
   };
 
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const currentView = searchParams.get('view');
+    if (location?.state?.key === false) {
+      setClicked(false);
+    }
+
+    const newView = clicked ? 'map' : 'partners';
+    if (currentView !== newView) {
+      searchParams.set('view', newView);
+      navigate(
+        {
+          pathname: location.pathname,
+          search: searchParams.toString(),
+        },
+        { replace: true },
+      );
+    }
+  }, [clicked, navigate, location]);
+
   const { data } = useQuery({
     queryKey: ['guide', clicked],
     queryFn: async () => {
-      if (clicked) return await getZones('');
+      if (clicked) return null;
       if (!clicked) return await getPartners();
     },
   });
@@ -57,7 +79,7 @@ export default function Guide() {
     setOpen(true);
   };
 
-  const images = [backGate, square, stadium];
+  const images = [stadium, square, backGate];
 
   return (
     <div className="h-screen overflow-x-hidden">
@@ -99,7 +121,7 @@ export default function Guide() {
                     )}
                   </div>
                 </div>
-                <div>
+                <div className="max-h-8 overflow-hidden">
                   <span className="text-xs font-normal text-white overflow-y-hidden">
                     {item.description}
                   </span>
@@ -108,11 +130,6 @@ export default function Guide() {
                   <span className="text-[10px] text-white">
                     {formatDateToYYYYMMDD(item.created_at)}
                   </span>
-                  {checkAdminToken() ? (
-                    <div onClick={(e) => handleDeleteClick(item.id, e)}>
-                      <img src={trashCan} alt="delete" />
-                    </div>
-                  ) : null}
                 </div>
               </div>
             ))}
@@ -120,11 +137,23 @@ export default function Guide() {
         </div>
       ) : (
         <div className="px-5">
-          <div className="mb-16">
+          <div className="mb-12">
             <GuideCarousel images={images} handleIndex={handleIndex} />
           </div>
+          <div className="flex justify-center items-center gap-1 mb-6">
+            <div>
+              <img src={love} alt="love" />
+            </div>
+            <h1 className="text-white text-xl">
+              {curIndex === 1
+                ? '대운동장'
+                : curIndex === 2
+                ? '5·18 광장'
+                : '후문 거리'}
+            </h1>
+          </div>
           <RegisterButton path={'map'} />
-          <div className="w-full bg-map rounded-xl border border-[#0F0] flex flex-col">
+          <div className="w-full bg-map rounded-xl border border-[#0F0] flex flex-col mb-5">
             {mapInfo.data?.data.map((item: any, index: any) => (
               <div className="px-3 relative" key={item.id}>
                 <div
@@ -136,10 +165,10 @@ export default function Guide() {
                     <img src={love} alt="description" />
                   </div>
 
-                  <div className="flex flex-col justify-center items-start">
+                  <div className="flex flex-col justify-center items-start max-h-8 overflow-hidden">
                     <h1 className="text-sm text-white">{item.name}</h1>
 
-                    <span className="text-[10px] text-white overflow-y-hidden">
+                    <span className="text-[10px] text-white overflow-y-hidden whitespace-pre-wrap">
                       {item.description}
                     </span>
                   </div>
@@ -157,15 +186,7 @@ export default function Guide() {
           </div>
         </div>
       )}
-      {/* 모달 컴포넌트 */}
-      <DeleteModal
-        isOpen={open}
-        id={selectedId}
-        setIsOpen={setOpen}
-        queryKey={'guide'}
-        queryKeyOptions={clicked}
-        deleteFn={deletePartners}
-      />
+
       {/* 모달 컴포넌트 */}
       <DeleteModal
         isOpen={open}

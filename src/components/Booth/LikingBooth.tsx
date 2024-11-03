@@ -14,7 +14,13 @@ export default function LikingBooth({ boothId }: LikingBoothProps) {
   const [hasLiked, setHasLiked] = useState<boolean>(false);
 
   // 부스 디테일 가져오기
-  const { data: boothData, isLoading, isSuccess, isError, error } = useQuery({
+  const {
+    data: boothData,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ["boothDetail", boothId],
     queryFn: async () => {
       const data = await boothDetail(boothId);
@@ -29,14 +35,10 @@ export default function LikingBooth({ boothId }: LikingBoothProps) {
       setLikeCount(boothData.like_count);
       setHasLiked(boothData.like);
     }
-  }, [isSuccess, boothData]);
-
-  // 에러 처리
-  useEffect(() => {
     if (isError && error) {
       console.error("부스 정보를 불러오는 중 에러가 발생했습니다:", error);
     }
-  }, [isError, error]);
+  }, [isSuccess, boothData, isError, error]);
 
   // 좋아요 추가/취소 처리
   const likeMutation = useMutation({
@@ -44,8 +46,11 @@ export default function LikingBooth({ boothId }: LikingBoothProps) {
       return liked ? cancelLikeBooth(boothId) : likeBooth(boothId);
     },
     onMutate: async (liked: boolean) => {
-      await queryClient.cancelQueries({ queryKey: ["boothDetail", boothId]});
-      const previousData = queryClient.getQueryData<any>(["boothDetail", boothId]);
+      await queryClient.cancelQueries({ queryKey: ["boothDetail", boothId] });
+      const previousData = queryClient.getQueryData<any>([
+        "boothDetail",
+        boothId,
+      ]);
       queryClient.setQueryData(["boothDetail", boothId], (oldData: any) => {
         return {
           ...oldData,
@@ -57,12 +62,15 @@ export default function LikingBooth({ boothId }: LikingBoothProps) {
     },
     onError: (error, _, context) => {
       if (context?.previousData) {
-        queryClient.setQueryData(["boothDetail", boothId], context.previousData);
+        queryClient.setQueryData(
+          ["boothDetail", boothId],
+          context.previousData
+        );
       }
       console.error("좋아요 처리 중 오류가 발생했습니다:", error);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["boothDetail", boothId]});
+      queryClient.invalidateQueries({ queryKey: ["boothDetail", boothId] });
     },
   });
 
@@ -80,10 +88,10 @@ export default function LikingBooth({ boothId }: LikingBoothProps) {
       <img
         src={hasLiked ? like_filled : like_empty}
         alt="like button"
-        className="cursor-pointer h-7 w-7 z-10"
+        className="cursor-pointer h-7 w-7"
       />
       {/* 좋아요 개수 */}
-      <span className="absolute left-[10.3px] flex items-center justify-center text-black text-sm z-20">
+      <span className="absolute left-1/2 transform -translate-x-1/2 text-xs flex items-center justify-center mt-12 mb-[2px]">
         {likeCount}
       </span>
     </div>

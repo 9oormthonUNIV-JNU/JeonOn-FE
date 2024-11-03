@@ -1,9 +1,11 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import cancel from "@/../public/assets/svgs/cancel-black.svg";
-import empty_box from "@/../public/assets/svgs/empty-box.svg";
-import check_box from "@/../public/assets/svgs/check-box.svg";
+import empty_box from "@/../public/images/empty_box.png";
+import check_box from "@/../public/images/check_box.png";
 import send from "@/../public/assets/svgs/send.svg";
+import send_click from "@/../public/assets/svgs/send_click.svg";
 import imgIcon from "@/../public/assets/svgs/img.svg";
 import { createTimeCapsule } from "@/api/timecapsule";
 import {
@@ -16,15 +18,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useMutation } from "@tanstack/react-query";
+import { getProfile } from "@/api/user";
+import { isLoggedIn } from "@/api/login";
 
 interface TimeCapsuleModalProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   onSendComplete: (
-    mailAddress: string,
+    mail_address: string,
     content: string,
-    isPublic: boolean,
+    is_public: boolean,
     images: File[]
   ) => void;
 }
@@ -34,20 +37,8 @@ export default function TimeCapsuleModal({
   setIsOpen,
   onSendComplete,
 }: TimeCapsuleModalProps) {
-  const getNickname = () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (token) {
-        const parsedToken = JSON.parse(token);
-        return parsedToken.nickname || "Guest";
-      }
-    } catch (error) {
-      console.error("Token parsing error:", error);
-    }
-    return "Guest";
-  };
-
-  const [nickname] = useState(getNickname());
+  const [nickname, setNickname] = useState<string>("Guest");
+  const [buttonImage, setButtonImage] = useState(send);
 
   const [formData, setFormData] = useState({
     mailAddress: "",
@@ -56,24 +47,46 @@ export default function TimeCapsuleModal({
     images: [] as File[],
   });
 
-  // 타임캡슐을 전송하는 뮤테이션
-  const sendMutation = useMutation({
-    mutationFn: async (data: {
-      mailAddress: string;
-      nickname: string;
-      content: string;
-      isPublic: boolean;
-      images: File[];
-    }) => {
+  // 사용자 프로필 데이터 fetching
+  const {
+    data: profileData,
+    isSuccess,
+    isError: profileError,
+  } = useQuery({
+    queryKey: ["profile"],
+    queryFn: async () => {
+      if (!isLoggedIn()) throw new Error("User not logged in");
+      const result = await getProfile();
+      return result;
+    },
+    enabled: isLoggedIn() !== false, // 로그인 상태에서만 쿼리 실행
+    refetchOnWindowFocus: false, // 창 포커스 시 재요청 방지
+  });
+
+  useEffect(() => {
+    if (isSuccess && profileData?.nickname) {
+      setNickname(profileData.nickname);
+    }
+    if (!isOpen) {
+      resetForm();
+    }
+  }, [isSuccess, profileData, isOpen]);
+
+  // 타임캡슐을 전송하는 함수
+  const sendTimeCapsule = async (data: {
+    mailAddress: string;
+    content: string;
+    isPublic: boolean;
+    images: File[];
+  }) => {
+    try {
+      // createTimeCapsule 함수 대신 직접 axios 요청을 보냅니다.
       await createTimeCapsule(
         data.mailAddress,
         data.content,
         data.isPublic,
         data.images
       );
-    },
-    onSuccess: () => {
-      alert("타임캡슐 작성이 완료되었습니다.");
       setIsOpen(false);
       onSendComplete(
         formData.mailAddress,
@@ -82,12 +95,11 @@ export default function TimeCapsuleModal({
         formData.images
       );
       resetForm();
-    },
-    onError: (error) => {
+    } catch (error) {
       alert("타임캡슐 작성에 실패했습니다.");
       console.error(error);
-    },
-  });
+    }
+  };
 
   const resetForm = () => {
     setFormData({
@@ -101,7 +113,32 @@ export default function TimeCapsuleModal({
   // 폼 제출 핸들러
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await sendMutation.mutate({ ...formData, nickname });
+
+    // 내용이 비어 있으면 폼 제출을 막음
+    if (!formData.mailAddress.trim() || !formData.content.trim()) {
+      alert("이메일과 내용을 모두 입력해야 합니다.");
+      return;
+    }
+
+    setButtonImage(send_click);
+
+    try {
+      await sendTimeCapsule({ ...formData });
+
+      setIsOpen(false);
+      onSendComplete(
+        formData.mailAddress,
+        formData.content,
+        formData.isPublic,
+        formData.images
+      );
+      resetForm();
+    } catch (error) {
+      console.error("타임캡슐 전송 오류:", error);
+      alert("타임캡슐 작성에 실패했습니다.");
+    } finally {
+      setButtonImage(send);
+    }
   };
 
   const handleInputChange = (
@@ -114,6 +151,11 @@ export default function TimeCapsuleModal({
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const files = Array.from(e.target.files);
+
+      if (formData.images.length + files.length > 3) {
+        alert("이미지는 최대 3장까지 업로드할 수 있습니다.");
+        return;
+      }
       setFormData((prev) => ({ ...prev, images: files }));
     }
   };
@@ -122,13 +164,13 @@ export default function TimeCapsuleModal({
     <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
       <DialogContent className="w-[90%] md:w-[80%] max-w-[600px] mx-auto rounded-xl">
         <DialogHeader>
-          <DialogTitle className="pt-4">타임캡슐 작성</DialogTitle>
+          <DialogTitle className="pt-4">타임캡슐</DialogTitle>
         </DialogHeader>
 
         {/* 타임캡슐 작성 폼 */}
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="font-pretendard">
           {/* 닉네임 표시 */}
-          <div className="flex flex-col justify-center gap-3 mb-5">
+          <div className="flex flex-col justify-center gap-2 mb-5">
             <Label htmlFor="nickname" className="text-black text-sm">
               닉네임
             </Label>
@@ -142,24 +184,25 @@ export default function TimeCapsuleModal({
           </div>
 
           {/* 이메일 입력 */}
-          <div className="flex flex-col justify-center gap-3 mb-5">
+          <div className="flex flex-col justify-center gap-2 mb-5">
             <Label htmlFor="mailAddress" className="text-black text-sm">
               받는 사람 메일
             </Label>
             <Input
               required
               value={formData.mailAddress}
+              placeholder="타임캡슐을 받을 메일을 정확하게 입력해주세요."
               type="email"
               name="mailAddress"
               id="mailAddress"
-              className="bg-white"
+              className="bg-white text-xs"
               onChange={handleInputChange}
             />
           </div>
 
           {/* 내용 입력 */}
           <div className="relative mb-5">
-            <Label htmlFor="content" className="text-black text-sm">
+            <Label htmlFor="content" className="text-black text-">
               작성란
             </Label>
             <Textarea
@@ -168,11 +211,11 @@ export default function TimeCapsuleModal({
               id="content"
               name="content"
               placeholder="지금을 기록해보세요."
-              className="bg-white min-h-[120px] max-h-[240px]"
+              className="bg-white min-h-[120px] max-h-[240px] mt-2 text-xs resize-none pb-10"
               onChange={handleInputChange}
             />
-            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-[-20%] flex items-center text-black text-[8px] font-black font-['NanumSquare Neo'] whitespace-nowrap">
-              <img src={cancel} alt="cancel" className="mr-1 mb-0.5" />
+            <div className="absolute w-full left-1/2 transform -translate-x-1/2 bottom-1.5 flex justify-center items-center text-black text-[10px] font-black break-words">
+              <img src={cancel} alt="cancel" className="mr-1 w-3" />
               <p>
                 비방, 욕설 등 부적절한 글은 작성이 제한되며, 삭제될 수 있습니다.
               </p>
@@ -181,8 +224,8 @@ export default function TimeCapsuleModal({
 
           {/* 이미지 업로드 */}
           <div className="flex flex-col">
-            <Label htmlFor="photo" className="text-black text-sm">
-              이미지 업로드
+            <Label htmlFor="photo" className="text-black text-sm mb-2">
+              이미지 첨부(3장 제한)
             </Label>
             <div className="relative">
               <input
@@ -197,11 +240,15 @@ export default function TimeCapsuleModal({
               />
               <div className="flex items-center bg-white border border-gray-300 rounded p-2">
                 <div>
-                  <span>
-                    {formData.images.length > 0
-                      ? `${formData.images.length}개의 이미지 선택됨`
-                      : ""}
-                  </span>
+                  {formData.images.length > 0 ? (
+                    <ul>
+                      {formData.images.map((image, index) => (
+                        <li key={index}>{image.name}</li> // 각 이미지 파일의 이름 렌더링
+                      ))}
+                    </ul>
+                  ) : (
+                    ""
+                  )}
                 </div>
                 <img src={imgIcon} alt="img" className="ml-auto w-6 h-6" />
               </div>
@@ -213,28 +260,23 @@ export default function TimeCapsuleModal({
             <img
               src={formData.isPublic ? check_box : empty_box}
               alt={"공개 또는 비공개"}
-              className="h-[5%] w-[5%] mt-3 mr-2 cursor-pointer"
+              className="h-4 w-4 mt-3 mr-1.5 cursor-pointer object-cover max-h-full max-w-full"
               onClick={() =>
                 setFormData((prev) => ({ ...prev, isPublic: !prev.isPublic }))
               }
             />
-            <p className="mt-3 text-xs">공개</p>
+            <p className="mt-3 text-sm">공개</p>
           </div>
 
           <div className="flex justify-center items-center mb-12">
             <div className="relative flex items-center text-s mt-3">
-              <p>오늘을 기억하고 추억을 선물하세요</p>
+              <p>오늘을 기억하고, 추억을 선물하세요</p>
             </div>
           </div>
 
-          <DialogClose asChild>
-            <button
-              type="submit"
-              className="absolute bottom-4 right-4 px-4 py-2"
-            >
-              <img src={send} alt="send" />
-            </button>
-          </DialogClose>
+          <button type="submit" className="absolute bottom-4 right-2 py-2">
+            <img src={buttonImage} alt="send" />
+          </button>
         </form>
       </DialogContent>
     </Dialog>

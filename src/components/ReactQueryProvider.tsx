@@ -10,11 +10,11 @@ function RQProvider({ children }: Props) {
   const [client] = useState(
     new QueryClient({
       defaultOptions: {
-        // react-query 전역 설정
         queries: {
           refetchOnWindowFocus: false,
           retryOnMount: true,
           refetchOnReconnect: false,
+          // staleTime: 10000,
         },
       },
     }),
@@ -23,7 +23,7 @@ function RQProvider({ children }: Props) {
   return (
     <QueryClientProvider client={client}>
       {children}
-      {/* <ReactQueryDevtools /> */}
+      <ReactQueryDevtools />
     </QueryClientProvider>
   );
 }

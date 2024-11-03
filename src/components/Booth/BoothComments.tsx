@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import deleteIcon from "@/../public/assets/svgs/delete_white.svg";
-import { boothComments, deleteComment } from "@/api/booth"; // boothComments 및 deleteComment 함수 가져오기
+import { boothComments, deleteComment } from "@/api/booth";
+import { formatDateToMMDDhhmm } from "@/utils/dateStr";
+import { checkAdminToken } from "@/utils/tokenHandler";
+import DeleteModal from "../common/Modal/DeleteModal";
 
 // 댓글 데이터 타입 정의
 interface Comment {
@@ -23,6 +26,10 @@ export default function BoothComments({
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const { id } = useParams();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedCommentId, setSelectedCommentId] = useState<number | null>(
+    null
+  );
 
   // 댓글 목록을 불러오는 함수
   const fetchComments = async () => {
@@ -41,18 +48,16 @@ export default function BoothComments({
   };
 
   // 댓글 삭제
-  const handleDeleteComment = async (commentId: number) => {
-    if (id) {
+  const handleDeleteComment = async () => {
+    if (id && selectedCommentId) {
       try {
-        const response = await deleteComment(Number(id), commentId); // 삭제 요청
+        const response = await deleteComment(Number(id), selectedCommentId); // 삭제 요청
         if (response.data.success) {
           // 삭제 성공 시 상태 갱신
           setComments((prevComments) =>
-            prevComments.filter((comment) => comment.id !== commentId)
+            prevComments.filter((comment) => comment.id !== selectedCommentId)
           );
-          alert("댓글이 삭제되었습니다.");
-        } else {
-          alert("댓글 삭제에 실패했습니다.");
+          setIsDeleteModalOpen(false);
         }
       } catch (error) {
         console.error("댓글 삭제 중 오류가 발생했습니다:", error);
@@ -61,16 +66,9 @@ export default function BoothComments({
     }
   };
 
-  // 날짜 포맷팅 함수
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("ko-KR", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+  const handleDeleteClick = (commentId: number) => {
+    setSelectedCommentId(commentId);
+    setIsDeleteModalOpen(true); // DeleteModal 열기
   };
 
   // 컴포넌트가 마운트될 때 API 호출
@@ -87,40 +85,49 @@ export default function BoothComments({
   }
 
   return (
-    <div className="flex flex-col items-center space-y-4 w-full max-w-[800px] px-4">
+    <div className="flex flex-col items-center space-y-4 w-full max-w-[800px] h-auto font-['Pretendard']">
       {comments.map((comment) => (
         <div
           key={comment.id}
-          className="relative w-full p-4 rounded-xl border border-white flex flex-col md:flex-row md:items-center"
+          className="relative w-full p-4 rounded-[15px] border border-2 border-white flex flex-col md:flex-row md:items-center"
         >
           {/* 닉네임 */}
-          <div className="text-[#e9e9e9]/90 text-[12px] font-normal font-['Pretendard'] md:w-1/4 md:text-left">
+          <div className="text-[#e9e9e9]/90 text-sm font-normal md:w-1/4 md:text-left">
             {comment.nickname}
           </div>
 
           {/* 댓글 내용 */}
-          <div className="text-white text-xs font-normal font-['Noto Sans KR'] w-full md:w-2/4 md:text-left mt-2 md:mt-0">
+          <div className="text-white text-sm font-normal font-['Noto Sans KR'] w-full md:w-2/4 md:text-left mt-2 md:mt-0">
             {comment.content}
           </div>
 
           {/* 댓글 시간 */}
-          <div className="absolute right-2 bottom-1 text-[#e8e8e8]/90 text-[1vh] font-normal font-['Pretendard'] md:w-1/4 md:text-right mt-2 md:mt-0">
-            {formatDate(comment.created_at)}
+          <div className="absolute right-2 bottom-1 text-[#e8e8e8]/90 text-xs font-['neurimbo Gothic'] md:w-1/4 md:text-right mt-2 md:mt-0">
+            {formatDateToMMDDhhmm(comment.created_at)}
           </div>
 
-          {/* 삭제 버튼: 현재 로그인된 사용자와 댓글 작성자의 닉네임이 같을 때만 렌더링 */}
-          {comment.nickname === nickname && (
-            <div className="absolute right-2 top-1 text-[#e8e8e8]/90 text-[1vh] font-normal font-['Pretendard'] md:w-1/4 md:text-right mt-2 md:mt-0">
+          {/* 삭제 버튼 */}
+          {(comment.nickname === nickname || checkAdminToken() !== null) && (
+            <div className="absolute right-2 top-1 md:w-1/4 md:text-right mt-2 md:mt-0">
               <img
                 src={deleteIcon}
                 alt="delete"
-                onClick={() => handleDeleteComment(comment.id)} // 삭제 버튼 클릭 시 삭제 함수 호출
-                className="cursor-pointer"
+                onClick={() => handleDeleteClick(comment.id)} // 삭제 버튼 클릭 시 삭제 함수 호출
+                className="cursor-pointer w-4 h-4"
               />
             </div>
           )}
         </div>
       ))}
+
+      {/* 삭제 확인 모달 */}
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        setIsOpen={setIsDeleteModalOpen}
+        id={selectedCommentId}
+        queryKey="boothDetail"
+        deleteFn={handleDeleteComment} // '네' 버튼 클릭 시 삭제 실행
+      />
     </div>
   );
 }

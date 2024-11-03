@@ -1,4 +1,5 @@
 import { api } from "@/utils/customAxios";
+import { getAuthToken } from "@/utils/tokenHandler";
 
 export type BoothType = {
   name: string;
@@ -37,8 +38,8 @@ export async function postBooth(data: BoothType) {
     );
     formData.append("request", requestBlob);
 
-    data.images?.forEach((image, index) => {
-      formData.append(`images[${index}]`, image);
+    data.images.forEach((image) => {
+      formData.append("images", image); 
     });
 
     const result = await api.post("admins/booths", formData, {
@@ -48,14 +49,15 @@ export async function postBooth(data: BoothType) {
     console.log("Booth registered: ", result);
     return result;
   } catch (error) {
-    console.error("Booth registeration failed: ", error);
+    console.error("Booth registration failed: ", error);
     throw error;
   }
 }
 
+
 export async function deleteBooth(boothId: number) {
   const result = await api.delete(`admins/booths/${boothId}`);
-  return result;
+  return result.data;
 }
 
 export async function boothsList(queryString: string = "") {
@@ -120,7 +122,12 @@ export async function popularBooth() {
 
 export async function likeBooth(boothId: any) {
   try {
-    const result = await api.post(`/booths/${boothId}/likes`);
+    const token = getAuthToken();
+    const result = await api.post(`/booths/${boothId}/likes`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+  });
     return result.data;
   } catch (error) {
     console.error("Error adding comment:", error);
@@ -137,13 +144,23 @@ export async function cancelLikeBooth(boothId: any) {
 }
 
 export async function boothBookmark(boothId: any) {
-  const result = await api.post(`bookmarks/booths/${boothId}`);
-  return result;
+  const token = getAuthToken();
+  const res = await api.post(`bookmarks/booths/${boothId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.data.data;
 }
 
 export async function cancelBoothBookmark(boothId: any) {
-  const result = await api.delete(`bookmarks/booths/${boothId}`);
-  return result;
+  const token = getAuthToken();
+  const res = await api.delete(`bookmarks/booths/${boothId}`,{
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.data.data;
 }
 
 export async function favoritesBooths() {

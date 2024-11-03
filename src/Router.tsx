@@ -23,6 +23,7 @@ import RegisterBooth from './pages/AdminPage/RegisterBooth';
 import ViewFeedback from './pages/AdminPage/ViewFeedback';
 import RegisterContents from './pages/AdminPage/RegisterContents';
 import { checkAdminLoader, checkAuthLoader } from './utils/tokenHandler';
+import Introduce from './pages/Introduce';
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: '/jeonOn-introduce',
+        element: <Introduce />,
+      },
+      {
         path: '/time-capsule',
         element: <TimeCapsule />,
       },
@@ -44,73 +49,81 @@ const router = createBrowserRouter([
         element: <Feedback />,
       },
       {
-        path: "/guide",
+        path: '/guide',
         element: <Guide />,
       },
       {
-        path: "/guide/:id",
+        path: '/guide/:id',
         element: <GuideDetail />,
       },
       {
-        path: "/contents",
+        path: '/contents',
         element: <Contents />,
       },
       {
-        path: "/contents/:id",
+        path: '/contents/:id',
         element: <ContentsDetail />,
       },
       {
-        path: "/booth",
+        path: '/booth',
         element: <Booth />,
       },
       {
-        path: "/booth/:id",
+        path: '/booth/:id',
         element: <BoothDetail />,
       },
       {
-        path: "/booth/search",
+        path: '/booth/search',
         element: <BoothSearch />,
       },
       {
-        path: "/time-table",
+        path: '/time-table',
         element: <TimeTable />,
       },
       {
-        path: "/my-page",
+        path: '/my-page',
         element: <MyPage />,
         loader: checkAuthLoader,
       },
       {
-        path: "/my-page/favorites",
+        path: '/my-page/favorites',
         element: <Favorites />,
+        loader: checkAuthLoader,
       },
       {
         path: '/my-page/favorites/announcement',
         element: <MyContents />,
+        loader: checkAuthLoader,
       },
       {
-        path: "/my-page/favorites/affiliate",
+        path: '/my-page/favorites/affiliate',
         element: <Affiliation />,
+        loader: checkAuthLoader,
       },
       {
         path: '/my-page/favorites/booth',
         element: <MyBooth />,
+        loader: checkAuthLoader,
       },
       {
         path: '/admin-page/register-map',
         element: <RegisterMap />,
+        loader: checkAdminLoader,
       },
       {
         path: '/admin-page/register-affiliate',
         element: <RegisterAffiliate />,
+        loader: checkAdminLoader,
       },
       {
         path: '/admin-page/view-feedback',
         element: <ViewFeedback />,
+        loader: checkAdminLoader,
       },
       {
         path: '/admin-page/register-booth',
         element: <RegisterBooth />,
+        loader: checkAdminLoader,
       },
       {
         path: '/admin-page/register-contents',

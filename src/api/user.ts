@@ -1,7 +1,13 @@
 import { api } from '@/utils/customAxios';
+import { getAuthToken } from '@/utils/tokenHandler';
 
 export async function getProfile() {
-  const res = await api.get('/users');
+  const token = getAuthToken();
+  const res = await api.get('/users',{
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return res.data.data;
 }
 
@@ -15,6 +21,11 @@ export async function getContentsBookmark() {
 }
 
 export async function getBoothsBookmark() {
-  const res = await api.get('/users/bookmarks/booths');
+  const token = getAuthToken();
+  const res = await api.get('/users/bookmarks/booths', {
+    headers: {
+      Authorization: `Bearer ${token}`, // Bearer 토큰을 헤더에 추가
+    },
+  });
   return res.data.data;
 }

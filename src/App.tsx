@@ -3,7 +3,7 @@ import router from './Router';
 import RQProvider from './components/ReactQueryProvider';
 import LoadingScreen from './components/LoadingScreen';
 import { Analytics } from '@vercel/analytics/react';
-// import { useEffect } from 'react';
+import { useEffect } from 'react';
 
 function App() {
   // const googleTranslateElementInit = () => {

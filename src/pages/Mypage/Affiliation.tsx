@@ -15,7 +15,7 @@ export default function Affiliation() {
   return (
     <div className="h-screen">
       <div className="mb-9">
-        <h1 className="text-[#0F0] text-[35px] text-center font-bold font-cafe24">
+        <h1 className="text-[#0F0] text-[35px] text-center font-bold font-cafe24 mb-2">
           마이
         </h1>
         <h3 className="text-xl text-white text-center">즐겨찾기</h3>

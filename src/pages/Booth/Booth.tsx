@@ -1,54 +1,85 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import BoothCategory from "@/components/ui/booth-category";
 import BoothDate from "@/components/Booth/BoothDate";
 import BoothCards from "@/components/Booth/BoothCards";
+import BoothCarousel from "@/components/Booth/BoothCarousel";
+
+import backgate_street_1 from "@/../public/images/booth-main/backgate_street_1.png";
+import backgate_street_23 from "@/../public/images/booth-main/backgate_street_23.png";
+import square_518_1 from "@/../public/images/booth-main/518_square_1.png";
+import square_518_23 from "@/../public/images/booth-main/518_square_23.png";
+
+import RegisterButton from "@/components/admin/registerButton";
+import { checkAdminToken } from "@/utils/tokenHandler";
 
 export default function Booth() {
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState<number | null>(null);
-
-  // 카테고리 상태 관리
+  const [images, setImages] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedLocation, setSelectedLocation] = useState<string>("");
+
+  useEffect(() => {
+    const currentDate = new Date();
+    const koreaTimezoneOffset = 9 * 60;
+    const koreaDate = new Date(currentDate.getTime() + koreaTimezoneOffset * 60 * 1000);
+    const day = koreaDate.getDate();
+
+    if (day <= 5) {
+      setImages([backgate_street_1, square_518_1]);
+    } else {
+      setImages([backgate_street_23, square_518_23]);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (selectedDate === 5) {
+      setImages([backgate_street_1, square_518_1]);
+    } else if (selectedDate === 6 || selectedDate === 7) {
+      setImages([backgate_street_23, square_518_23]);
+    }
+  }, [selectedDate]);
 
   const handleDateChange = (number: number) => {
     setSelectedDate(number);
   };
 
-  // BoothCategory 컴포넌트에서 선택된 카테고리를 업데이트하는 함수
-  const handleCategoryChange = (categories: string[]) => {
-    setSelectedCategories(categories); // 카테고리 상태를 업데이트
+  const handleIndex = (index: number) => {
+    const location = index === 0 ? "backgate-street" : "square-518";
+    setSelectedLocation(location);
+    console.log("Selected Location: ", location);
   };
 
-  // BoothCards에서 카드 선택 시 호출되는 함수로 부스 ID를 받아 처리
-  const handleCardSelect = (boothId: number) => {
-    const categoryQuery =
-      selectedCategories.length > 0
-        ? `&categories=${encodeURIComponent(selectedCategories.join(","))}`
-        : "";
-    navigate(`/booth/${boothId}${categoryQuery}`); // 카테고리가 없으면 쿼리에서 제외
+  const handleCategoryChange = (categories: string[]) => {
+    setSelectedCategories(categories);
   };
+
+  const handleCardSelect = (boothId: number) => {
+    navigate(`/booth/${boothId}`);
+  };
+
+  //console.log(checkAdminToken());
 
   return (
-    <div className="h-screen flex flex-col items-center">
-      <h1 className="text-main text-4xl font-cafe24">부스</h1>
+    <div className="h-auto flex flex-col justify-center items-center">
+      <h1 className="text-main text-4xl font-cafe24 mb-5">부스</h1>
 
       <BoothDate selectedDate={selectedDate} onDateChange={handleDateChange} />
 
-      <img
-        className="w-[80vw] h-[80vw] max-h-[305px] max-w-[303px] rounded-lg"
-        src="https://via.placeholder.com/305x303"
-        alt=""
-      />
+      <div className="mb-7 max-w-[90%] mx-auto h-auto">
+        <BoothCarousel images={images} handleIndex={handleIndex} />
+      </div>
 
-      {/* BoothCategory 컴포넌트에서 선택된 카테고리를 상위 컴포넌트로 전달 */}
       <BoothCategory onCategoryChange={handleCategoryChange} />
 
-      {/* BoothCards에 카드 선택 이벤트를 전달 */}
+      <RegisterButton path={"booth"} />
+
       <BoothCards
         selectedDate={selectedDate}
         selectedCategories={selectedCategories}
-        onCardSelect={handleCardSelect} // 부스 선택 시 호출
+        selectedLocation={selectedLocation}
+        onCardSelect={handleCardSelect}
       />
     </div>
   );

@@ -75,7 +75,9 @@ export default function ContentsDetail() {
       </h1>
       <div className="px-6">
         <div className="mb-1 flex justify-between items-center">
-          <h1 className="text-white text-3xl font-cafe24">{data?.title}</h1>
+          <h1 className="text-main text-3xl font-cafe24 max-w-[80%]">
+            {data?.title}
+          </h1>
           <div
             onClick={() => {
               if (getAuthToken() === null) {

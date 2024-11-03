@@ -112,7 +112,9 @@ export default function Guide() {
                 onClick={(e) => navigate(`/guide/${e.currentTarget.id}`)}
               >
                 <div className="flex justify-between items-start">
-                  <h3 className="text-xl text-[#0F0]">{item.name}</h3>
+                  <h3 className="text-xl text-[#0F0] max-w-[80%] truncate overflow-hidden whitespace-nowrap">
+                    {item.name}
+                  </h3>
                   <div>
                     {item?.bookmark ? (
                       <img src={favorites} alt="favorites" />

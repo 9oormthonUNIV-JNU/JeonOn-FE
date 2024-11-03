@@ -42,7 +42,9 @@ export default function Contents() {
             onClick={() => navigate(`/contents/${item.id}`)}
           >
             <div className="flex justify-between items-start">
-              <h3 className="text-xl text-[#0F0]">{item.title}</h3>
+              <h3 className="text-xl text-[#0F0] max-w-[80%] truncate overflow-hidden whitespace-nowrap">
+                {item.title}
+              </h3>
               <div>
                 {item?.bookmark ? (
                   <img src={favorites} alt="favorites" />

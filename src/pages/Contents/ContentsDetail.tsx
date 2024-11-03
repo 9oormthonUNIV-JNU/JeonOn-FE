@@ -75,7 +75,9 @@ export default function ContentsDetail() {
       </h1>
       <div className="px-6">
         <div className="mb-1 flex justify-between items-center">
-          <h1 className="text-white text-3xl font-cafe24">{data?.title}</h1>
+          <h1 className="text-main text-3xl font-cafe24 max-w-[80%]">
+            {data?.title}
+          </h1>
           <div
             onClick={() => {
               if (getAuthToken() === null) {
@@ -93,7 +95,7 @@ export default function ContentsDetail() {
           </div>
         </div>
         <div className="mb-3">
-          <span className="text-white text-xs">
+          <span className="text-white text-xs font-pretendard">
             {formatDateToYYYYMMDD(data?.created_at)}
           </span>
         </div>
@@ -112,7 +114,7 @@ export default function ContentsDetail() {
         <div className="mb-4">
           <img src={divideLine} alt="d/ivide-line" />
         </div>
-        <div className="text-white whitespace-pre-wrap">
+        <div className="text-white whitespace-pre-wrap h-full font-pretendard">
           {data?.description}
         </div>
       </div>

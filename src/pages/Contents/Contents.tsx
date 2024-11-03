@@ -24,8 +24,6 @@ export default function Contents() {
     queryFn: async () => await getContents(),
   });
 
-  console.log(data);
-
   return (
     <div className="h-screen overflow-x-hidden">
       <h1 className="text-[#0F0] text-[35px] text-center font-bold mb-10 font-cafe24">
@@ -42,7 +40,9 @@ export default function Contents() {
             onClick={() => navigate(`/contents/${item.id}`)}
           >
             <div className="flex justify-between items-start">
-              <h3 className="text-xl text-[#0F0]">{item.title}</h3>
+              <h3 className="text-xl text-[#0F0] max-w-[80%] truncate overflow-hidden whitespace-nowrap">
+                {item.title}
+              </h3>
               <div>
                 {item?.bookmark ? (
                   <img src={favorites} alt="favorites" />
@@ -52,13 +52,13 @@ export default function Contents() {
               </div>
             </div>
             <div className="max-h-8 overflow-hidden">
-              <span className="text-xs font-normal text-white overflow-y-hidden">
+              <span className="text-xs font-normal text-white overflow-y-hidden font-pretendard">
                 {item.description}
               </span>
             </div>
 
             <div className="flex justify-end items-center gap-1">
-              <span className="text-[10px] text-white">
+              <span className="text-[10px] text-white font-pretendard">
                 {formatDateToYYYYMMDD(item.created_at)}
               </span>
             </div>

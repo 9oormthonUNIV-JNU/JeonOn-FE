@@ -62,8 +62,8 @@ export default function TimeCapsule() {
 
   const handleSendComplete = async () => {
     try {
-      fetchCapsules();
       setActiveModal("sendComplete");
+      fetchCapsules();
     } catch (error) {
       console.error("Error creating time capsule:", error);
     }
@@ -106,7 +106,7 @@ export default function TimeCapsule() {
         <div className="flex justify-end w-full">
           <FilledBtn
             onClick={handleRegisterClick}
-            className="relative text-main font-pretendard text-base px-8 py-2 bg-black rounded-full border border-main hover:bg-main hover:border-main hover:text-black"
+            className="relative text-main font-pretendard text-base px-8 py-2 bg-black rounded-full border border-main hover:bg-main hover:border-main hover:text-black mr-2"
           >
             등록하기
           </FilledBtn>

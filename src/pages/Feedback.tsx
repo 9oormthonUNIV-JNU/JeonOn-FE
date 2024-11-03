@@ -35,7 +35,7 @@ export default function Feedback() {
   const [detail, setDetail] = useState('');
 
   const [openModal, setOpenModal] = useState(false);
-  const [activeModal, setActiveModal] = useState(true);
+  const [activeModal, setActiveModal] = useState(false);
 
   const imgRef = useRef<HTMLInputElement>(null);
   const [images, setImages] = useState<File[]>([]);
@@ -65,7 +65,7 @@ export default function Feedback() {
 
   useEffect(() => {
     const isUserLoggedIn = getAuthToken();
-    console.log(isUserLoggedIn);
+
     if (isUserLoggedIn || isUserLoggedIn === undefined) {
       setActiveModal(false);
     } else {

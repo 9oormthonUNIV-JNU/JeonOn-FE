@@ -156,7 +156,7 @@ const RegisterBooth = () => {
       await postBooth(data);
       setOpenModal(true);
     } catch (error) {
-      console.error("Registeration failed:", error);
+      // 에러
     }
   };
 
@@ -263,6 +263,7 @@ const RegisterBooth = () => {
               부스 설명
             </Label>
             <Textarea
+              maxLength={1000}
               required
               placeholder="부스 주최자와 함께 부스를 자유롭게 설명해주세요. "
               id="booth_description"

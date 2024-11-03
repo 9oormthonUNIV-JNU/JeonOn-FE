@@ -92,7 +92,9 @@ export default function GuideDetail() {
           </span>
         </div>
         <div className="mb-1 flex justify-between items-center">
-          <h1 className="text-[#0F0] text-3xl font-cafe24">{data?.name}</h1>
+          <h1 className="text-[#0F0] text-3xl font-cafe24 max-w-[80%]">
+            {data?.name}
+          </h1>
           <div
             onClick={() => {
               if (getAuthToken() === null) {
@@ -140,7 +142,7 @@ export default function GuideDetail() {
         <div className="mb-3">
           <img src={divideLine} alt="divide-line" />
         </div>
-        <div className="text-white text-base whitespace-pre-wrap">
+        <div className="text-white text-base whitespace-pre-wrap h-full">
           {data?.description}
         </div>
       </div>

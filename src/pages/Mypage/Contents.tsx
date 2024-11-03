@@ -11,7 +11,7 @@ export default function Contents() {
     queryKey: ['my-announcement'],
     queryFn: getContentsBookmark,
   });
-  console.log(data);
+
   return (
     <div className="h-screen">
       <div className="mb-8">
@@ -25,30 +25,40 @@ export default function Contents() {
           <h2 className="text-xl text-white">콘텐츠</h2>
         </div>
         <div className="w-full flex flex-col gap-2">
-          {data?.map((item: any) => (
-            <div
-              className="w-full h-24 bg-main-guide rounded-2xl px-5 py-3 border border-[#0F0]"
-              key={item.id}
-              onClick={() => navigate(`/contents/${item.id}`)}
-            >
-              <div className="flex justify-between items-start">
-                <h3 className="text-xl text-[#0F0]">{item.title}</h3>
-                <div>
-                  {item.bookmark && <img src={favorites} alt="favorites" />}
+          {data?.length > 0 ? (
+            data?.map((item: any) => (
+              <div
+                className="w-full h-24 bg-main-guide rounded-2xl px-5 py-3 border border-[#0F0]"
+                key={item.id}
+                onClick={() => navigate(`/contents/${item.id}`)}
+              >
+                <div className="flex justify-between items-start">
+                  <h3 className="text-xl text-[#0F0] max-w-[80%] truncate overflow-hidden whitespace-nowrap">
+                    {item.title}
+                  </h3>
+                  <div>
+                    {item.bookmark && <img src={favorites} alt="favorites" />}
+                  </div>
+                </div>
+                <div className="max-h-8 overflow-hidden">
+                  <span className="text-xs font-normal text-white overflow-y-hidden">
+                    {item.description}
+                  </span>
+                </div>
+                <div className="flex justify-end items-end">
+                  <span className="text-[10px] text-white">
+                    {formatDateToYYYYMMDD(item.created_at)}
+                  </span>
                 </div>
               </div>
-              <div>
-                <span className="text-xs font-normal text-white">
-                  {item.description}
-                </span>
-              </div>
-              <div className="flex justify-end items-end">
-                <span className="text-[10px] text-white">
-                  {formatDateToYYYYMMDD(item.created_at)}
-                </span>
-              </div>
+            ))
+          ) : (
+            <div className="flex justify-center items-center mt-14">
+              <span className="text-white text-base text-center">
+                즐겨찾기한 내용이 없습니다.
+              </span>
             </div>
-          ))}
+          )}
         </div>
       </div>
     </div>

@@ -161,7 +161,7 @@ export default function BoothCards({
   };
 
   return (
-    <div className="bg-black w-full flex flex-col items-center space-y-4 mb-10 mt-5 font-['Pretendard']">
+    <div className="bg-black w-full flex flex-col items-center space-y-4 mb-10 mt-5 font-pretendard">
       {booths.length === 0 ? (
         <div className="mt-20 text-center text-white text-lg font-medium">
           조건에 해당하는 부스가 없습니다.
@@ -176,10 +176,10 @@ export default function BoothCards({
             <CardHeader className="grid grid-cols-[auto_1fr] gap-2 items-center p-0.5">
               <div className="ml-2 rounded-full shrink-0 bg-black w-6 h-6 flex justify-center items-center">
                 <div className="text-main text-xs font-extrabold justify-center items-center flex">
-                  {booth.id}
+                  {booth.index}
                 </div>
               </div>
-              <CardTitle className="text-black text-[2.5vh] font-medium font-['Pretendard'] break-words max-w-[80%]">
+              <CardTitle className="text-black text-[2.5vh] font-medium font-pretendard break-words max-w-[80%] truncate overflow-hidden whitespace-nowrap">
                 {booth.name}
               </CardTitle>
             </CardHeader>

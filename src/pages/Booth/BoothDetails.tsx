@@ -144,7 +144,7 @@ export default function BoothDetail() {
               <div className="font-cafe24 text-3xl text-main mt-1 max-w-[80%]">
                 {boothData.name}
               </div>
-              <div onClick={handleBookmarkClick} className="cursor-pointer">
+              <div onClick={handleBookmarkClick} className="cursor-pointer ml-2">
                 {like ? (
                   <img
                     src={bookmark_filled}
@@ -189,7 +189,9 @@ export default function BoothDetail() {
             </span>
           </div>
 
-          <div>{boothData.description}</div>
+          {boothData?.description?.split('|').map((sentence, index) => (
+            <p key={index}>{sentence.trim()}</p>
+          ))}
 
           {checkAdminToken() ? (
             <div className="relative">

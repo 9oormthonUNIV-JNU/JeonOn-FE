@@ -19,27 +19,26 @@ export default function PopularBooth({ onCardSelect }: PopularBoothProps) {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  
-    const fetchBoothData = async () => {
-      try {
-        const result = await popularBooth();
-        if (result && result.success) {
-          const sortedData = result.data.sort(
-            (a: Booth, b: Booth) => b.like_count - a.like_count
-          );
-          setBoothData(sortedData);
-        } else {
-          setBoothData([]);
-        }
-      } catch (error) {
-        console.error("Error fetching booth data:", error);
-        setError("Failed to fetch booth data");
-      } finally {
-        setLoading(false);
+  const fetchBoothData = async () => {
+    try {
+      const result = await popularBooth();
+      if (result && result.success) {
+        const sortedData = result.data.sort(
+          (a: Booth, b: Booth) => b.like_count - a.like_count
+        );
+        setBoothData(sortedData);
+      } else {
+        setBoothData([]);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching booth data:", error);
+      setError("Failed to fetch booth data");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    useEffect(() => {
+  useEffect(() => {
     fetchBoothData();
     const intervalId = setInterval(() => {
       fetchBoothData();
@@ -47,7 +46,6 @@ export default function PopularBooth({ onCardSelect }: PopularBoothProps) {
 
     return () => clearInterval(intervalId);
   }, []);
-  
 
   const getRankings = (booths: Booth[]) => {
     let ranking = 1;
@@ -94,7 +92,7 @@ export default function PopularBooth({ onCardSelect }: PopularBoothProps) {
             </div>
 
             <div className="ml-3">
-              <div className="text-black text-xl font-medium font-['Pretendard']">
+              <div className="max-width-[80%] truncate overflow-hidden whitespace-nowrap text-black text-xl font-medium font-['Pretendard']">
                 {booth.name}
               </div>
             </div>

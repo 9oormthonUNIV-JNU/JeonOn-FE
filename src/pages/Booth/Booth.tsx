@@ -23,7 +23,9 @@ export default function Booth() {
   useEffect(() => {
     const currentDate = new Date();
     const koreaTimezoneOffset = 9 * 60;
-    const koreaDate = new Date(currentDate.getTime() + koreaTimezoneOffset * 60 * 1000);
+    const koreaDate = new Date(
+      currentDate.getTime() + koreaTimezoneOffset * 60 * 1000
+    );
     const day = koreaDate.getDate();
 
     if (day <= 5) {
@@ -67,13 +69,15 @@ export default function Booth() {
 
       <BoothDate selectedDate={selectedDate} onDateChange={handleDateChange} />
 
-      <div className="mb-7 max-w-[90%] mx-auto h-full overflow-hidden">
+      <div className="mb-7 max-w-[90%] mx-auto h-full overflow-x-hidden">
         <BoothCarousel images={images} handleIndex={handleIndex} />
       </div>
 
-      <BoothCategory onCategoryChange={handleCategoryChange} />
+      <div className="space-y-2">
+        <BoothCategory onCategoryChange={handleCategoryChange} />
 
-      <RegisterButton path={"booth"} />
+        <RegisterButton path={"booth"} />
+      </div>
 
       <BoothCards
         selectedDate={selectedDate}

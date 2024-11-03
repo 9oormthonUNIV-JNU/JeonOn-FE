@@ -36,11 +36,11 @@ const CapsuleJarImg: React.FC<CapsuleJarImgProps> = ({ isFilled }) => {
       return "jar_empty";
     } else if (day === 5 && hours >= 12) {
       return "jar1_normal";
-    } else if (day === 6) {
+    } else if (day === 6 && hours < 12) {
       return "jar2_normal";
-    } else if (day === 7 && hours < 12) {
+    } else if (day === 6 && hours >= 12) {
       return "jar3_normal";
-    } else if (day === 7 && hours >= 12) {
+    } else if (day === 7) {
       return "jar_full";
     } else {
       return "jar_empty";

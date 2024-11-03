@@ -1,34 +1,41 @@
 .swiper {
   width: 100%;
-  height: 100%;
+  height: auto;
   overflow: visible;
+  margin-left: 6%;
 }
 
 .swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 20px;
   max-height: 336px;
-  width: auto;
-  height: auto; /* 높이를 'auto'로 설정해 슬라이드 이미지의 비율을 유지 */
+  width: 100%;
+  height: auto;
 }
 
 .swiper-slide div {
+  display: flex;
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 
 .swiper-slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* 이미지를 비율을 유지하며 부모 요소에 맞춰 채우기 */
   border-radius: 5px;
+  width: 100%;
+  height: auto;
+  max-width: 336px;
+  max-height: 336px;
+  object-fit: cover;
 }
 
 .swiper .swiper-pagination {
   position: absolute;
-  bottom: -30px; /* 슬라이드 이미지 바로 아래에 고정된 위치 설정 */
+  bottom: -30px;
   left: 50%;
-  transform: translateX(-50%); /* 페이지네이션 불렛을 가로로 중앙 정렬 */
+  transform: translateX(-50%);
 }
 
 .swiper-pagination-bullet {

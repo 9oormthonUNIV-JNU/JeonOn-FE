@@ -17,6 +17,7 @@ import { checkAdminToken } from "@/utils/tokenHandler";
 import { boothBookmark, cancelBoothBookmark } from "@/api/booth";
 import divideLine from "@/../public/images/divideLine.png";
 import GuideCarousel from "@/components/guide/GuideCarousel";
+import BoothCarousel from "@/components/Booth/BoothCarousel";
 import DeleteModal from "@/components/common/Modal/DeleteModal";
 
 type BoothCategoryType = {
@@ -124,10 +125,10 @@ export default function BoothDetail() {
   return (
     <div className="flex flex-col min-h-screen items-center bg-black p-3 overflow-hidden">
       <h1 className="mb-10 text-main text-4xl font-cafe24">부스</h1>
-      <div className="flex flex-col items-start w-full max-w-[90%]">
+      <div className="flex flex-col w-full max-w-[90%]">
         {/* 부스 정보 및 내용 */}
-        <div className="flex flex-col items-start max-w-[100%] h-auto">
-          <GuideCarousel images={boothData?.images} />
+        <div className="w-full max-w-[90%] text-center">
+          <BoothCarousel images={boothData?.images} />
         </div>
 
         {mappedCategory && (

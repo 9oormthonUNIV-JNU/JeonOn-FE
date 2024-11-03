@@ -111,7 +111,10 @@ export default function BoothCards({
         // selectedLocation 필터링 적용
         if (selectedLocation) {
           boothData = boothData.filter((booth) => {
-            return booth.location.toLowerCase().trim() === selectedLocation.toLowerCase().trim();
+            return (
+              booth.location.toLowerCase().trim() ===
+              selectedLocation.toLowerCase().trim()
+            );
           });
         }
 
@@ -171,14 +174,16 @@ export default function BoothCards({
             className="relative w-[90vw] max-w-[90vw] bg-white rounded-[15px] shadow-md mt-5 mx-auto"
           >
             <CardHeader className="grid grid-cols-[auto_1fr] gap-2 items-center p-0.5">
-              <div className="mt-2 font-cafe24 ml-2 w-5 h-5 bg-black rounded-full flex items-center justify-center text-[#00ff00] text-bold text-xs">
-                {booth.id}
+              <div className="ml-2 rounded-full shrink-0 bg-black w-6 h-6 flex justify-center items-center">
+                <div className="text-main text-xs font-extrabold justify-center items-center flex">
+                  {booth.id}
+                </div>
               </div>
-              <CardTitle className="text-black text-[2.5vh] font-medium font-['Pretendard']">
+              <CardTitle className="text-black text-[2.5vh] font-medium font-['Pretendard'] break-words max-w-[80%]">
                 {booth.name}
               </CardTitle>
             </CardHeader>
-            <CardContent className="ml-6 text-[1.2vh] px-4 pb-4">
+            <CardContent className="ml-6 text-[1.2vh] px-4 mt-2 pb-3">
               <div className="relative flex items-center space-x-1">
                 <img src={location} className="w-3" alt="location" />
                 <div className="text-black font-normal font-['NanumSquare Neo']">

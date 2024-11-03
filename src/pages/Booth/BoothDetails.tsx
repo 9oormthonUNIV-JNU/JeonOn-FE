@@ -132,7 +132,7 @@ export default function BoothDetail() {
         </div>
 
         {mappedCategory && (
-          <div className="flex items-center justify-center w-[80px] h-[30px] mb-1 bg-[#00ff00] rounded-full">
+          <div className="mt-7 flex items-center justify-center w-[80px] h-[30px] mb-1 bg-[#00ff00] rounded-full">
             <span className="text-black text-sm">{mappedCategory}</span>
           </div>
         )}
@@ -142,7 +142,7 @@ export default function BoothDetail() {
           <div className="flex items-center justify-between w-full">
             {/* 부스 이름과 북마크 */}
             <div className="flex items-center space-x-2">
-              <div className="font-cafe24 text-3xl text-main mt-1">
+              <div className="font-cafe24 text-3xl text-main mt-1 max-w-[80%]">
                 {boothData.name}
               </div>
               <div onClick={handleBookmarkClick} className="cursor-pointer">
@@ -163,7 +163,7 @@ export default function BoothDetail() {
             </div>
 
             <div
-              className="flex items-center space-x-2 mr-1"
+              className="flex items-center space-x-2 mr-1 w-8 h-8"
               onClick={() => {
                 if (!isLoggedIn()) {
                   setShowLoginModal(true); // 로그인 모달 열기

@@ -62,16 +62,18 @@ export default function Booth() {
   //console.log(checkAdminToken());
 
   return (
-    <div className="h-auto flex flex-col items-center">
+    <div className="h-auto flex flex-col justify-center items-center">
       <h1 className="text-main text-4xl font-cafe24 mb-5">부스</h1>
 
       <BoothDate selectedDate={selectedDate} onDateChange={handleDateChange} />
 
-      <div className="mb-7 max-w-[90%]">
+      <div className="mb-7 max-w-[90%] mx-auto h-auto">
         <BoothCarousel images={images} handleIndex={handleIndex} />
       </div>
 
       <BoothCategory onCategoryChange={handleCategoryChange} />
+
+      <RegisterButton path={"booth"} />
 
       <BoothCards
         selectedDate={selectedDate}
@@ -79,10 +81,6 @@ export default function Booth() {
         selectedLocation={selectedLocation}
         onCardSelect={handleCardSelect}
       />
-
-      <div className="absolute bottom-5 right-5">
-        <RegisterButton path={"booth"} />
-      </div>
     </div>
   );
 }

@@ -123,9 +123,9 @@ export default function BoothDetail() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen items-center bg-black p-3 overflow-hidden">
+    <div className="flex flex-col min-h-screen items-center bg-black p-3">
       <h1 className="mb-10 text-main text-4xl font-cafe24">부스</h1>
-      <div className="flex flex-col w-full max-w-[90%]">
+      <div className="flex flex-col w-full max-w-[90%] flex-grow">
         {/* 부스 정보 및 내용 */}
         <div className="w-full max-w-[90%] text-center">
           <BoothCarousel images={boothData?.images} />
@@ -140,12 +140,11 @@ export default function BoothDetail() {
         <div className="text-white w-full space-y-1">
           {/* 부스 이름, 북마크, 좋아요 */}
           <div className="flex items-center justify-between w-full">
-            {/* 부스 이름과 북마크 */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center">
               <div className="font-cafe24 text-3xl text-main mt-1 max-w-[80%]">
                 {boothData.name}
               </div>
-              <div onClick={handleBookmarkClick} className="cursor-pointer">
+              <div onClick={handleBookmarkClick} className="cursor-pointer ml-2">
                 {like ? (
                   <img
                     src={bookmark_filled}
@@ -163,10 +162,10 @@ export default function BoothDetail() {
             </div>
 
             <div
-              className="flex items-center space-x-2 mr-1 w-8 h-8"
+              className="flex items-center space-x-2 mr-1 flex-shrink-0 w-8 h-8 ml-2"
               onClick={() => {
                 if (!isLoggedIn()) {
-                  setShowLoginModal(true); // 로그인 모달 열기
+                  setShowLoginModal(true);
                 }
               }}
             >
@@ -174,7 +173,6 @@ export default function BoothDetail() {
             </div>
           </div>
 
-          {/* 위치와 시간 */}
           <div className="flex items-center space-x-2">
             <img src={location} alt="Location" className="w-4 h-4" />
             <span>{formatLocation(boothData.location, boothData.index)}</span>
@@ -191,7 +189,9 @@ export default function BoothDetail() {
             </span>
           </div>
 
-          <div>{boothData.description}</div>
+          {boothData?.description?.split('|').map((sentence, index) => (
+            <p key={index}>{sentence.trim()}</p>
+          ))}
 
           {checkAdminToken() ? (
             <div className="relative">
@@ -199,7 +199,7 @@ export default function BoothDetail() {
                 <img
                   src={deleteIcon}
                   alt="delete"
-                  onClick={handleDeleteClick} // 삭제 버튼 클릭 시 삭제 함수 호출
+                  onClick={handleDeleteClick}
                   className="cursor-pointer w-4 h-4"
                 />
               </div>
@@ -207,44 +207,43 @@ export default function BoothDetail() {
           ) : null}
         </div>
 
-        {/* 댓글 분리선 */}
         <div className="mt-8 mb-4">
           <img src={divideLine} alt="divide-line" />
         </div>
 
         {/* 댓글 리스트 */}
         <BoothComments nickname={nickname} commentsUpdated={commentsUpdated} />
-
-        {/* NewBoothComment 컴포넌트 */}
-        <div className="mt-auto mb-10 w-full">
-          {isLoggedIn() ? (
-            <NewBoothComment
-              nickname={nickname}
-              onCommentSubmit={() => setCommentsUpdated(!commentsUpdated)}
-            />
-          ) : (
-            <NewBoothComment nickname={null} onClick={handleOpenLoginModal} />
-          )}
-        </div>
-
-        {/* 로그인 모달 */}
-        {showLoginModal && (
-          <SignInModal
-            isOpen={showLoginModal}
-            setIsOpen={setShowLoginModal}
-            onLoginSuccess={handleLoginSuccess}
-          />
-        )}
-
-        {/* 삭제 확인 모달 */}
-        <DeleteModal
-          isOpen={isDeleteModalOpen}
-          setIsOpen={setIsDeleteModalOpen}
-          id={id}
-          queryKey="booth"
-          deleteFn={handleBoothDelete}
-        />
       </div>
+
+      {/* NewBoothComment 컴포넌트 */}
+      <div className="w-[90%] mt-auto mb-10">
+        {isLoggedIn() ? (
+          <NewBoothComment
+            nickname={nickname}
+            onCommentSubmit={() => setCommentsUpdated(!commentsUpdated)}
+          />
+        ) : (
+          <NewBoothComment nickname={null} onClick={handleOpenLoginModal} />
+        )}
+      </div>
+
+      {/* 로그인 모달 */}
+      {showLoginModal && (
+        <SignInModal
+          isOpen={showLoginModal}
+          setIsOpen={setShowLoginModal}
+          onLoginSuccess={handleLoginSuccess}
+        />
+      )}
+
+      {/* 삭제 확인 모달 */}
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        setIsOpen={setIsDeleteModalOpen}
+        id={id}
+        queryKey="booth"
+        deleteFn={handleBoothDelete}
+      />
     </div>
   );
 }

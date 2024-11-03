@@ -23,6 +23,7 @@ import RegisterBooth from './pages/AdminPage/RegisterBooth';
 import ViewFeedback from './pages/AdminPage/ViewFeedback';
 import RegisterContents from './pages/AdminPage/RegisterContents';
 import { checkAdminLoader, checkAuthLoader } from './utils/tokenHandler';
+import Introduce from './pages/Introduce';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: '',
         element: <Home />,
+      },
+      {
+        path: '/jeonOn-introduce',
+        element: <Introduce />,
       },
       {
         path: '/time-capsule',

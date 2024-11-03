@@ -3,18 +3,14 @@ import { getToken } from '@/utils/tokenHandler';
 
 // 로그인 및 회원가입 요청
 export const login = async (nickname: string, password: string) => {
-  try {
-    const response = await api.post('/login', {
-      nickname,
-      password,
-    });
+  // 백엔드 연결 후 주석 해제
+  const response = await api.post('/login', {
+    nickname,
+    password,
+  });
 
-    getToken(response.headers['access-token']);
-    return response.data;
-  } catch (error) {
-    // 에러 처리
-    console.log("에러 발생: ", error);
-  }
+  getToken(response.headers['access-token']);
+  return response;
 };
 
 // 로그아웃

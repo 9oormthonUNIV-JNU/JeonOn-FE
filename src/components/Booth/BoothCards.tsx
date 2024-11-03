@@ -161,7 +161,7 @@ export default function BoothCards({
   };
 
   return (
-    <div className="bg-black w-full flex flex-col items-center space-y-4 mb-10 mt-5">
+    <div className="bg-black w-full flex flex-col items-center space-y-4 mb-10 mt-5 font-['Pretendard']">
       {booths.length === 0 ? (
         <div className="mt-20 text-center text-white text-lg font-medium">
           조건에 해당하는 부스가 없습니다.
@@ -183,7 +183,7 @@ export default function BoothCards({
                 {booth.name}
               </CardTitle>
             </CardHeader>
-            <CardContent className="ml-6 text-[1.2vh] px-4 mt-2 pb-3">
+            <CardContent className="ml-6 text-[1.2vh] px-4 mt-5 pb-3">
               <div className="relative flex items-center space-x-1">
                 <img src={location} className="w-3" alt="location" />
                 <div className="text-black font-normal font-['NanumSquare Neo']">
@@ -205,7 +205,7 @@ export default function BoothCards({
             </CardContent>
 
             <div
-              className="top-3 right-4 absolute"
+              className="top-2 right-3 absolute"
               onClick={(e) => {
                 if (!isLoggedIn()) {
                   setShowLoginModal(true);

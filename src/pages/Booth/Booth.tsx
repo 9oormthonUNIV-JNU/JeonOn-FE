@@ -67,7 +67,7 @@ export default function Booth() {
 
       <BoothDate selectedDate={selectedDate} onDateChange={handleDateChange} />
 
-      <div className="mb-7 max-w-[90%] mx-auto h-auto">
+      <div className="mb-7 max-w-[90%] mx-auto h-full overflow-hidden">
         <BoothCarousel images={images} handleIndex={handleIndex} />
       </div>
 

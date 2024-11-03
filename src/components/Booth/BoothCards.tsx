@@ -111,7 +111,7 @@ export default function BoothCards({
         // selectedLocation 필터링 적용
         if (selectedLocation) {
           boothData = boothData.filter((booth) => {
-            return booth.location === selectedLocation;
+            return booth.location.toLowerCase().trim() === selectedLocation.toLowerCase().trim();
           });
         }
 
@@ -185,7 +185,7 @@ export default function BoothCards({
                   {formatLocation(booth.location, booth.index)}
                 </div>
 
-                <div className="absolute grid left-28 grid-cols-[auto_1fr] gap-1 items-center">
+                <div className="absolute grid left-32 grid-cols-[auto_1fr] gap-1 items-center">
                   <img src={time} className="w-4" alt="time" />
                   <div className="text-black font-normal font-['NanumSquare Neo']">
                     {formatDateTime(

@@ -55,13 +55,13 @@ export default function NewBoothComment({
         onClick={onClick}
         className="relative w-full max-w-[500px] h-auto bg-white rounded-[15px] pl-4 pr-16 py-2 flex flex-col justify-center items-start gap-1"
       >
-        <div className="w-full text-black text-[10px] font-normal font-['Pretendard']">
+        <div className="w-full text-black text-sm font-normal font-['Pretendard']">
           {nickname ? nickname : "Guest"}
         </div>
 
         {/* 댓글 입력란 */}
         <Input
-          className="h-6 w-full text-black text-[10px] font-normal font-['NanumSquare Neo'] focus-visible:ring-0 focus-visible:border-transparent border-transparent"
+          className="h-6 w-full text-black text-xs font-normal font-['NanumSquare Neo'] focus-visible:ring-0 focus-visible:border-transparent border-transparent"
           placeholder="댓글을 입력하세요."
           value={content} // 상태에 입력된 댓글 내용
           onChange={(e) => setContent(e.target.value)} // 댓글 내용 상태 업데이트

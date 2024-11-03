@@ -124,9 +124,11 @@ export default function BoothDetail() {
   return (
     <div className="flex flex-col min-h-screen items-center bg-black p-3 overflow-hidden">
       <h1 className="mb-10 text-main text-4xl font-cafe24">부스</h1>
-      <div className="flex flex-col items-start w-full max-w-[90%] flex-grow">
+      <div className="flex flex-col items-start w-full max-w-[90%]">
         {/* 부스 정보 및 내용 */}
-        <GuideCarousel images={boothData?.images} />
+        <div className="flex flex-col items-start max-w-[100%] h-auto">
+          <GuideCarousel images={boothData?.images} />
+        </div>
 
         {mappedCategory && (
           <div className="flex items-center justify-center w-[80px] h-[30px] mb-1 bg-[#00ff00] rounded-full">
@@ -142,10 +144,7 @@ export default function BoothDetail() {
               <div className="font-cafe24 text-3xl text-main mt-1">
                 {boothData.name}
               </div>
-              <div
-                onClick={handleBookmarkClick}
-                className="cursor-pointer"
-              >
+              <div onClick={handleBookmarkClick} className="cursor-pointer">
                 {like ? (
                   <img
                     src={bookmark_filled}

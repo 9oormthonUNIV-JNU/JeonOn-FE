@@ -154,7 +154,10 @@ export default function Guide() {
                 : '후문 거리'}
             </h1>
           </div>
-          <RegisterButton path={'map'} />
+          <div className="-mr-5">
+            <RegisterButton path={'map'} />
+          </div>
+
           <div className="w-full bg-map rounded-xl border border-[#0F0] flex flex-col mb-5">
             {mapInfo.data?.data.map((item: any, index: any) => (
               <div className="px-3 relative" key={item.id}>

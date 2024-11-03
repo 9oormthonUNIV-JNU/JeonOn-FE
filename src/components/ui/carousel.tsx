@@ -1,97 +1,54 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import useEmblaCarousel from "embla-carousel-react";
-import { EmblaCarouselType } from "embla-carousel";
-import { EventType } from "@/constants/events";
+import React, { useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Pagination } from "swiper/modules";
 import location_white from "@/../public/assets/svgs/location_white.svg";
 import clock from "@/../public/assets/svgs/clock.svg";
+import { EventType } from "@/constants/events";
 
-const TWEEN_FACTOR_BASE = 0.52;
-
-type EmblaCarouselProps = {
+type CarouselProps = {
   slides: EventType[];
 };
 
-const numberWithinRange = (number: number, min: number, max: number): number =>
-  Math.min(Math.max(number, min), max);
-
-const Carousel: React.FC<EmblaCarouselProps> = ({ slides }) => {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
-  const tweenFactor = useRef(0);
-  const tweenNodes = useRef<HTMLElement[]>([]);
+const CoverflowCarousel: React.FC<CarouselProps> = ({ slides }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const setTweenNodes = useCallback((emblaApi: EmblaCarouselType) => {
-    tweenNodes.current = emblaApi
-      .slideNodes()
-      .map(
-        (slideNode: HTMLElement) =>
-          slideNode.querySelector(".embla__slide__number") as HTMLElement
-      );
-  }, []);
-
-  const setTweenFactor = useCallback((emblaApi: EmblaCarouselType) => {
-    tweenFactor.current = TWEEN_FACTOR_BASE * emblaApi.scrollSnapList().length;
-  }, []);
-
-  const tweenScale = useCallback((emblaApi: EmblaCarouselType) => {
-    const engine = emblaApi.internalEngine();
-    const scrollProgress = emblaApi.scrollProgress();
-    const slidesInView = emblaApi.slidesInView();
-
-    emblaApi.scrollSnapList().forEach((scrollSnap, snapIndex) => {
-      const diffToTarget = scrollSnap - scrollProgress;
-      const slidesInSnap = engine.slideRegistry[snapIndex];
-
-      slidesInSnap.forEach((slideIndex) => {
-        if (!slidesInView.includes(slideIndex)) return;
-
-        const tweenValue = 1 - Math.abs(diffToTarget * tweenFactor.current);
-        const scale = numberWithinRange(tweenValue, 0, 1).toString();
-        const tweenNode = tweenNodes.current[slideIndex];
-        if (tweenNode) tweenNode.style.transform = `scale(${scale})`;
-      });
-    });
-  }, []);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-
-    setTweenNodes(emblaApi);
-    setTweenFactor(emblaApi);
-    tweenScale(emblaApi);
-
-    emblaApi
-      .on("reInit", setTweenNodes)
-      .on("reInit", setTweenFactor)
-      .on("scroll", tweenScale)
-      .on("select", () => {
-        const index = emblaApi.selectedScrollSnap();
-        setSelectedIndex(index);
-      });
-  }, [emblaApi, setTweenNodes, setTweenFactor, tweenScale]);
-
   return (
-    <div className="embla w-full justify-center flex-col">
-      <div className="embla__viewport overflow-hidden w-full" ref={emblaRef}>
-        <div className="embla__container flex">
-          {slides.map((event) => (
-            <div
-              className="embla__slide flex-shrink-0 w-[55%]"
-              key={event.order}
-            >
-              <div className="embla__slide__number flex justify-center items-center overflow-hidden rounded-[5px] w-full pb-[100%]">
-                <img
-                  src={event.img}
-                  className="absolute top-0 left-0 w-full h-full object-cover"
-                  alt=""
-                />
-              </div>
+    <div className="w-full max-w-lg mx-auto flex flex-col items-center">
+      <Swiper
+        centeredSlides={true}
+        slidesPerView={1.3} // 양옆 슬라이드가 반쯤 보이도록 설정
+        loop={true}
+        spaceBetween={1} // 슬라이드 간 간격을 설정하여 양옆이 잘 보이도록 조정
+        onSlideChange={(swiper) => setSelectedIndex(swiper.realIndex)}
+        pagination={{ clickable: true }}
+        modules={[Pagination]}
+        className="mySwiper"
+      >
+        {slides.map((event, index) => (
+          <SwiperSlide
+            key={event.order}
+            className="transition-transform duration-300"
+            style={{
+              transform: selectedIndex === index ? "scale(0.9)" : "scale(0.7)",
+              transition: "transform 0.3s ease",
+              transformOrigin: "center",
+              height: "auto",
+            }}
+          >
+            <div className="relative flex justify-center items-center overflow-hidden rounded-lg pb-[100%]">
+              <img
+                src={event.img}
+                className="absolute top-0 left-0 w-full h-full object-cover rounded-lg"
+                alt=""
+              />
             </div>
-          ))}
-        </div>
-      </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
 
-      <div className="mt-4 mb-10 gap-2 text-center flex flex-col justify-center">
+      <div className="mt-10 mb-10 gap-2 text-center flex flex-col justify-center">
         <div className="text-xl font-cafe24 text-main">
           {slides[selectedIndex].content}
         </div>
@@ -129,4 +86,4 @@ const Carousel: React.FC<EmblaCarouselProps> = ({ slides }) => {
   );
 };
 
-export default Carousel;
+export default CoverflowCarousel;

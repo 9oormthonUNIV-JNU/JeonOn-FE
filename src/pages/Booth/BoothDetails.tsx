@@ -1,19 +1,24 @@
-import { useSearchParams, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { useBoothDetail } from "@/hook/useBoothDetail";
 import useBookmark from "@/hook/useBookmark";
 import SignInModal from "@/components/common/Modal/SignInModal";
 import time from "@/../public/assets/svgs/time_white.svg";
 import location from "@/../public/assets/svgs/location_white.svg";
-import comment from "@/../public/assets/svgs/comment.svg";
+import deleteIcon from "@/../public/assets/svgs/delete_white.svg";
 import bookmark_empty from "@/../public/assets/svgs/bookmark_empty.svg";
 import bookmark_filled from "@/../public/assets/svgs/bookmark_filled.svg";
 import BoothComments from "@/components/Booth/BoothComments";
 import NewBoothComment from "@/components/Booth/NewBoothComment";
 import LikingBooth from "@/components/Booth/LikingBooth";
 import { isLoggedIn } from "@/api/login";
+import { deleteBooth } from "@/api/booth";
+import { checkAdminToken } from "@/utils/tokenHandler";
 import { boothBookmark, cancelBoothBookmark } from "@/api/booth";
 import divideLine from "@/../public/images/divideLine.png";
 import GuideCarousel from "@/components/guide/GuideCarousel";
+import BoothCarousel from "@/components/Booth/BoothCarousel";
+import DeleteModal from "@/components/common/Modal/DeleteModal";
 
 type BoothCategoryType = {
   type: string;
@@ -29,7 +34,7 @@ const boothCategory: BoothCategoryType[] = [
 ];
 
 export default function BoothDetail() {
-  const [searchParams] = useSearchParams();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const { id } = useParams();
 
   // 부스 정보, 상태 관리 (useBoothDetail 훅)
@@ -53,6 +58,30 @@ export default function BoothDetail() {
     bookmarkCancelFn: cancelBoothBookmark,
     initialBookmarkState: boothData?.bookmark ?? false,
   });
+
+  const handleDeleteClick = () => {
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleBoothDelete = async () => {
+    try {
+      if (id) {
+        await deleteBooth(Number(id));
+        setIsDeleteModalOpen(false);
+      }
+    } catch (error) {
+      console.error("부스 삭제 중 오류가 발생했습니다:", error);
+      alert("부스 삭제 중 오류가 발생했습니다.");
+    }
+  };
+
+  const handleBookmarkClick = () => {
+    if (!isLoggedIn()) {
+      setShowLoginModal(true);
+    } else {
+      toggleBookmark();
+    }
+  };
 
   const mappedCategory = boothData
     ? boothCategory.find((item) => item.category === boothData.category)?.type
@@ -94,10 +123,13 @@ export default function BoothDetail() {
   };
 
   return (
-    <div className="flex flex-col items-center bg-black p-3 overflow-hidden">
+    <div className="flex flex-col min-h-screen items-center bg-black p-3 overflow-hidden">
       <h1 className="mb-10 text-main text-4xl font-cafe24">부스</h1>
-      <div className="flex flex-col items-start w-full max-w-[90%]">
-        <GuideCarousel images={boothData?.images} />
+      <div className="flex flex-col w-full max-w-[90%]">
+        {/* 부스 정보 및 내용 */}
+        <div className="w-full max-w-[90%] text-center">
+          <BoothCarousel images={boothData?.images} />
+        </div>
 
         {mappedCategory && (
           <div className="flex items-center justify-center w-[80px] h-[30px] mb-1 bg-[#00ff00] rounded-full">
@@ -106,47 +138,47 @@ export default function BoothDetail() {
         )}
 
         <div className="text-white w-full space-y-1">
+          {/* 부스 이름, 북마크, 좋아요 */}
           <div className="flex items-center justify-between w-full">
+            {/* 부스 이름과 북마크 */}
             <div className="flex items-center space-x-2">
-              <div className="font-cafe24 text-3xl text-main">
+              <div className="font-cafe24 text-3xl text-main mt-1">
                 {boothData.name}
               </div>
-
-              <div onClick={toggleBookmark} className="cursor-pointer mt-1">
+              <div onClick={handleBookmarkClick} className="cursor-pointer">
                 {like ? (
                   <img
                     src={bookmark_filled}
                     alt="favorites"
-                    className="w-9 h-9"
+                    className="w-10 h-10"
                   />
                 ) : (
                   <img
                     src={bookmark_empty}
                     alt="bookmark"
-                    className="w-9 h-9"
+                    className="ml-1 w-8 h-8"
                   />
                 )}
               </div>
             </div>
 
-            <div className="flex items-center space-x-2 mr-1">
+            <div
+              className="flex items-center space-x-2 mr-1"
+              onClick={() => {
+                if (!isLoggedIn()) {
+                  setShowLoginModal(true); // 로그인 모달 열기
+                }
+              }}
+            >
               <LikingBooth boothId={Number(id)} />
-
-              {/* 댓글 개수 
-              <div className="relative w-6.5 h-6">
-                <img src={comment} className="w-full h-full" alt="comment" />
-                <span className="absolute top-[1px] right-2 transform text-black text-xs rounded-full z-20">
-                  {commentCount}
-                </span>
-              </div> */}
             </div>
           </div>
 
+          {/* 위치와 시간 */}
           <div className="flex items-center space-x-2">
             <img src={location} alt="Location" className="w-4 h-4" />
             <span>{formatLocation(boothData.location, boothData.index)}</span>
           </div>
-
           <div className="flex items-center space-x-2">
             <img src={time} alt="Time" className="w-4 h-4" />
             <span>
@@ -160,24 +192,42 @@ export default function BoothDetail() {
           </div>
 
           <div>{boothData.description}</div>
+
+          {checkAdminToken() ? (
+            <div className="relative">
+              <div className="absolute right-2 top-1 md:w-1/4 md:text-right">
+                <img
+                  src={deleteIcon}
+                  alt="delete"
+                  onClick={handleDeleteClick} // 삭제 버튼 클릭 시 삭제 함수 호출
+                  className="cursor-pointer w-4 h-4"
+                />
+              </div>
+            </div>
+          ) : null}
         </div>
 
         {/* 댓글 분리선 */}
-        <div className="mt-2 mb-4">
+        <div className="mt-8 mb-4">
           <img src={divideLine} alt="divide-line" />
         </div>
 
+        {/* 댓글 리스트 */}
         <BoothComments nickname={nickname} commentsUpdated={commentsUpdated} />
 
-        {isLoggedIn() ? (
-          <NewBoothComment
-            nickname={nickname}
-            onCommentSubmit={() => setCommentsUpdated(!commentsUpdated)}
-          />
-        ) : (
-          <NewBoothComment nickname={null} onClick={handleOpenLoginModal} />
-        )}
+        {/* NewBoothComment 컴포넌트 */}
+        <div className="mt-auto mb-10 w-full">
+          {isLoggedIn() ? (
+            <NewBoothComment
+              nickname={nickname}
+              onCommentSubmit={() => setCommentsUpdated(!commentsUpdated)}
+            />
+          ) : (
+            <NewBoothComment nickname={null} onClick={handleOpenLoginModal} />
+          )}
+        </div>
 
+        {/* 로그인 모달 */}
         {showLoginModal && (
           <SignInModal
             isOpen={showLoginModal}
@@ -185,6 +235,15 @@ export default function BoothDetail() {
             onLoginSuccess={handleLoginSuccess}
           />
         )}
+
+        {/* 삭제 확인 모달 */}
+        <DeleteModal
+          isOpen={isDeleteModalOpen}
+          setIsOpen={setIsDeleteModalOpen}
+          id={id}
+          queryKey="booth"
+          deleteFn={handleBoothDelete}
+        />
       </div>
     </div>
   );

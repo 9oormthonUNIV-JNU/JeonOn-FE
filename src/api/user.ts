@@ -2,7 +2,12 @@ import { api } from '@/utils/customAxios';
 import { getAuthToken } from '@/utils/tokenHandler';
 
 export async function getProfile() {
-  const res = await api.get('/users');
+  const token = getAuthToken();
+  const res = await api.get('/users',{
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return res.data.data;
 }
 

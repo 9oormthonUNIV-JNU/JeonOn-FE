@@ -4,6 +4,8 @@ import time from "@/../public/assets/svgs/time_black.svg";
 import location from "@/../public/assets/svgs/location_black.svg";
 import { boothsList } from "@/api/booth";
 import LikingBooth from "../Booth/LikingBooth.tsx";
+import { isLoggedIn } from "@/api/login.ts";
+import SignInModal from "../common/Modal/SignInModal.tsx";
 
 interface BoothCardsProps {
   selectedCategories: string[];
@@ -32,6 +34,7 @@ export default function BoothCards({
   onCardSelect,
 }: BoothCardsProps) {
   const [booths, setBooths] = useState<Booth[]>([]);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const createQueryString = () => {
     const categoryMapping: { [key: string]: string } = {
@@ -45,7 +48,6 @@ export default function BoothCards({
     const periodMapping: { [key: string]: string } = {
       주간: "daytime",
       야간: "nighttime",
-      "주/야간": "alltime",
     };
 
     const categories = selectedCategories
@@ -109,7 +111,7 @@ export default function BoothCards({
         // selectedLocation 필터링 적용
         if (selectedLocation) {
           boothData = boothData.filter((booth) => {
-            return booth.location === selectedLocation;
+            return booth.location.toLowerCase().trim() === selectedLocation.toLowerCase().trim();
           });
         }
 
@@ -169,7 +171,7 @@ export default function BoothCards({
             className="relative w-[90vw] max-w-[90vw] bg-white rounded-[15px] shadow-md mt-5 mx-auto"
           >
             <CardHeader className="grid grid-cols-[auto_1fr] gap-2 items-center p-0.5">
-              <div className="mt-2 font-cafe24 ml-2 w-5 h-5 bg-black rounded-full flex items-center justify-center text-[#00ff00] text-bold pb-1 text-sm">
+              <div className="mt-2 font-cafe24 ml-2 w-5 h-5 bg-black rounded-full flex items-center justify-center text-[#00ff00] text-bold text-xs">
                 {booth.id}
               </div>
               <CardTitle className="text-black text-[2.5vh] font-medium font-['Pretendard']">
@@ -183,7 +185,7 @@ export default function BoothCards({
                   {formatLocation(booth.location, booth.index)}
                 </div>
 
-                <div className="absolute grid left-28 grid-cols-[auto_1fr] gap-1 items-center">
+                <div className="absolute grid left-32 grid-cols-[auto_1fr] gap-1 items-center">
                   <img src={time} className="w-4" alt="time" />
                   <div className="text-black font-normal font-['NanumSquare Neo']">
                     {formatDateTime(
@@ -196,15 +198,23 @@ export default function BoothCards({
                 </div>
               </div>
             </CardContent>
+
             <div
               className="top-3 right-4 absolute"
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                if (!isLoggedIn()) {
+                  setShowLoginModal(true);
+                }
+                e.stopPropagation();
+              }}
             >
               <LikingBooth boothId={booth.id} />
             </div>
           </Card>
         ))
       )}
+
+      <SignInModal isOpen={showLoginModal} setIsOpen={setShowLoginModal} />
     </div>
   );
 }

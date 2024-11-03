@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
-import searchWhite from '@/../public/assets/svgs/search_white.svg';
-import searchBlack from '@/../public/assets/svgs/search_black.svg';
-import { searchBooth } from "@/api/booth"; 
+import { searchBooth } from "@/api/booth";
 import PopularBooth from "@/components/Booth/PopularBooth";
 
 export default function BoothSearch() {
@@ -33,10 +31,12 @@ export default function BoothSearch() {
   };
 
   const highlightText = (text: string, keyword: string) => {
-    const parts = text.split(new RegExp(`(${keyword})`, 'gi'));
+    const parts = text.split(new RegExp(`(${keyword})`, "gi"));
     return parts.map((part, index) =>
       part.toLowerCase() === keyword.toLowerCase() ? (
-        <span key={index} style={{ color: '#166ff4' }}>{part}</span>
+        <span key={index} style={{ color: "#166ff4" }}>
+          {part}
+        </span>
       ) : (
         part
       )
@@ -56,8 +56,8 @@ export default function BoothSearch() {
       >
         <Input
           className={`h-10 w-full text-medium ${
-            isFocused ? 'text-black bg-white' : 'text-white bg-black'
-          } font-normal font-['NanumSquare Neo'] rounded-[30px] border border-white border-2 pl-4 pr-12 text-[16px]`}
+            isFocused ? "text-black bg-white" : "text-white bg-black"
+          } font-normal font-['NanumSquare Neo'] rounded-[30px] border border-white border-2 pl-4 pr-4 text-[16px]`}
           placeholder="부스명을 입력해주세요."
           value={searchQuery}
           onFocus={() => setIsFocused(true)}
@@ -66,46 +66,35 @@ export default function BoothSearch() {
             handleSearch(e.target.value);
           }}
         />
-        <img
-          src={searchWhite}
-          alt="search"
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
-          onClick={() => handleSearch(searchQuery)}
-        />
-      </div>
 
-      {isFocused && searchResults !== null && (
-        <div className="w-[85%] md:w-[85%] mx-auto mt-5">
-          <div className="w-full bg-white rounded-[10px] border border-white p-3 relative">
-            <div className="flex items-center mb-3">
-              <img src={searchBlack} alt="search" className="w-6 h-6 mr-2" />
-              <span className="text-black text-lg font-medium">{currentSearch}</span>
-            </div>
-
-            <div className="w-full h-0.5 border-b border-[#c8c8c8] mb-3"></div>
-
+        {isFocused && searchResults !== null && (
+          <div className="absolute top-full mt-2 w-full bg-white rounded-[10px] border border-[#c8c8c8] p-3 shadow-md z-10">
             <div className="flex flex-col space-y-3">
               {searchResults.length > 0 ? (
                 searchResults.map((booth) => (
                   <div
                     key={booth.id}
-                    className="flex items-center"
-                    onClick={() => handleCardSelect(booth.id)}>
+                    className="flex items-center cursor-pointer"
+                    onClick={() => handleCardSelect(booth.id)}
+                  >
                     <div className="text-black text-md font-medium">
-                      {highlightText(booth.name, currentSearch)}
+                      {highlightText(booth.name, searchQuery)}
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="text-black text-sm">검색하신 '{currentSearch}' 부스가 없습니다.</div>
+                <div className="text-black text-sm">
+                  검색하신 '{currentSearch}'에 대한 결과가 없습니다.
+                </div>
               )}
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
-        <div className="mt-20 text-white text-xl font-medium font-['Pretendard']">실시간 인기 부스</div>
-
+      <div className="mt-20 text-white text-xl font-medium font-['Pretendard']">
+        실시간 인기 부스
+      </div>
       <PopularBooth onCardSelect={handleCardSelect} />
     </div>
   );

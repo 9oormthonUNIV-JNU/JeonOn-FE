@@ -35,14 +35,10 @@ export default function LikingBooth({ boothId }: LikingBoothProps) {
       setLikeCount(boothData.like_count);
       setHasLiked(boothData.like);
     }
-  }, [isSuccess, boothData]);
-
-  // 에러 처리
-  useEffect(() => {
     if (isError && error) {
       console.error("부스 정보를 불러오는 중 에러가 발생했습니다:", error);
     }
-  }, [isError, error]);
+  }, [isSuccess, boothData, isError, error]);
 
   // 좋아요 추가/취소 처리
   const likeMutation = useMutation({
@@ -92,7 +88,7 @@ export default function LikingBooth({ boothId }: LikingBoothProps) {
       <img
         src={hasLiked ? like_filled : like_empty}
         alt="like button"
-        className="cursor-pointer h-7 w-7 z-10"
+        className="cursor-pointer h-7 w-7"
       />
       {/* 좋아요 개수 */}
       <span className="absolute left-1/2 transform -translate-x-1/2 text-[1.2vh] flex items-center justify-center text-black z-20 mb-[1px]">

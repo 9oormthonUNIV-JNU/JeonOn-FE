@@ -54,7 +54,7 @@ const FeedbackItem: React.FC<{
           </div>
         </div>
         <div className="flex flex-col min-w-0 gap-1 w-full">
-          <div className="text-base" style={{ wordBreak: "break-word" }}>
+          <div className="text-sm" style={{ wordBreak: "break-word" }}>
             {feedback.title}
           </div>
           <div className="flex flex-row justify-between items-center">

@@ -149,7 +149,7 @@ const Arcodion: React.FC<ArcodionProps> = ({ events }) => {
                   <EventDetails
                     event={event}
                     nowActive={nowActive}
-                    isNow={false}
+                    isNow={true}
                   />
                 </div>
               );

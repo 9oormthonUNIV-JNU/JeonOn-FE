@@ -54,11 +54,13 @@ const FeedbackItem: React.FC<{
           </div>
         </div>
         <div className="flex flex-col min-w-0 gap-1 w-full">
-          <div className="text-base whitespace-nowrap overflow-hidden text-ellipsis">
+          <div className="text-base" style={{ wordBreak: "break-word" }}>
             {feedback.title}
           </div>
           <div className="flex flex-row justify-between items-center">
-            <div className="text-xs">{feedback.nickname}</div>
+            <div className="text-xs" style={{ wordBreak: "break-word" }}>
+              {feedback.nickname}
+            </div>
             {!isSelected && (
               <div className="text-xs text-[#5C5C5CDE]">
                 {formatDate(feedback.created_at)}
@@ -73,6 +75,7 @@ const FeedbackItem: React.FC<{
           <div
             key={detail.id}
             className="flex flex-row bg-white border border-black rounded-xl p-3 text-xs"
+            style={{ wordBreak: "break-word" }}
           >
             {detail.content}
           </div>
@@ -153,7 +156,7 @@ const ViewFeedback = () => {
         </div>
       </div>
       <div className="flex flex-col justify-center mx-8">
-        <div className="flex flex-row gap-2 mb-5 justify-center">
+        <div className="flex flex-row gap-2 mb-5 justify-center font-pretendard">
           {feedbackOptions.map((option) => (
             <FilledBtn
               key={option.category}

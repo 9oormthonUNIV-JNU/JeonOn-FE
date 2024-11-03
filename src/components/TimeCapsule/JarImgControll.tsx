@@ -25,8 +25,10 @@ const CapsuleJarImg: React.FC<CapsuleJarImgProps> = ({ isFilled }) => {
     const currentDate = new Date();
     const day = currentDate.getDate();
     const hours = currentDate.getHours();
+    const minute = currentDate.getMinutes();
     const myCapsules = await getMyTimeCapsules();
 
+    // 이거 피그마보고 다시 시간 조정하기
     if (day === 5 && hours < 12 && myCapsules.length > 0) {
       return "jar1_normal";
     }
@@ -43,6 +45,22 @@ const CapsuleJarImg: React.FC<CapsuleJarImgProps> = ({ isFilled }) => {
     } else {
       return "jar_empty";
     }
+
+    // if (hour === 20 && minute >= 54) {
+    //   return myCapsules.length > 0 ? "jar1_normal" : "jar_empty";
+    // } else if (hour === 20 && minute >= 55 && minute < 60) {
+    //   return "jar_empty";
+    // } else if (hour === 21 && minute >= 0 && minute < 1) {
+    //   return "jar1_normal";
+    // } else if (hour === 21 && minute >= 1 && minute < 2) {
+    //   return "jar2_normal";
+    // } else if (hour === 21 && minute >= 2 && minute < 3) {
+    //   return "jar3_normal";
+    // } else if (hour === 21 && minute >= 3 && minute < 20) {
+    //   return "jar_full";
+    // } else {
+    //   return "jar_empty";
+    // }
   };
 
   useEffect(() => {

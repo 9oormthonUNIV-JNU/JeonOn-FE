@@ -31,3 +31,9 @@ export async function deleteTimeCapsules(capsuleId: any){
   const result = await api.delete(`/admins/timecapsules/${capsuleId}`);
   return result;
 }
+
+// 부스 댓글 삭제 api
+export async function deleteBoothComment(boothId: any, commentId: any){
+  const result = await api.delete(`/${boothId}/comments/${commentId}`);
+  return result;
+}

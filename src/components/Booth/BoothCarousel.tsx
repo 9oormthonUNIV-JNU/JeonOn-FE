@@ -4,11 +4,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 
-export default function BoothCarousel({
-  images,
-  handleIndex,
-}: any) {
-  const imageArray = Array.isArray(images) ? images : images?.split(',');
+export default function BoothCarousel({ images, handleIndex }: any) {
+  const imageArray = Array.isArray(images) ? images : images?.split(",");
 
   return (
     <div>
@@ -16,7 +13,7 @@ export default function BoothCarousel({
         slidesPerView={1}
         pagination={true}
         modules={[Pagination]}
-        className="mySwiper mb-5"
+        className="mySwiper mb-7"
         centeredSlides={true}
         spaceBetween={10}
         onSlideChange={(e) => {
@@ -28,7 +25,7 @@ export default function BoothCarousel({
             <SwiperSlide key={i}>
               <div>
                 <div className="mb-5">
-                  <img src={img} alt={`image-${i}`}/>
+                  <img src={img} alt={`image-${i}`} />
                 </div>
               </div>
             </SwiperSlide>

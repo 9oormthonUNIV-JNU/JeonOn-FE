@@ -233,6 +233,7 @@ export default function TimeCapsuleModal({
               작성란
             </Label>
             <Textarea
+              maxLength={1000}
               required
               value={formData.content}
               id="content"

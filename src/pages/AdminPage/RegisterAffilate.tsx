@@ -143,6 +143,7 @@ const RegisterAffiliate = () => {
             내용
           </Label>
           <Textarea
+            maxLength={1000}
             placeholder="제휴 내용을 상세하게 설명해주세요."
             required
             id="affiliate_description"

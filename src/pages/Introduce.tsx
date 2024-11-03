@@ -96,7 +96,7 @@ export default function Introduce() {
               </div>
               <div className="text-[10px] flex flex-col justify-center items-center">
                 <span className="bg-intro-span">Como</span>
-                <span>소프트웨어공학부</span>
+                <span>소프트웨어공학과</span>
               </div>
             </div>
             <div className="bg-intro-box border border-main h-40 w-[60%] rounded-md flex flex-col justify-start items-center gap-3">
@@ -125,7 +125,7 @@ export default function Introduce() {
               </div>
               <div className="text-[10px] flex flex-col justify-center items-center">
                 <span className="bg-intro-span">웆</span>
-                <span>소프트웨어공학부</span>
+                <span>소프트웨어공학과</span>
               </div>
             </div>
           </div>

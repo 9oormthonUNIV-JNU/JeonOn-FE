@@ -142,7 +142,7 @@ export default function GuideDetail() {
         <div className="mb-3">
           <img src={divideLine} alt="divide-line" />
         </div>
-        <div className="text-white text-base whitespace-pre-wrap">
+        <div className="text-white text-base whitespace-pre-wrap h-full">
           {data?.description}
         </div>
       </div>

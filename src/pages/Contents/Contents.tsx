@@ -24,8 +24,6 @@ export default function Contents() {
     queryFn: async () => await getContents(),
   });
 
-  console.log(data);
-
   return (
     <div className="h-screen overflow-x-hidden">
       <h1 className="text-[#0F0] text-[35px] text-center font-bold mb-10 font-cafe24">

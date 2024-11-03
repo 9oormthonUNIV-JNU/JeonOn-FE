@@ -1,5 +1,5 @@
 import kimNayeong from '@/../public/images/special-guest/kimnayeong.png';
-import royKim from '@/../public/images/special-guest/royKim.png';
+import royKim from '@/../public/images/special-guest/roykim.png';
 import marktub from '@/../public/images/special-guest/marktub.png';
 import mimirose from '@/../public/images/special-guest/mimirose.png';
 import bumjin from '@/../public/images/special-guest/bumjin.png';

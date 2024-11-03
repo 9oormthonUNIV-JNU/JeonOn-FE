@@ -86,9 +86,9 @@ export default function Guide() {
       <h1 className="text-[#0F0] text-[35px] text-center font-bold mb-3 font-cafe24">
         안내
       </h1>
-      <div className="w-full h-12 border-b border-[#5B5B5B] flex justify-center gap-24 items-center mb-8">
+      <div className="w-full h-12 border-b border-[#5B5B5B] flex justify-center gap-24 items-center mb-8 font-pretendard">
         <div
-          className={clicked ? clickedStyle : defaultStyle}
+          className={`${clicked ? clickedStyle : defaultStyle}`}
           onClick={() => setClicked(true)}
         >
           지도
@@ -112,7 +112,7 @@ export default function Guide() {
                 onClick={(e) => navigate(`/guide/${e.currentTarget.id}`)}
               >
                 <div className="flex justify-between items-start">
-                  <h3 className="text-xl text-[#0F0] max-w-[80%] truncate overflow-hidden whitespace-nowrap">
+                  <h3 className="text-xl text-[#0F0] max-w-[80%] truncate overflow-hidden whitespace-nowrap font-pretendard">
                     {item.name}
                   </h3>
                   <div>
@@ -124,12 +124,12 @@ export default function Guide() {
                   </div>
                 </div>
                 <div className="max-h-8 overflow-hidden">
-                  <span className="text-xs font-normal text-white overflow-y-hidden">
+                  <span className="text-xs font-normal text-white overflow-y-hidden font-pretendard">
                     {item.description}
                   </span>
                 </div>
                 <div className="flex justify-end items-center gap-1">
-                  <span className="text-[10px] text-white">
+                  <span className="text-[10px] text-white font-pretendard">
                     {formatDateToYYYYMMDD(item.created_at)}
                   </span>
                 </div>
@@ -146,7 +146,7 @@ export default function Guide() {
             <div>
               <img src={love} alt="love" />
             </div>
-            <h1 className="text-white text-xl">
+            <h1 className="text-white text-xl font-pretendard">
               {curIndex === 1
                 ? '대운동장'
                 : curIndex === 2
@@ -171,9 +171,11 @@ export default function Guide() {
                   </div>
 
                   <div className="flex flex-col justify-center items-start max-h-8 overflow-hidden">
-                    <h1 className="text-sm text-white">{item.name}</h1>
+                    <h1 className="text-sm text-white font-pretendard">
+                      {item.name}
+                    </h1>
 
-                    <span className="text-[10px] text-white overflow-y-hidden whitespace-pre-wrap">
+                    <span className="text-[10px] text-white overflow-y-hidden whitespace-pre-wrap font-pretendard">
                       {item.description}
                     </span>
                   </div>

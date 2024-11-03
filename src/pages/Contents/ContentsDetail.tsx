@@ -95,7 +95,7 @@ export default function ContentsDetail() {
           </div>
         </div>
         <div className="mb-3">
-          <span className="text-white text-xs">
+          <span className="text-white text-xs font-pretendard">
             {formatDateToYYYYMMDD(data?.created_at)}
           </span>
         </div>

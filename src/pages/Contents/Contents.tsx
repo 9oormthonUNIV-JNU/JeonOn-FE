@@ -54,13 +54,13 @@ export default function Contents() {
               </div>
             </div>
             <div className="max-h-8 overflow-hidden">
-              <span className="text-xs font-normal text-white overflow-y-hidden">
+              <span className="text-xs font-normal text-white overflow-y-hidden font-pretendard">
                 {item.description}
               </span>
             </div>
 
             <div className="flex justify-end items-center gap-1">
-              <span className="text-[10px] text-white">
+              <span className="text-[10px] text-white font-pretendard">
                 {formatDateToYYYYMMDD(item.created_at)}
               </span>
             </div>

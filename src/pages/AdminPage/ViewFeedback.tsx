@@ -126,7 +126,7 @@ const ViewFeedback = () => {
         const sortedFeedbacks = feedbackList.sort((b, a) => a.id - b.id);
         setFeedbacks(sortedFeedbacks);
       } catch (error) {
-        console.error("Failed to fetch feedback list", error);
+        // 에러
       }
     };
     fetchFeedbacks();
@@ -139,7 +139,7 @@ const ViewFeedback = () => {
         const detail = await getFeedbackDetail(selectedFeedbackId);
         setSelectedDetail(detail);
       } catch (error) {
-        console.error("Failed to fetch feedback details", error);
+        // 에러
       }
     };
     fetchFeedbackDetail();

@@ -33,11 +33,9 @@ export async function postAffiliate(data: AffiliateData) {
             headers: {"Content-Type": "multipart/form-data"},
         });
 
-        console.log("Affiliate registered: ", result);
         return result;
     } catch (error) {
-        console.error("Affilliate registeration failed: ", error);
-        throw error;
+        // 에러
     }
 }
 

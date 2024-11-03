@@ -45,12 +45,9 @@ export async function postBooth(data: BoothType) {
     const result = await api.post("admins/booths", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
-
-    console.log("Booth registered: ", result);
     return result;
   } catch (error) {
-    console.error("Booth registration failed: ", error);
-    throw error;
+    // 에러
   }
 }
 

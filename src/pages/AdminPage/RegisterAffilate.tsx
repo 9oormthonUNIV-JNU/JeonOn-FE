@@ -77,7 +77,7 @@ const RegisterAffiliate = () => {
       await postAffiliate(data);
       setOpenModal(true);
     } catch (error) {
-      console.error("Registration failed:", error);
+      // 에러
     }
   };
 

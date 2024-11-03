@@ -79,7 +79,6 @@ const Arcodion: React.FC<ArcodionProps> = ({ events }) => {
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
-      console.log(`Current Time Updated: ${now.toLocaleTimeString()}`); // 콘솔에 시간 출력
       setCurrentTime(now);
     };
 
@@ -90,8 +89,6 @@ const Arcodion: React.FC<ArcodionProps> = ({ events }) => {
       const now = new Date();
       const msUntilNextMinute =
         (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
-
-      console.log(`[Scheduled]: Next update in ${msUntilNextMinute}ms`); // 스케줄 정보 출력
 
       const timeoutId = setTimeout(() => {
         updateTime(); // 첫 00초 업데이트

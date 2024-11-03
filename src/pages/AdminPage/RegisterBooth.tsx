@@ -156,7 +156,7 @@ const RegisterBooth = () => {
       await postBooth(data);
       setOpenModal(true);
     } catch (error) {
-      console.error("Registeration failed:", error);
+      // 에러
     }
   };
 

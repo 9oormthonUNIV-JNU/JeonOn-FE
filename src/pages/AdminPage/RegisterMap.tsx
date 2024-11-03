@@ -45,7 +45,7 @@ const RegisterMap = () => {
       await postMap(data);
       setOpenModal(true);
     } catch (error) {
-      console.error("Map registration failed", error);
+      // 에러
     }
   };
 

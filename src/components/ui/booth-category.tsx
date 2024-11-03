@@ -30,7 +30,7 @@ const BoothCategory: React.FC<BoothCategoryProps> = ({ onCategoryChange }) => {
 
   useEffect(() => {
     if (emblaApi) {
-      emblaApi.scrollTo(3);
+      emblaApi.scrollTo(2);
     }
   }, [emblaApi]);
 
@@ -64,7 +64,6 @@ const BoothCategory: React.FC<BoothCategoryProps> = ({ onCategoryChange }) => {
           {renderButton("플리마켓")}
           {renderButton("홍보")}
           {renderButton("기타")}
-          {renderButton("주/야간")}
           {renderButton("주간")}
           {renderButton("야간")}
         </div>

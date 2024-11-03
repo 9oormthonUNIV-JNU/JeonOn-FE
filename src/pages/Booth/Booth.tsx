@@ -1,27 +1,27 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import BoothCategory from '@/components/ui/booth-category';
-import BoothDate from '@/components/Booth/BoothDate';
-import BoothCards from '@/components/Booth/BoothCards';
-import BoothCarousel from '@/components/Booth/BoothCarousel';
-import square from '@/../public/images/518-square_booth.png';
-import backgate from '@/../public/images/backgate-street_booth.png';
-import RegisterButton from '@/components/admin/registerButton';
-import { checkAdminToken } from '@/utils/tokenHandler';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import BoothCategory from "@/components/ui/booth-category";
+import BoothDate from "@/components/Booth/BoothDate";
+import BoothCards from "@/components/Booth/BoothCards";
+import BoothCarousel from "@/components/Booth/BoothCarousel";
+import square from "@/../public/images/518-square_booth.png";
+import backgate from "@/../public/images/backgate-street_booth.png";
+import RegisterButton from "@/components/admin/registerButton";
+import { checkAdminToken } from "@/utils/tokenHandler";
 
 export default function Booth() {
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState<number | null>(null);
   const images = [square, backgate];
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [selectedLocation, setSelectedLocation] = useState<string>('');
+  const [selectedLocation, setSelectedLocation] = useState<string>("");
 
   const handleDateChange = (number: number) => {
     setSelectedDate(number);
   };
 
   const handleIndex = (index: number) => {
-    const location = index === 0 ? 'backgate-street' : 'square-518';
+    const location = index === 0 ? "backgate-street" : "square-518";
     setSelectedLocation(location);
   };
 
@@ -54,7 +54,9 @@ export default function Booth() {
         onCardSelect={handleCardSelect}
       />
 
-      <RegisterButton path={'booth'} />
+      <div className="absolute bottom-5 right-5">
+        <RegisterButton path={"booth"} />
+      </div>
     </div>
   );
 }

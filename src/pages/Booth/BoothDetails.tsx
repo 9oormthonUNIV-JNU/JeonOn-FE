@@ -1,4 +1,5 @@
-import { useSearchParams, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { useBoothDetail } from "@/hook/useBoothDetail";
 import useBookmark from "@/hook/useBookmark";
 import SignInModal from "@/components/common/Modal/SignInModal";
@@ -11,10 +12,12 @@ import BoothComments from "@/components/Booth/BoothComments";
 import NewBoothComment from "@/components/Booth/NewBoothComment";
 import LikingBooth from "@/components/Booth/LikingBooth";
 import { isLoggedIn } from "@/api/login";
+import { deleteBooth } from "@/api/booth";
 import { checkAdminToken } from "@/utils/tokenHandler";
 import { boothBookmark, cancelBoothBookmark } from "@/api/booth";
 import divideLine from "@/../public/images/divideLine.png";
 import GuideCarousel from "@/components/guide/GuideCarousel";
+import DeleteModal from "@/components/common/Modal/DeleteModal";
 
 type BoothCategoryType = {
   type: string;
@@ -30,7 +33,7 @@ const boothCategory: BoothCategoryType[] = [
 ];
 
 export default function BoothDetail() {
-  const [searchParams] = useSearchParams();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const { id } = useParams();
 
   // 부스 정보, 상태 관리 (useBoothDetail 훅)
@@ -54,6 +57,22 @@ export default function BoothDetail() {
     bookmarkCancelFn: cancelBoothBookmark,
     initialBookmarkState: boothData?.bookmark ?? false,
   });
+
+  const handleDeleteClick = () => {
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleBoothDelete = async () => {
+    try {
+      if (id) {
+        await deleteBooth(Number(id));
+        setIsDeleteModalOpen(false);
+      }
+    } catch (error) {
+      console.error("부스 삭제 중 오류가 발생했습니다:", error);
+      alert("부스 삭제 중 오류가 발생했습니다.");
+    }
+  };
 
   const mappedCategory = boothData
     ? boothCategory.find((item) => item.category === boothData.category)?.type
@@ -155,16 +174,23 @@ export default function BoothDetail() {
           </div>
 
           <div>{boothData.description}</div>
-        </div>
 
-        {checkAdminToken() ? (
-          <div className="px-5 flex justify-end items-end mb-8">
-            <img src={deleteIcon} alt="delete" />
+          {checkAdminToken() ? (
+          <div className="relative">
+            <div className="absolute right-2 top-1 md:w-1/4 md:text-right">
+              <img
+                src={deleteIcon}
+                alt="delete"
+                onClick={handleDeleteClick} // 삭제 버튼 클릭 시 삭제 함수 호출
+                className="cursor-pointer w-4 h-4"
+              />
+            </div>
           </div>
         ) : null}
+        </div>
 
         {/* 댓글 분리선 */}
-        <div className="mt-2 mb-4">
+        <div className="mt-8 mb-4">
           <img src={divideLine} alt="divide-line" />
         </div>
 
@@ -191,6 +217,15 @@ export default function BoothDetail() {
             onLoginSuccess={handleLoginSuccess}
           />
         )}
+
+        {/* 삭제 확인 모달 */}
+        <DeleteModal
+          isOpen={isDeleteModalOpen}
+          setIsOpen={setIsDeleteModalOpen}
+          id={id}
+          queryKey="booth"
+          deleteFn={handleBoothDelete}
+        />
       </div>
     </div>
   );

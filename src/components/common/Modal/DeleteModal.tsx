@@ -5,7 +5,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { replace, useNavigate } from "react-router-dom";
+import { replace, useNavigate, useParams } from "react-router-dom";
 
 export default function DeleteModal({
   isOpen,
@@ -17,6 +17,7 @@ export default function DeleteModal({
 }) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const { id: boothId } = useParams();
   const deleteMutation = useMutation({
     mutationFn: async () => {
       deleteFn(id);
@@ -35,6 +36,12 @@ export default function DeleteModal({
       }
       if (queryKey === "maps") {
         return navigate("/guide");
+      }
+      if (queryKey === "boothDetail"){
+        return navigate(`/booth/${boothId}`);
+      }
+      if (queryKey === "booth"){
+        return navigate("/booth")
       }
       navigate(`/${queryKey}`, { replace: true });
     },

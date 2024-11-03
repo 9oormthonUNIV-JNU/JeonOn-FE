@@ -19,13 +19,13 @@ export default function MyPage() {
       </h1>
       <div className="px-5">
         <div className="w-full h-20 bg-white rounded-lg mb-12 px-5 flex justify-start items-center">
-          <h2 className="text-xl">{data?.nickname}</h2>
+          <h2 className="text-xl font-pretendard">{data?.nickname}</h2>
         </div>
         <div
           className="flex justify-between items-center px-2"
           onClick={() => navigate('/my-page/favorites')}
         >
-          <h2 className="text-white text-xl">즐겨찾기</h2>
+          <h2 className="text-white text-xl font-pretendard">즐겨찾기</h2>
           <div>
             <img src={rightArrow} alt="right-arrow" />
           </div>

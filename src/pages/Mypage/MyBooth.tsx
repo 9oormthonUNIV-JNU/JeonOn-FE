@@ -56,7 +56,9 @@ export default function MyBooth() {
                     <div className="text-black bg-main w-5 h-5 rounded-full flex justify-center items-center font-extrabold">
                       {index + 1}
                     </div>
-                    <h3 className="text-main text-xl">{item.name}</h3>
+                    <h3 className="text-main text-xl max-w-[80%] truncate overflow-hidden whitespace-nowrap">
+                      {item.name}
+                    </h3>
                   </div>
                   <div>
                     {item.bookmark && <img src={favorites} alt="favorites" />}

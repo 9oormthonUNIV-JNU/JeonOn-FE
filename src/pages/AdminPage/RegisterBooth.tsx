@@ -153,10 +153,14 @@ const RegisterBooth = () => {
     };
 
     try {
-      await postBooth(data);
-      setOpenModal(true);
+      const result = await postBooth(data);
+      if (result && result.status === 200) {
+        setOpenModal(true);
+      } else {
+        alert("부스 등록에 실패했습니다.");
+      }
     } catch (error) {
-      // 에러
+      alert("부스 등록에 실패했습니다.");
     }
   };
 

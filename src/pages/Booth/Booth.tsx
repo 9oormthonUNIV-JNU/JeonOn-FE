@@ -18,7 +18,8 @@ export default function Booth() {
   const [selectedDate, setSelectedDate] = useState<number | null>(null);
   const [images, setImages] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [selectedLocation, setSelectedLocation] = useState<string>("");
+  const [selectedLocation, setSelectedLocation] =
+    useState<string>("backgate-street");
 
   useEffect(() => {
     const currentDate = new Date();
@@ -50,7 +51,6 @@ export default function Booth() {
   const handleIndex = (index: number) => {
     const location = index === 0 ? "backgate-street" : "square-518";
     setSelectedLocation(location);
-    console.log("Selected Location: ", location);
   };
 
   const handleCategoryChange = (categories: string[]) => {
@@ -60,8 +60,6 @@ export default function Booth() {
   const handleCardSelect = (boothId: number) => {
     navigate(`/booth/${boothId}`);
   };
-
-  //console.log(checkAdminToken());
 
   return (
     <div className="h-auto flex flex-col justify-center items-center">

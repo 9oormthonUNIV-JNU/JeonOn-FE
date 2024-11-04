@@ -61,7 +61,6 @@ export default function BoothComments({
           setIsDeleteModalOpen(false);
         }
       } catch (error) {
-        console.error("댓글 삭제 중 오류가 발생했습니다:", error);
         alert("댓글 삭제 중 오류가 발생했습니다.");
       }
     }

@@ -1,36 +1,36 @@
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import favorites from "@/../public/assets/svgs/favorites.svg";
-import bookmark from "@/../public/assets/svgs/bookmark_empty.svg";
-import love from "@/../public/svgs/love.svg";
-import trashCan from "@/../public/svgs/delete.svg";
-import backGate from "@/../public/images/back-gate.png";
-import square from "@/../public/images/518-square.png";
-import stadium from "@/../public/images/stadium.png";
-import GuideCarousel from "@/components/guide/GuideCarousel";
-import RegisterButton from "@/components/admin/registerButton";
-import DeleteModal from "@/components/common/Modal/DeleteModal";
-import { checkAdminToken } from "@/utils/tokenHandler";
-import { formatDateToYYYYMMDD } from "@/utils/dateStr";
-import { getZones, getPartners } from "@/api/guide";
-import { deleteMaps } from "@/api/admin";
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import favorites from '@/../public/assets/svgs/favorites.svg';
+import bookmark from '@/../public/assets/svgs/bookmark_empty.svg';
+import love from '@/../public/svgs/love.svg';
+import trashCan from '@/../public/svgs/delete.svg';
+import backGate from '@/../public/images/back-gate.png';
+import square from '@/../public/images/518-square.png';
+import stadium from '@/../public/images/stadium.png';
+import GuideCarousel from '@/components/guide/GuideCarousel';
+import RegisterButton from '@/components/admin/registerButton';
+import DeleteModal from '@/components/common/Modal/DeleteModal';
+import { checkAdminToken } from '@/utils/tokenHandler';
+import { formatDateToYYYYMMDD } from '@/utils/dateStr';
+import { getZones, getPartners } from '@/api/guide';
+import { deleteMaps } from '@/api/admin';
 
 export default function Guide() {
   const location = useLocation();
   const navigate = useNavigate();
   const [clicked, setClicked] = useState(() => {
     const searchParams = new URLSearchParams(location.search);
-    return searchParams.get("view") === "partners" ? false : true;
+    return searchParams.get('view') === 'partners' ? false : true;
   });
   const [curIndex, setCurIndex] = useState(1);
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
   const clickedStyle =
-    "text-xl text-[#0F0] border-b-2 border-[#0F0] h-12 px-2 flex justify-center items-center";
+    'text-xl text-[#0F0] border-b-2 border-[#0F0] h-12 px-2 flex justify-center items-center';
   const defaultStyle =
-    "text-xl text-white h-12 px-2 flex justify-center items-center";
+    'text-xl text-white h-12 px-2 flex justify-center items-center';
 
   const handleIndex = (index: number) => {
     setCurIndex(index);
@@ -39,26 +39,26 @@ export default function Guide() {
   // location.search에서 view 파라미터 값이 변경될 때마다 clicked 상태를 업데이트합니다.
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    const view = searchParams.get("view");
-    setClicked(view !== "partners");
+    const view = searchParams.get('view');
+    setClicked(view !== 'partners');
   }, [location.search]);
 
   // clicked 상태가 변경될 때마다 URL을 동기화합니다.
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    const newView = clicked ? "map" : "partners";
-    searchParams.set("view", newView);
+    const newView = clicked ? 'map' : 'partners';
+    searchParams.set('view', newView);
     navigate(
       {
         pathname: location.pathname,
         search: searchParams.toString(),
       },
-      { replace: true }
+      { replace: true },
     );
   }, [clicked, navigate, location.pathname]);
 
   const { data } = useQuery({
-    queryKey: ["guide", clicked ? "map" : "partners"], // 항상 같은 형식 유지
+    queryKey: ['guide', clicked ? 'map' : 'partners'], // 항상 같은 형식 유지
     queryFn: async () => {
       if (!clicked) {
         return await getPartners();
@@ -69,7 +69,7 @@ export default function Guide() {
   });
 
   const mapInfo = useQuery({
-    queryKey: ["maps", curIndex],
+    queryKey: ['maps', curIndex],
     queryFn: () => getZones(curIndex.toString()),
   });
 
@@ -102,7 +102,7 @@ export default function Guide() {
       </div>
       {!clicked ? (
         <div>
-          <RegisterButton path={"affiliate"} />
+          <RegisterButton path={'affiliate'} />
           <div className="flex flex-col justify-center items-center gap-5 px-5 mb-10">
             {data?.data.map((item: any) => (
               <div
@@ -124,7 +124,7 @@ export default function Guide() {
                   </div>
                 </div>
                 <div className="max-h-8 overflow-hidden">
-                  <span className="text-xs font-normal text-white overflow-y-hidden font-pretendard">
+                  <span className="text-xs font-normal text-white w-full font-pretendard">
                     {item.description}
                   </span>
                 </div>
@@ -148,14 +148,14 @@ export default function Guide() {
             </div>
             <h1 className="text-white text-xl font-pretendard">
               {curIndex === 1
-                ? "대운동장"
+                ? '대운동장'
                 : curIndex === 2
-                ? "5·18 광장"
-                : "후문 거리"}
+                ? '5·18 광장'
+                : '후문 거리'}
             </h1>
           </div>
           <div className="-mr-5">
-            <RegisterButton path={"map"} />
+            <RegisterButton path={'map'} />
           </div>
 
           <div className="w-full bg-map rounded-xl border border-[#0F0] flex flex-col mb-5">
@@ -163,19 +163,19 @@ export default function Guide() {
               <div className="px-3 relative" key={item.id}>
                 <div
                   className={`gap-3 flex justify-start px-2 py-3 border-b border-[#0F0] ${
-                    index === mapInfo.data?.data.length - 1 ? "border-b-0" : ""
+                    index === mapInfo.data?.data.length - 1 ? 'border-b-0' : ''
                   }`}
                 >
                   <div>
                     <img src={love} alt="description" />
                   </div>
 
-                  <div className="flex flex-col justify-center items-start max-h-8 overflow-hidden">
+                  <div className="w-[85%] flex flex-col justify-center items-start max-h-16 overflow-hidden">
                     <h1 className="text-sm text-white font-pretendard">
                       {item.name}
                     </h1>
 
-                    <span className="text-[10px] text-white overflow-y-hidden whitespace-pre-wrap font-pretendard">
+                    <span className="text-[10px] text-white font-pretendard">
                       {item.description}
                     </span>
                   </div>
@@ -199,7 +199,7 @@ export default function Guide() {
         isOpen={open}
         id={selectedId}
         setIsOpen={setOpen}
-        queryKey={"maps"}
+        queryKey={'maps'}
         queryKeyOptions={selectedId}
         deleteFn={deleteMaps}
       />

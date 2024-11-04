@@ -91,7 +91,7 @@ export default function GuideDetail() {
             제휴업체
           </span>
         </div>
-        <div className="mb-1 flex justify-between items-center">
+        <div className="mb-4 flex justify-between items-center">
           <h1 className="text-[#0F0] text-3xl font-cafe24 max-w-[80%]">
             {data?.name}
           </h1>
@@ -110,11 +110,6 @@ export default function GuideDetail() {
               <img src={bookmark} alt="bookmark" />
             )}
           </div>
-        </div>
-        <div className="mb-3">
-          <span className="text-white text-xs">
-            {formatDateToYYYYMMDD(data?.created_at)}
-          </span>
         </div>
 
         <GuideCarousel images={data?.images} />

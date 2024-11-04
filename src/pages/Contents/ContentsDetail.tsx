@@ -69,7 +69,7 @@ export default function ContentsDetail() {
   // }, [data]);
 
   return (
-    <div className="h-screen overflow-hidden">
+    <div className="h-screen overflow-x-hidden">
       <h1 className="text-[#0F0] text-[35px] text-center font-bold mb-10 font-cafe24">
         콘텐츠
       </h1>
@@ -114,7 +114,7 @@ export default function ContentsDetail() {
         <div className="mb-4">
           <img src={divideLine} alt="d/ivide-line" />
         </div>
-        <div className="text-white whitespace-pre-wrap h-full font-pretendard">
+        <div className="text-white whitespace-pre-wrap font-pretendard mb-5">
           {data?.description}
         </div>
       </div>

@@ -1,17 +1,17 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import BoothCategory from "@/components/ui/booth-category";
-import BoothDate from "@/components/Booth/BoothDate";
-import BoothCards from "@/components/Booth/BoothCards";
-import BoothCarousel from "@/components/Booth/BoothCarousel";
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import BoothCategory from '@/components/ui/booth-category';
+import BoothDate from '@/components/Booth/BoothDate';
+import BoothCards from '@/components/Booth/BoothCards';
+import BoothCarousel from '@/components/Booth/BoothCarousel';
 
-import backgate_street_1 from "@/../public/images/booth-main/backgate_street_1.png";
-import backgate_street_23 from "@/../public/images/booth-main/backgate_street_23.png";
-import square_518_1 from "@/../public/images/booth-main/518_square_1.png";
-import square_518_23 from "@/../public/images/booth-main/518_square_23.png";
+import backgate_street_1 from '@/../public/images/booth-main/backgate_street_1.png';
+import backgate_street_23 from '@/../public/images/booth-main/backgate_street_23.png';
+import square_518_1 from '@/../public/images/booth-main/518_square_1.png';
+import square_518_23 from '@/../public/images/booth-main/518_square_23.png';
 
-import RegisterButton from "@/components/admin/registerButton";
-import { checkAdminToken } from "@/utils/tokenHandler";
+import RegisterButton from '@/components/admin/registerButton';
+import { checkAdminToken } from '@/utils/tokenHandler';
 
 export default function Booth() {
   const navigate = useNavigate();
@@ -19,13 +19,13 @@ export default function Booth() {
   const [images, setImages] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedLocation, setSelectedLocation] =
-    useState<string>("backgate-street");
+    useState<string>('backgate-street');
 
   useEffect(() => {
     const currentDate = new Date();
     const koreaTimezoneOffset = 9 * 60;
     const koreaDate = new Date(
-      currentDate.getTime() + koreaTimezoneOffset * 60 * 1000
+      currentDate.getTime() + koreaTimezoneOffset * 60 * 1000,
     );
     const day = koreaDate.getDate();
 
@@ -49,7 +49,7 @@ export default function Booth() {
   };
 
   const handleIndex = (index: number) => {
-    const location = index === 0 ? "backgate-street" : "square-518";
+    const location = index === 0 ? 'backgate-street' : 'square-518';
     setSelectedLocation(location);
   };
 
@@ -62,19 +62,20 @@ export default function Booth() {
   };
 
   return (
-    <div className="h-auto flex flex-col justify-center items-center">
+    <div className="h-auto flex flex-col justify-center items-center overflow-hidden">
       <h1 className="text-main text-4xl font-cafe24 mb-5">부스</h1>
 
       <BoothDate selectedDate={selectedDate} onDateChange={handleDateChange} />
 
-      <div className="mb-7 max-w-[90%] mx-auto h-full overflow-x-hidden">
+      <div className="mb-7 max-w-[90%] mx-auto h-full">
         <BoothCarousel images={images} handleIndex={handleIndex} />
       </div>
 
-      <div className="space-y-2">
+      <div>
         <BoothCategory onCategoryChange={handleCategoryChange} />
-
-        <RegisterButton path={"booth"} />
+      </div>
+      <div className="-mr-56 mt-10">
+        <RegisterButton path={'booth'} />
       </div>
 
       <BoothCards

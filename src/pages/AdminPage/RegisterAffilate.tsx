@@ -210,7 +210,7 @@ const RegisterAffiliate = () => {
                   className="text-main bg-black px-8 py-2 rounded-full border border-main hover:bg-main hover:border-main hover:text-black"
                   onClick={() => {
                     setOpenModal(false);
-                    nav("/guide");
+                    nav("/guide?view=partners");
                   }}
                 >
                   돌아가기

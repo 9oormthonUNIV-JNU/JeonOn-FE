@@ -40,6 +40,7 @@ export default function RegisterContents() {
     e.preventDefault();
     const formData = new FormData();
     const imgs = imgRef2.current?.files;
+
     if (imgs) {
       if (imgs.length > 3) {
         imgRef2.current.value = '';
@@ -110,6 +111,7 @@ export default function RegisterContents() {
             onChange={(e) => setDetail(e.target.value)}
             value={detail}
             className="bg-white text-black min-h-36"
+            maxLength={1000}
           />
         </div>
 
@@ -122,7 +124,7 @@ export default function RegisterContents() {
               multiple
               id="picture"
               type="file"
-              accept="image/*"
+              accept=".jpeg,.jpg,.png"
               className="bg-white"
               onChange={handleImageChange}
               ref={imgRef2}

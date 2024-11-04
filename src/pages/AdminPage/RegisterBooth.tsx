@@ -280,7 +280,7 @@ const RegisterBooth = () => {
               <Input
                 id="booth_image"
                 type="file"
-                accept="image/*"
+                accept=".jpeg,.jpg,.png"
                 multiple
                 onChange={handleImageChange}
                 className="bg-white text-black"

@@ -1,13 +1,13 @@
-import kimNayeong from '@/../public/images/special-guest/kimnayeong.png';
-import royKim from '@/../public/images/special-guest/roykim.png';
-import marktub from '@/../public/images/special-guest/marktub.png';
-import mimirose from '@/../public/images/special-guest/mimirose.png';
-import bumjin from '@/../public/images/special-guest/bumjin.png';
-import bewhy from '@/../public/images/special-guest/bewhy.png';
-import yountoven from '@/../public/images/special-guest/yountoven.png';
-import chungha from '@/../public/images/special-guest/chungha.png';
-import hahaskull from '@/../public/images/special-guest/hahaskull.png';
-import hanyohan from '@/../public/images/special-guest/hanyohan.png';
+import kimnayeong from '@/../public/images/special-guest/kimnayeong.webp';
+import royKim from '@/../public/images/special-guest/roykim.webp';
+import marktub from '@/../public/images/special-guest/marktub.webp';
+import mimirose from '@/../public/images/special-guest/mimirose.webp';
+import bumjin from '@/../public/images/special-guest/bumjin.webp';
+import bewhy from '@/../public/images/special-guest/bewhy.webp';
+import yountoven from '@/../public/images/special-guest/yountoven.webp';
+import chungha from '@/../public/images/special-guest/chungha.webp';
+import hahaskull from '@/../public/images/special-guest/hahaskull.webp';
+import hanyohan from '@/../public/images/special-guest/hanyohan.webp';
 
 export type EventType = {
   order: number;
@@ -188,7 +188,7 @@ export const events: EventType[] = [
     content: '김나영',
     location: '대운동장',
     special: true,
-    img: kimNayeong,
+    img: kimnayeong,
   },
 
   // 2024-11-07 Events

@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import photo from "@/../public/assets/svgs/photo.svg";
 import { Textarea } from "@/components/ui/textarea";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { CustomDatePicker } from "@/components/common/DatePicker/CustomDatePicker";
 import { postAffiliate } from "@/api/afilliate";
 import { useNavigate } from "react-router-dom";
@@ -51,6 +51,15 @@ const RegisterAffiliate = () => {
       imgRef.current.value = "";
     }
   };
+
+  const formatDate = (date: Date | null) => {
+    if (!date) return "";
+    // UTC를 로컬 타임존으로 변환
+    return new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+      .toISOString()
+      .split("T")[0];
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -67,8 +76,8 @@ const RegisterAffiliate = () => {
     const data = {
       name,
       location,
-      start_date: startDate?.toISOString().split("T")[0] || "",
-      end_date: endDate?.toISOString().split("T")[0] || "",
+      start_date: formatDate(startDate),
+      end_date: formatDate(endDate),
       description,
       images,
     };
@@ -134,8 +143,8 @@ const RegisterAffiliate = () => {
             <CustomDatePicker
               selectedDate={startDate}
               onChange={(date) => setStartDate(date)}
-            />{" "}
-            ~{" "}
+            />
+            ~
             <CustomDatePicker
               selectedDate={endDate}
               onChange={(date) => setEndDate(date)}

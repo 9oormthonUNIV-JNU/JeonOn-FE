@@ -13,21 +13,22 @@ export function formatDateToYYYYMMDD(dateStr: string) {
 }
 
 export function formatDateToMMDDhhmm(dateStr: string) {
+  // 입력된 날짜 문자열을 UTC 기준으로 파싱
   const date = new Date(dateStr);
 
-  const kstOffset = 9 * 60; // KST (UTC+9) offset in minutes
-  const utcOffset = date.getTimezoneOffset();
-  const kstDate = new Date(date.getTime() + (kstOffset - utcOffset) * 60000);
+  // KST 시간으로 변환 (UTC + 9시간)
+  const kstDate = new Date(date.getTime() + 9 * 60 * 60000);
 
+  // MM-DD hh:mm 형식으로 포맷팅
   const formattedDate =
-    String(kstDate.getMonth() + 1).padStart(2, '0') +
+    String(kstDate.getUTCMonth() + 1).padStart(2, '0') +
     '-' +
-    String(kstDate.getDate()).padStart(2, '0');
+    String(kstDate.getUTCDate()).padStart(2, '0');
 
   const formattedTime =
-    String(kstDate.getHours()).padStart(2, '0') +
+    String(kstDate.getUTCHours()).padStart(2, '0') +
     ':' +
-    String(kstDate.getMinutes()).padStart(2, '0');
+    String(kstDate.getUTCMinutes()).padStart(2, '0');
 
   return `${formattedDate} ${formattedTime}`;
 }

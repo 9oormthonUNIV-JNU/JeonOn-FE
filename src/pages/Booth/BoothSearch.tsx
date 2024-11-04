@@ -19,7 +19,7 @@ export default function BoothSearch() {
     queryKey: ['searchBooth', debouncedSearchQuery],
     queryFn: () => searchBooth(debouncedSearchQuery),
     enabled: !!debouncedSearchQuery,
-    staleTime: 1000 * 60 * 3,
+    staleTime: 1000 * 60 * 1,
   });
 
   console.log(searchResults);

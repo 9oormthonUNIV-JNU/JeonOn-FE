@@ -72,10 +72,7 @@ const RegisterBooth = () => {
 
       if (images.length + selectedFiles.length > 5) {
         alert("이미지는 최대 5장까지 업로드할 수 있습니다.");
-
-        if (imgRef.current) {
-          imgRef.current.value = "";
-        }
+        imgRef.current.value = "";
         return;
       }
 
@@ -85,10 +82,7 @@ const RegisterBooth = () => {
 
   const handleImageRemove = (index: number) => {
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
-
-    if (imgRef.current) {
-      imgRef.current.value = "";
-    }
+    imgRef.current.value = "";
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -126,10 +120,14 @@ const RegisterBooth = () => {
       return;
     }
 
-    const formatDate = (date: Date | null) =>
-      date ? date.toISOString().split("T")[0] : "";
-
-    const formatTime = (time: string) => `${time}:00`;
+    // 날짜 포맷팅
+    const formatDate = (date: Date | null) => {
+      if (!date) return "";
+      // UTC를 로컬 타임존으로 변환
+      return new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+        .toISOString()
+        .split("T")[0];
+    };
 
     const boothIndex = parseInt(index, 10);
 
@@ -144,8 +142,8 @@ const RegisterBooth = () => {
       index: boothIndex,
       start_date: formatDate(startDate),
       end_date: formatDate(endDate),
-      start_time: formatTime(startTime),
-      end_time: formatTime(endTime),
+      start_time: `${startTime}:00`,
+      end_time: `${endTime}:00`,
       description,
       category: selectedCategory,
       period: selectedPeriod,
@@ -198,7 +196,6 @@ const RegisterBooth = () => {
             <div className="flex flex-row gap-2">
               <Select required value={location} onValueChange={setLocation}>
                 <SelectTrigger className="font-pretendard bg-white text-black w-36 text-sm">
-                  {" "}
                   <SelectValue placeholder="위치" />
                 </SelectTrigger>
                 <SelectContent className="font-pretendard text-black text-sm">
@@ -225,8 +222,8 @@ const RegisterBooth = () => {
               <CustomDatePicker
                 selectedDate={startDate}
                 onChange={(date) => setStartDate(date)}
-              />{" "}
-              ~{" "}
+              />
+              ~
               <CustomDatePicker
                 selectedDate={endDate}
                 onChange={(date) => setEndDate(date)}
@@ -269,7 +266,7 @@ const RegisterBooth = () => {
             <Textarea
               maxLength={1000}
               required
-              placeholder="부스 주최자와 함께 부스를 자유롭게 설명해주세요. "
+              placeholder="부스 주최자와 함께 부스를 자유롭게 설명해주세요."
               id="booth_description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}

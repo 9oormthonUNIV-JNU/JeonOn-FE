@@ -42,10 +42,14 @@ const RegisterMap = () => {
     };
 
     try {
-      await postMap(data);
-      setOpenModal(true);
+      const result = await postMap(data);
+      if (result && result.status === 200) {
+        setOpenModal(true); // 성공 시 다이얼로그 표시
+      } else {
+        alert("지도 등록에 실패했습니다."); // 실패 시 알림
+      }
     } catch (error) {
-      // 에러
+      alert("지도 등록에 실패했습니다.");
     }
   };
 

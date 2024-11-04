@@ -74,10 +74,14 @@ const RegisterAffiliate = () => {
     };
 
     try {
-      await postAffiliate(data);
-      setOpenModal(true);
+      const result = await postAffiliate(data);
+      if (result && result.status === 200) {
+        setOpenModal(true); // 성공 시 다이얼로그 표시
+      } else {
+        alert("제휴업체 등록에 실패했습니다."); // 실패 시 알림
+      }
     } catch (error) {
-      // 에러
+      alert("제휴업체 등록에 실패했습니다.");
     }
   };
 

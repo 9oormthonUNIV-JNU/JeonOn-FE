@@ -70,6 +70,9 @@ export default function BoothCards({
 
     let queryString = `?`;
 
+    if (selectedLocation) {
+      queryString += `location=${selectedLocation}&`;
+    }
     if (categories.length > 0) {
       queryString += `category=${categories.join(",")}&`;
     }

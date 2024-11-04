@@ -159,7 +159,7 @@ export default function BoothCards({
     const formattedStartTime = formatTime(start_time);
     const formattedEndTime = formatTime(end_time);
     if (startDay !== endDay) {
-      return `${startDay}일, ${endDay}일, ${formattedStartTime} ~ ${formattedEndTime}`;
+      return `${startDay}일 ~ ${endDay}일, ${formattedStartTime} ~ ${formattedEndTime}`;
     }
     return `${startDay}일, ${formattedStartTime} ~ ${formattedEndTime}`;
   };

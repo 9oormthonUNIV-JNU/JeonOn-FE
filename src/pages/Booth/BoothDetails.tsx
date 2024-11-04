@@ -70,7 +70,6 @@ export default function BoothDetail() {
         setIsDeleteModalOpen(false);
       }
     } catch (error) {
-      console.error("부스 삭제 중 오류가 발생했습니다:", error);
       alert("부스 삭제 중 오류가 발생했습니다.");
     }
   };
@@ -144,7 +143,10 @@ export default function BoothDetail() {
               <div className="font-cafe24 text-3xl text-main mt-1 max-w-[80%]">
                 {boothData.name}
               </div>
-              <div onClick={handleBookmarkClick} className="cursor-pointer ml-2">
+              <div
+                onClick={handleBookmarkClick}
+                className="cursor-pointer ml-2"
+              >
                 {like ? (
                   <img
                     src={bookmark_filled}
@@ -189,7 +191,7 @@ export default function BoothDetail() {
             </span>
           </div>
 
-          {boothData?.description?.split('|').map((sentence, index) => (
+          {boothData?.description?.split("|").map((sentence, index) => (
             <p key={index}>{sentence.trim()}</p>
           ))}
 

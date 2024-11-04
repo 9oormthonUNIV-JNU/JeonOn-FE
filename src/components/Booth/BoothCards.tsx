@@ -119,6 +119,7 @@ export default function BoothCards({
         }
 
         setBooths(boothData);
+        console.log(queryString);
       } catch (error) {
         console.error("Error fetching booths:", error);
       }

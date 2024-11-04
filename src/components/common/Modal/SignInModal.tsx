@@ -26,6 +26,7 @@ export default function SignInModal({
   const loginMutation = useMutation<{ token: string }, Error, void>({
     mutationFn: async () => {
       const response = await login(nickname, password);
+
       setError('');
       return response.data;
     },

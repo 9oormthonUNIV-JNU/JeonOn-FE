@@ -18,20 +18,20 @@ export function getAuthToken() {
 }
 
 export function checkAdminToken() {
-  const token = localStorage.getItem('token');
-  if (token !== import.meta.env.VITE_ADMIN_TOKEN) return null;
-
-  return token;
-}
-
-export function checkAdminLoader() {
-  const token = localStorage.getItem('token');
-  if (token !== import.meta.env.VITE_ADMIN_TOKEN) {
-    return redirect('/');
-  }
+  // const token = localStorage.getItem('token');
+  // if (token !== import.meta.env.VITE_ADMIN_TOKEN) return null;
 
   return null;
 }
+
+// export function checkAdminLoader() {
+//   const token = localStorage.getItem('token');
+//   if (token !== import.meta.env.VITE_ADMIN_TOKEN) {
+//     return redirect('/');
+//   }
+
+//   return null;
+// }
 
 export function checkAuthLoader() {
   const token = getAuthToken();

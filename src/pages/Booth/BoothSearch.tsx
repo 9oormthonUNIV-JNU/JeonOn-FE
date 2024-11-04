@@ -1,47 +1,51 @@
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { useNavigate } from "react-router-dom";
-import { searchBooth } from "@/api/booth";
-import PopularBooth from "@/components/Booth/PopularBooth";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { Input } from '@/components/ui/input';
+import PopularBooth from '@/components/Booth/PopularBooth';
+import { searchBooth } from '@/api/booth';
+import useDebounce from '@/hook/useDebounce';
 
 export default function BoothSearch() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<any[] | null>(null);
-  const [currentSearch, setCurrentSearch] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
-
   const navigate = useNavigate();
 
-  const handleSearch = async (query: string) => {
-    if (query.trim()) {
-      setCurrentSearch(query);
-      const result = await searchBooth(query);
-      if (result && result.data) {
-        setSearchResults(result.data);
-      } else {
-        setSearchResults([]);
-      }
-    } else {
-      setSearchResults(null);
-    }
-  };
+  // 디바운스된 검색어 생성
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
-  const handleCardSelect = (boothId: number) => {
+  // useQuery로 검색 API 호출
+  const { data: searchResults, refetch } = useQuery({
+    queryKey: ['searchBooth', debouncedSearchQuery],
+    queryFn: () => searchBooth(debouncedSearchQuery),
+    enabled: !!debouncedSearchQuery,
+    staleTime: 1000 * 60 * 3,
+  });
+
+  console.log(searchResults);
+
+  const handleCardSelect = (boothId) => {
     navigate(`/booth/${boothId}`);
   };
 
-  const highlightText = (text: string, keyword: string) => {
-    const parts = text.split(new RegExp(`(${keyword})`, "gi"));
+  const highlightText = (text, keyword) => {
+    const parts = text.split(new RegExp(`(${keyword})`, 'gi'));
     return parts.map((part, index) =>
       part.toLowerCase() === keyword.toLowerCase() ? (
-        <span key={index} style={{ color: "#166ff4" }}>
+        <span key={index} style={{ color: '#166ff4' }}>
           {part}
         </span>
       ) : (
         part
-      )
+      ),
     );
   };
+
+  useEffect(() => {
+    if (debouncedSearchQuery) {
+      refetch();
+    }
+  }, [debouncedSearchQuery, refetch]);
 
   return (
     <div
@@ -56,18 +60,16 @@ export default function BoothSearch() {
       >
         <Input
           className={`h-10 w-full text-medium ${
-            isFocused ? "text-black bg-white" : "text-white bg-black"
-          } font-normal font-['NanumSquare Neo'] rounded-[30px] border border-white border-2 pl-4 pr-4 text-[16px]`}
+            isFocused ? 'text-black bg-white' : 'text-white bg-black'
+          } font-normal font-['NanumSquare Neo'] rounded-[30px] border-white border-2 pl-4 pr-4 text-[16px]`}
           placeholder="부스명을 입력해주세요."
           value={searchQuery}
           onFocus={() => setIsFocused(true)}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setSearchQuery(e.target.value);
-            handleSearch(e.target.value);
-          }}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          type="search"
         />
 
-        {isFocused && searchResults !== null && (
+        {isFocused && searchResults && (
           <div className="absolute top-full mt-2 w-full bg-white rounded-[10px] border border-[#c8c8c8] p-3 shadow-md z-10">
             <div className="flex flex-col space-y-3">
               {searchResults.length > 0 ? (
@@ -84,7 +86,7 @@ export default function BoothSearch() {
                 ))
               ) : (
                 <div className="text-black text-sm">
-                  검색하신 '{currentSearch}'에 대한 결과가 없습니다.
+                  검색하신 '{debouncedSearchQuery}'에 대한 결과가 없습니다.
                 </div>
               )}
             </div>

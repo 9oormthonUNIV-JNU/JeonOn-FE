@@ -1,5 +1,5 @@
-import { api } from "@/utils/customAxios";
-import { getAuthToken } from "@/utils/tokenHandler";
+import { api } from '@/utils/customAxios';
+import { getAuthToken } from '@/utils/tokenHandler';
 
 export type BoothType = {
   name: string;
@@ -34,16 +34,16 @@ export async function postBooth(data: BoothType) {
           period: data.period,
         }),
       ],
-      { type: "application/json" }
+      { type: 'application/json' },
     );
-    formData.append("request", requestBlob);
+    formData.append('request', requestBlob);
 
     data.images.forEach((image) => {
-      formData.append("images", image); 
+      formData.append('images', image);
     });
 
-    const result = await api.post("admins/booths", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
+    const result = await api.post('admins/booths', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
     });
     return result;
   } catch (error) {
@@ -51,13 +51,12 @@ export async function postBooth(data: BoothType) {
   }
 }
 
-
 export async function deleteBooth(boothId: number) {
   const result = await api.delete(`admins/booths/${boothId}`);
   return result.data;
 }
 
-export async function boothsList(queryString: string = "") {
+export async function boothsList(queryString: string = '') {
   const result = await api.get(`booths${queryString}`);
   return result.data;
 }
@@ -80,13 +79,13 @@ export async function addBoothComment(boothId: number, content: string) {
     const result = await api.post(`/booths/${boothId}/comments`, requestBody);
     return result;
   } catch (error) {
-    console.error("Error adding comment:", error);
+    console.error('Error adding comment:', error);
 
     // 요청 실패 시의 response body 구조
     return {
       success: false,
       data: null,
-      error: error.message || "Unknown error occurred",
+      error: error.message || 'Unknown error occurred',
     };
   }
 }
@@ -96,24 +95,24 @@ export async function deleteComment(boothId: any, commentId: any) {
     const result = await api.delete(`booths/${boothId}/comments/${commentId}`);
     return result;
   } catch (error: any) {
-    console.error("댓글을 삭제할 수 없습니다 : ", error);
+    console.error('댓글을 삭제할 수 없습니다 : ', error);
   }
 }
 
 export async function searchBooth(keyword: string) {
   try {
     const result = await api.get(
-      `/booths/search?keyword=${encodeURIComponent(keyword)}`
+      `/booths/search?keyword=${encodeURIComponent(keyword)}`,
     );
-    return result.data;
+    return result.data.data;
   } catch (error) {
-    console.error("Error searching booths:", error);
+    console.error('Error searching booths:', error);
     return null;
   }
 }
 
 export async function popularBooth() {
-  const result = await api.get("booths/ranks");
+  const result = await api.get('booths/ranks');
   return result.data;
 }
 
@@ -124,10 +123,10 @@ export async function likeBooth(boothId: any) {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-  });
+    });
     return result.data;
   } catch (error) {
-    console.error("Error adding comment:", error);
+    console.error('Error adding comment:', error);
   }
 }
 
@@ -136,7 +135,7 @@ export async function cancelLikeBooth(boothId: any) {
     const result = await api.delete(`booths/${boothId}/likes`);
     return result.data;
   } catch (error: any) {
-    console.error("댓글을 삭제할 수 없습니다 : ", error);
+    console.error('댓글을 삭제할 수 없습니다 : ', error);
   }
 }
 
@@ -152,7 +151,7 @@ export async function boothBookmark(boothId: any) {
 
 export async function cancelBoothBookmark(boothId: any) {
   const token = getAuthToken();
-  const res = await api.delete(`bookmarks/booths/${boothId}`,{
+  const res = await api.delete(`bookmarks/booths/${boothId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -161,16 +160,16 @@ export async function cancelBoothBookmark(boothId: any) {
 }
 
 export async function favoritesBooths() {
-  const result = await api.get("users/bookmarks/booths");
+  const result = await api.get('users/bookmarks/booths');
   return result;
 }
 
 export async function favoritesNoti() {
-  const result = await api.get("users/bookmarks/notifications");
+  const result = await api.get('users/bookmarks/notifications');
   return result;
 }
 
 export async function favoritesPartners() {
-  const result = await api.get("users/bookmarks/partners");
+  const result = await api.get('users/bookmarks/partners');
   return result;
 }

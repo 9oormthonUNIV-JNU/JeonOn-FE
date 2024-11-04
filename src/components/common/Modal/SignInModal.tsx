@@ -37,16 +37,15 @@ export default function SignInModal({
     },
     onError: (error) => {
       if (error instanceof AxiosError) {
-        console.log(error);
+        if (error.response?.data.error.message === '중복된 사용자입니다.') {
+          setError('중복된 닉네임입니다.');
+        }
+
         if (error.response?.data?.error?.error_fields.nickname) {
           setError(error.response.data.error.error_fields.nickname);
         }
         if (error.response?.data?.error?.error_fields.password) {
           setError(error.response?.data?.error?.error_fields.password);
-        } else {
-          if (error.response?.data.error.message === '중복된 사용자입니다.') {
-            setError('중복된 닉네임입니다.');
-          }
         }
       }
     },

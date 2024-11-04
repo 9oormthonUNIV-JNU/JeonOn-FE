@@ -46,7 +46,7 @@ const CapsuleComment: React.FC<CapsuleCommentProps> = ({
   const sortedPublicCapsules = [...publicCapsules].sort((a, b) => b.id - a.id);
 
   return (
-    <div className="w-[95%]">
+    <div className="w-[95%] font-pretendard">
       {/* My Capsules */}
       {sortedMyCapsules.length > 0 && (
         <div className="mt-4">
@@ -61,7 +61,7 @@ const CapsuleComment: React.FC<CapsuleCommentProps> = ({
               </div>
 
               {/* 내용 */}
-              <div className="text-[#00ff00] text-xs font-normal font-['NanumSquare Neo'] break-words">
+              <div className="text-[#00ff00] text-xs font-normal font-['NanumSquare Neo'] break-words text-base whitespace-pre-wrap">
                 {capsule.content}
               </div>
 
@@ -71,7 +71,7 @@ const CapsuleComment: React.FC<CapsuleCommentProps> = ({
                   {capsule.images.map((image, index) => (
                     <div
                       key={index}
-                      className="w-14 h-14 rounded-[15px] bg-[#d9d9d9] overflow-hidden cursor-pointer"
+                      className="w-14 h-14 mt-2 rounded-[15px] bg-[#d9d9d9] overflow-hidden cursor-pointer"
                       onClick={() => setSelectedImage(image)}
                     >
                       <img
@@ -118,7 +118,7 @@ const CapsuleComment: React.FC<CapsuleCommentProps> = ({
             </div>
 
             {/* 내용 */}
-            <div className="text-[#00ff00] text-xs font-normal font-['NanumSquare Neo'] break-words">
+            <div className="text-[#00ff00] text-xs font-normal font-['NanumSquare Neo'] break-words text-base whitespace-pre-wrap">
               {capsule.content}
             </div>
 
@@ -128,7 +128,7 @@ const CapsuleComment: React.FC<CapsuleCommentProps> = ({
                 {capsule.images.map((image, index) => (
                   <div
                     key={index}
-                    className="w-14 h-[58px] rounded-[15px] overflow-hidden bg-[#d9d9d9] cursor-pointer"
+                    className="w-14 mt-2 h-[58px] rounded-[15px] overflow-hidden bg-[#d9d9d9] cursor-pointer"
                     onClick={() => setSelectedImage(image)}
                   >
                     <img

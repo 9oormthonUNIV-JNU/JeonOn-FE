@@ -10,7 +10,7 @@ type FeedbackOptionType = {
 
 const feedbackOptions: FeedbackOptionType[] = [
   { type: "축제준비위원회", category: "festival-committee" },
-  { type: "2024 대동제", category: "cnu-festival" },
+  { type: "2024 대동제", category: "jnu-festival" },
   { type: "축제사이트", category: "festival-site" },
 ];
 
@@ -54,7 +54,15 @@ const FeedbackItem: React.FC<{
           </div>
         </div>
         <div className="flex flex-col min-w-0 gap-1 w-full">
-          <div className="text-sm" style={{ wordBreak: "break-word" }}>
+          <div
+            className="text-sm"
+            style={{
+              wordBreak: "break-word",
+              overflow: isSelected ? "visible" : "hidden",
+              whiteSpace: isSelected ? "normal" : "nowrap",
+              textOverflow: isSelected ? "clip" : "ellipsis",
+            }}
+          >
             {feedback.title}
           </div>
           <div className="flex flex-row justify-between items-center">
@@ -74,7 +82,7 @@ const FeedbackItem: React.FC<{
         <div className="flex flex-col px-2 mt-2 gap-2">
           <div
             key={detail.id}
-            className="flex flex-row bg-white border border-black rounded-xl p-3 text-xs"
+            className="flex flex-row bg-white border border-black rounded-xl p-3 text-xs whitespace-pre-wrap"
             style={{ wordBreak: "break-word" }}
           >
             {detail.content}

@@ -67,7 +67,7 @@ export default function TimeTable() {
         <div className="font-pretendard text-white font-xl flex justify-center mb-3">
           SPECIAL GUEST
         </div>
-        <div className="flex flex-col h-auto">
+        <div className="flex flex-col overflow-hidden">
           <Carousel slides={specialEvents} />
         </div>
       </div>

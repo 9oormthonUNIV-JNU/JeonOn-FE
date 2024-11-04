@@ -116,7 +116,7 @@ export default function BoothDetail() {
     const formattedStartTime = formatTime(start_time);
     const formattedEndTime = formatTime(end_time);
     if (startDay !== endDay) {
-      return `${startDay}일, ${endDay}일, ${formattedStartTime} ~ ${formattedEndTime}`;
+      return `${startDay}일 ~ ${endDay}일, ${formattedStartTime} ~ ${formattedEndTime}`;
     }
     return `${startDay}일, ${formattedStartTime} ~ ${formattedEndTime}`;
   };
@@ -126,7 +126,7 @@ export default function BoothDetail() {
       <h1 className="mb-10 text-main text-4xl font-cafe24">부스</h1>
       <div className="flex flex-col w-full max-w-[90%] flex-grow">
         {/* 부스 정보 및 내용 */}
-        <div className="w-full max-w-[90%] text-center">
+        <div className="w-full text-center">
           <BoothCarousel images={boothData?.images} />
         </div>
 

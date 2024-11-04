@@ -242,7 +242,7 @@ export default function Feedback() {
                 multiple
                 id="picture"
                 type="file"
-                accept="image/*"
+                accept=".jpeg,.jpg,.png"
                 className="bg-white"
                 onChange={handleImageChange}
                 ref={imgRef}

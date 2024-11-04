@@ -1,13 +1,13 @@
-import kimnayeong from '@/../public/images/special-guest/kimnayeong.webp';
-import royKim from '@/../public/images/special-guest/roykim.webp';
-import marktub from '@/../public/images/special-guest/marktub.webp';
-import mimirose from '@/../public/images/special-guest/mimirose.webp';
-import bumjin from '@/../public/images/special-guest/bumjin.webp';
-import bewhy from '@/../public/images/special-guest/bewhy.webp';
-import yountoven from '@/../public/images/special-guest/yountoven.webp';
-import chungha from '@/../public/images/special-guest/chungha.webp';
-import hahaskull from '@/../public/images/special-guest/hahaskull.webp';
-import hanyohan from '@/../public/images/special-guest/hanyohan.webp';
+import kimnayeong from '@/../public/images/special-guest/kimnayeong.jpg';
+import royKim from '@/../public/images/special-guest/roykim.jpg';
+import marktub from '@/../public/images/special-guest/marktub.jpg';
+import mimirose from '@/../public/images/special-guest/mimirose.jpg';
+import bumjin from '@/../public/images/special-guest/bumjin.jpg';
+import bewhy from '@/../public/images/special-guest/bewhy.jpg';
+import yountoven from '@/../public/images/special-guest/yountoven.jpg';
+import chungha from '@/../public/images/special-guest/chungha.jpg';
+import hahaskull from '@/../public/images/special-guest/hahaskull.jpg';
+import hanyohan from '@/../public/images/special-guest/hanyohan.jpg';
 
 export type EventType = {
   order: number;

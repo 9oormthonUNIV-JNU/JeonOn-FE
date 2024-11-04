@@ -18,9 +18,9 @@ const CoverflowCarousel: React.FC<CarouselProps> = ({ slides }) => {
     <div className="w-full max-w-lg mx-auto flex flex-col items-center overflow-hidden">
       <Swiper
         centeredSlides={true}
+        initialSlide={0}
         slidesPerView={1.5} // 양옆 슬라이드가 반쯤 보이도록 설정
-        loop={true}
-        spaceBetween={0.5} // 슬라이드 간 간격을 설정하여 양옆이 잘 보이도록 조정
+        spaceBetween={0.1} // 슬라이드 간 간격을 설정하여 양옆이 잘 보이도록 조정
         onSlideChange={(swiper) => setSelectedIndex(swiper.realIndex)}
         pagination={{ clickable: true }}
         modules={[Pagination]}

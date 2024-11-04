@@ -140,7 +140,7 @@ export default function BoothDetail() {
           {/* 부스 이름, 북마크, 좋아요 */}
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center">
-              <div className="font-cafe24 text-3xl text-main mt-1 max-w-[80%]">
+              <div className="font-cafe24 text-3xl text-main mt-1 max-w-[90%]">
                 {boothData.name}
               </div>
               <div
@@ -191,9 +191,9 @@ export default function BoothDetail() {
             </span>
           </div>
 
-          {boothData?.description?.split("|").map((sentence, index) => (
-            <p key={index}>{sentence.trim()}</p>
-          ))}
+          <div className="text-white text-base whitespace-pre-wrap">
+            {boothData?.description}
+          </div>
 
           {checkAdminToken() ? (
             <div className="relative">

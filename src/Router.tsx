@@ -22,7 +22,7 @@ import RegisterMap from './pages/AdminPage/RegisterMap';
 import RegisterBooth from './pages/AdminPage/RegisterBooth';
 import ViewFeedback from './pages/AdminPage/ViewFeedback';
 import RegisterContents from './pages/AdminPage/RegisterContents';
-import { checkAdminLoader, checkAuthLoader } from './utils/tokenHandler';
+import { checkAuthLoader } from './utils/tokenHandler';
 import Introduce from './pages/Introduce';
 
 const router = createBrowserRouter([
@@ -105,31 +105,31 @@ const router = createBrowserRouter([
         element: <MyBooth />,
         loader: checkAuthLoader,
       },
-      {
-        path: '/admin-page/register-map',
-        element: <RegisterMap />,
-        loader: checkAdminLoader,
-      },
-      {
-        path: '/admin-page/register-affiliate',
-        element: <RegisterAffiliate />,
-        loader: checkAdminLoader,
-      },
-      {
-        path: '/admin-page/view-feedback',
-        element: <ViewFeedback />,
-        loader: checkAdminLoader,
-      },
-      {
-        path: '/admin-page/register-booth',
-        element: <RegisterBooth />,
-        loader: checkAdminLoader,
-      },
-      {
-        path: '/admin-page/register-contents',
-        element: <RegisterContents />,
-        loader: checkAdminLoader,
-      },
+      // {
+      //   path: '/admin-page/register-map',
+      //   element: <RegisterMap />,
+      //   loader: checkAdminLoader,
+      // },
+      // {
+      //   path: '/admin-page/register-affiliate',
+      //   element: <RegisterAffiliate />,
+      //   loader: checkAdminLoader,
+      // },
+      // {
+      //   path: '/admin-page/view-feedback',
+      //   element: <ViewFeedback />,
+      //   loader: checkAdminLoader,
+      // },
+      // {
+      //   path: '/admin-page/register-booth',
+      //   element: <RegisterBooth />,
+      //   loader: checkAdminLoader,
+      // },
+      // {
+      //   path: '/admin-page/register-contents',
+      //   element: <RegisterContents />,
+      //   loader: checkAdminLoader,
+      // },
     ],
   },
 ]);

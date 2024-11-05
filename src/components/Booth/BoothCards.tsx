@@ -194,7 +194,7 @@ export default function BoothCards({
                   {formatLocation(booth.location, booth.index)}
                 </div>
 
-                <div className="absolute grid left-28 grid-cols-[auto_1fr] gap-1 items-center">
+                <div className="absolute grid left-32 grid-cols-[auto_1fr] gap-1 items-center">
                   <img src={time} className="w-4" alt="time" />
                   <div className="text-black font-normal font-['NanumSquare Neo']">
                     {formatDateTime(

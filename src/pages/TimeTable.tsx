@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { events } from "@/constants/events";
 import Arcodion from "@/components/ui/arcodion";
 import Carousel from "@/components/ui/carousel";
@@ -11,6 +11,14 @@ const dates = [
 
 export default function TimeTable() {
   const [selectedDate, setSelectedDate] = useState<number>(5);
+  const today = new Date();
+  const todayDate = today.getDate();
+
+  useEffect(() => {
+    console.log(today);
+    const currentDate = dates.find((item) => item.date === todayDate);
+    setSelectedDate(currentDate ? currentDate.date : 5);
+  }, []);
 
   const handleDateClick = (date: number) => {
     setSelectedDate(date);

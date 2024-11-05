@@ -15,6 +15,20 @@ export default function MyBooth() {
   console.log(boothData);
   const navigate = useNavigate();
 
+  // 장소 포맷하는 함수
+  const formatLocation = (locationStr: string, boothIndex: number) => {
+    let locationText = "";
+
+    if (locationStr === "square-518") {
+      locationText = "5.18 광장";
+    } else if (locationStr === "backgate-street") {
+      locationText = "후문 거리";
+    } else {
+      locationText = "대운동장";
+    }
+    return `${locationText} ${boothIndex}번 부스`;
+  };
+
   // 시간을 포맷하는 함수
   const formatTime = (timeStr: string) => {
     return timeStr.slice(0, 5); // 'HH:MM:SS'에서 초 부분을 제외한 'HH:MM' 형식으로 변환
@@ -67,7 +81,9 @@ export default function MyBooth() {
                 <div className="text-white pl-5 flex justify-start items-center gap-2 font-normal">
                   <div className="flex justify-start items-center">
                     <img src={location} alt="location" />
-                    <span className="text-[8px]">{item.location}</span>
+                    <span className="text-[8px]">
+                      {formatLocation(item.location, item.index)}
+                    </span>
                   </div>
                   <div className="flex justify-start items-center gap-1">
                     <img src={clock} alt="clock" />

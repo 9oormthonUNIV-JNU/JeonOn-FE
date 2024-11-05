@@ -17,14 +17,14 @@ export default function MyBooth() {
 
   // 장소 포맷하는 함수
   const formatLocation = (locationStr: string, boothIndex: number) => {
-    let locationText = "";
+    let locationText = '';
 
-    if (locationStr === "square-518") {
-      locationText = "5.18 광장";
-    } else if (locationStr === "backgate-street") {
-      locationText = "후문 거리";
+    if (locationStr === 'square-518') {
+      locationText = '5.18 광장';
+    } else if (locationStr === 'backgate-street') {
+      locationText = '후문 거리';
     } else {
-      locationText = "대운동장";
+      locationText = '대운동장';
     }
     return `${locationText} ${boothIndex}번 부스`;
   };
@@ -57,7 +57,7 @@ export default function MyBooth() {
         <div className="mb-4">
           <h2 className="text-xl text-white">부스</h2>
         </div>
-        <div className="w-full flex flex-col gap-4">
+        <div className="w-full flex flex-col gap-4 overflow-x-hidden">
           {boothData?.length > 0 ? (
             boothData.map((item: any, index) => (
               <div
@@ -70,7 +70,7 @@ export default function MyBooth() {
                     <div className="text-black bg-main w-5 h-5 rounded-full flex justify-center items-center font-extrabold">
                       {index + 1}
                     </div>
-                    <h3 className="text-main text-xl max-w-[80%] truncate overflow-hidden whitespace-nowrap">
+                    <h3 className="text-main text-xl max-w-[65%] truncate overflow-hidden whitespace-nowrap">
                       {item.name}
                     </h3>
                   </div>

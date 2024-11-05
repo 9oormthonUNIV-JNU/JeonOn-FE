@@ -74,7 +74,7 @@ export default function Booth() {
       <div>
         <BoothCategory onCategoryChange={handleCategoryChange} />
       </div>
-      <div className="-mr-56 mt-10">
+      <div className="-mr-56 mt-8">
         <RegisterButton path={'booth'} />
       </div>
 

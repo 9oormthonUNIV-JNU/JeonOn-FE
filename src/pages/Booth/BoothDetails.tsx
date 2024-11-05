@@ -140,12 +140,12 @@ export default function BoothDetail() {
           {/* 부스 이름, 북마크, 좋아요 */}
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center">
-              <div className="font-cafe24 text-3xl text-main mt-1 max-w-[90%]">
+              <div className="font-cafe24 text-3xl text-main mt-1 max-w-[90%] break-keep whitespace-normal">
                 {boothData.name}
               </div>
               <div
                 onClick={handleBookmarkClick}
-                className="cursor-pointer ml-2"
+                className="cursor-pointer ml-2 shrink-0"
               >
                 {like ? (
                   <img
@@ -164,7 +164,7 @@ export default function BoothDetail() {
             </div>
 
             <div
-              className="flex items-center space-x-2 mr-1 flex-shrink-0 w-8 h-8 ml-2"
+              className="flex items-center space-x-2 shrink-0 w-8 h-8 ml-2"
               onClick={() => {
                 if (!isLoggedIn()) {
                   setShowLoginModal(true);

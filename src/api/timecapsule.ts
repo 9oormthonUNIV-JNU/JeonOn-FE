@@ -1,7 +1,7 @@
 import { api } from "@/utils/customAxios";
 import { isLoggedIn } from "./login";
 
-// 타임캡슐 생성 함수 (localStorage에 저장)
+// 타임캡슐 생성 함수
 export async function createTimeCapsule(
   mail_address: string,
   content: string,
@@ -31,7 +31,6 @@ export async function createTimeCapsule(
       headers: { "Content-Type": "multipart/form-data" },
     });
 
-    console.log("create new TimeCapsule: ", result);
     return result;
   } catch (error) {
     console.error("create timecapsule failed: ", error);
@@ -40,7 +39,7 @@ export async function createTimeCapsule(
 }
 
 // 타임캡슐 공개글 조회 함수
-export async function getPublicTimeCapsules(){
+export async function getPublicTimeCapsules() {
   try {
     const response = await api.get("timecapsules");
     return response.data.data.timecapsules;
@@ -48,9 +47,9 @@ export async function getPublicTimeCapsules(){
     console.error("타임캡슐 조회 중 오류 발생:", error);
     throw error;
   }
-};
+}
 
-export async function getMyTimeCapsules(){
+export async function getMyTimeCapsules() {
   try {
     const response = await api.get("timecapsules");
     return response.data.data.my_timecapsules;
@@ -61,7 +60,7 @@ export async function getMyTimeCapsules(){
 }
 
 // 타임캡슐 삭제 함수
-export async function deleteMyCapsule(timeCapsuleId: number){
+export async function deleteMyCapsule(timeCapsuleId: number) {
   try {
     const response = await api.delete(`timecapsules/${timeCapsuleId}`);
     return response.data;
@@ -69,4 +68,4 @@ export async function deleteMyCapsule(timeCapsuleId: number){
     console.error("타임캡슐 삭제 중 오류 발생:", error);
     throw error;
   }
-};
+}

@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { Input } from '@/components/ui/input';
-import PopularBooth from '@/components/Booth/PopularBooth';
-import { searchBooth } from '@/api/booth';
-import useDebounce from '@/hook/useDebounce';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { Input } from "@/components/ui/input";
+import PopularBooth from "@/components/Booth/PopularBooth";
+import { searchBooth } from "@/api/booth";
+import useDebounce from "@/hook/useDebounce";
 
 export default function BoothSearch() {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const navigate = useNavigate();
 
@@ -16,7 +16,7 @@ export default function BoothSearch() {
 
   // useQuery로 검색 API 호출
   const { data: searchResults, refetch } = useQuery({
-    queryKey: ['searchBooth', debouncedSearchQuery],
+    queryKey: ["searchBooth", debouncedSearchQuery],
     queryFn: () => searchBooth(debouncedSearchQuery),
     enabled: !!debouncedSearchQuery,
     staleTime: 1000 * 60 * 1,
@@ -29,15 +29,15 @@ export default function BoothSearch() {
   };
 
   const highlightText = (text, keyword) => {
-    const parts = text.split(new RegExp(`(${keyword})`, 'gi'));
+    const parts = text.split(new RegExp(`(${keyword})`, "gi"));
     return parts.map((part, index) =>
       part.toLowerCase() === keyword.toLowerCase() ? (
-        <span key={index} style={{ color: '#166ff4' }}>
+        <span key={index} style={{ color: "#166ff4" }}>
           {part}
         </span>
       ) : (
         part
-      ),
+      )
     );
   };
 
@@ -49,7 +49,7 @@ export default function BoothSearch() {
 
   return (
     <div
-      className="h-screen flex flex-col items-center"
+      className="h-screen flex flex-col items-center font-pretendard"
       onClick={() => setIsFocused(false)}
     >
       <h1 className="text-main text-4xl font-cafe24">부스</h1>
@@ -60,18 +60,19 @@ export default function BoothSearch() {
       >
         <Input
           className={`h-10 w-full text-medium ${
-            isFocused ? 'text-black bg-white' : 'text-white bg-black'
+            isFocused ? "text-black bg-white" : "text-white bg-black"
           } font-normal font-['NanumSquare Neo'] rounded-[30px] border-white border-2 pl-4 pr-4 text-[16px]`}
           placeholder="부스명을 입력해주세요."
           value={searchQuery}
           onFocus={() => setIsFocused(true)}
+          onClick={() => setIsFocused((prev) => !prev)}
           onChange={(e) => setSearchQuery(e.target.value)}
           type="search"
         />
 
         {isFocused && searchResults && (
-          <div className="absolute top-full mt-2 w-full bg-white rounded-[10px] border border-[#c8c8c8] p-3 shadow-md z-10">
-            <div className="flex flex-col space-y-3">
+          <div className="absolute top-full mt-2 w-full bg-white rounded-[10px] border border-[#c8c8c8] p-3 shadow-lg z-10">
+            <div className="flex flex-col space-y-3 max-h-[200px] overflow-y-auto">
               {searchResults.length > 0 ? (
                 searchResults.map((booth) => (
                   <div
@@ -94,7 +95,7 @@ export default function BoothSearch() {
         )}
       </div>
 
-      <div className="mt-20 text-white text-xl font-medium font-['Pretendard']">
+      <div className="mt-20 text-white text-xl font-medium">
         실시간 인기 부스
       </div>
       <PopularBooth onCardSelect={handleCardSelect} />

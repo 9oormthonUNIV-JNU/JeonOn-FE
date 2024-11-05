@@ -16,7 +16,7 @@ export default function Hamburger() {
   const [activeModal, setActiveModal] = useState(false);
 
   return (
-    <div>
+    <div className = "z-20">
       {/* 드롭다운이 열렸을 때 배경 오버레이 */}
       {isDropdownOpen && (
         <div

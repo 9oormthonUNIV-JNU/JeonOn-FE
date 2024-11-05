@@ -65,7 +65,6 @@ export default function BoothSearch() {
           placeholder="부스명을 입력해주세요."
           value={searchQuery}
           onFocus={() => setIsFocused(true)}
-          onClick={() => setIsFocused((prev) => !prev)}
           onChange={(e) => setSearchQuery(e.target.value)}
           type="search"
         />

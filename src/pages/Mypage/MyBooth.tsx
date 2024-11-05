@@ -58,7 +58,7 @@ export default function MyBooth() {
           <h2 className="text-xl text-white">부스</h2>
         </div>
         <div className="w-full flex flex-col gap-4">
-          {boothData &&
+          {boothData?.length > 0 ? (
             boothData.map((item: any, index) => (
               <div
                 className="w-full h-20 bg-list-box rounded-2xl p-3 border border-[#0F0]"
@@ -97,7 +97,14 @@ export default function MyBooth() {
                   </div>
                 </div>
               </div>
-            ))}
+            ))
+          ) : (
+            <div className="flex justify-center items-center mt-14">
+              <span className="text-white text-base text-center">
+                즐겨찾기한 내용이 없습니다.
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </div>

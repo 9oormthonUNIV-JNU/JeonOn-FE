@@ -70,7 +70,7 @@ export default function BoothSearch() {
         />
 
         {isFocused && searchResults && (
-          <div className="absolute top-full mt-2 w-full bg-white rounded-[10px] border border-[#c8c8c8] p-3 shadow-md z-10">
+          <div className="absolute top-full mt-2 w-full bg-white rounded-[10px] border border-[#c8c8c8] p-3 shadow-md">
             <div className="flex flex-col space-y-3">
               {searchResults.length > 0 ? (
                 searchResults.map((booth) => (

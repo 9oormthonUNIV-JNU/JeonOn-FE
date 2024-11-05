@@ -178,7 +178,7 @@ export default function BoothCards({
             className="relative w-[90vw] max-w-[90vw] bg-white rounded-[15px] shadow-md mt-5 mx-auto"
           >
             <CardHeader className="grid grid-cols-[auto_1fr] gap-2 items-center p-0.5">
-              <div className="ml-2 rounded-full shrink-0 bg-black w-6 h-6 flex justify-center items-center">
+              <div className="mt-1 ml-2 rounded-full shrink-0 bg-black w-6 h-6 flex justify-center items-center">
                 <div className="text-main text-xs font-extrabold justify-center items-center flex">
                   {booth.index}
                 </div>
@@ -187,14 +187,14 @@ export default function BoothCards({
                 {booth.name}
               </CardTitle>
             </CardHeader>
-            <CardContent className="ml-6 text-[1.2vh] px-4 mt-5 pb-3">
+            <CardContent className="ml-6 text-[1.3vh] px-4 mt-5 pb-3">
               <div className="relative flex items-center space-x-1">
                 <img src={location} className="w-3" alt="location" />
                 <div className="text-black font-normal font-['NanumSquare Neo']">
                   {formatLocation(booth.location, booth.index)}
                 </div>
 
-                <div className="absolute grid left-32 grid-cols-[auto_1fr] gap-1 items-center">
+                <div className="absolute grid left-28 grid-cols-[auto_1fr] gap-1 items-center">
                   <img src={time} className="w-4" alt="time" />
                   <div className="text-black font-normal font-['NanumSquare Neo']">
                     {formatDateTime(
@@ -209,7 +209,7 @@ export default function BoothCards({
             </CardContent>
 
             <div
-              className="top-2 right-3 absolute"
+              className="top-2 right-2 absolute"
               onClick={(e) => {
                 if (!isLoggedIn()) {
                   setShowLoginModal(true);

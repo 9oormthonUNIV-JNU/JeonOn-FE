@@ -84,23 +84,23 @@ export default function PopularBooth({ onCardSelect }: PopularBoothProps) {
           className="h-auto w-full max-w-[90%] relative bg-white rounded-[20px] shadow-md flex justify-between items-center p-3"
         >
           <CardContent className="flex items-center p-0 relative">
-            <div className="relative">
+            <div className="relative shrink-0">
               <img src={bookmark} className="w-9 h-9" alt="bookmark" />
               <span className="absolute top-1/2 left-1/2 text-[#00ff00] text-[11px] font-bold transform -translate-x-1/2 -translate-y-1/2 pb-2">
                 {booth.ranking}위
               </span>
             </div>
 
-            <div className="ml-3">
-              <div className="max-width-[80%] truncate overflow-hidden whitespace-nowrap text-black text-xl font-medium font-['Pretendard']">
+            <div className="ml-2">
+              <div className="max-width-[80%] truncate overflow-hidden whitespace-nowrap text-black text-xl font-pretendard">
                 {booth.name}
               </div>
             </div>
           </CardContent>
 
-          <div className="relative flex items-center space-x-2 mr-2">
+          <div className="relative shrink-0 flex items-center space-x-2 mr-1 ml-2">
             <img src={like_filled} className="w-6 h-6 mb-2" alt="like" />
-            <span className="absolute top-1/2 left-1/2 text-black text-sm transform -translate-x-1/2 pt-1.5 pr-3.5">
+            <span className="absolute top-1/2 left-1/2 text-black text-sm transform -translate-x-1/2 pt-1.5 pr-4">
               {booth.like_count}
             </span>
           </div>
